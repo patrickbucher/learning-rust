@@ -114,7 +114,7 @@ edition = "2018"
 [dependencies]
 ```
 
-`toml` stands for «Tom's Obvious, Minimal Language». The `authors` information
+TOML stands for «Tom's Obvious, Minimal Language». The `authors` information
 is taken from the local Git configuration. The project doesn't have any
 dependencies yet.
 
