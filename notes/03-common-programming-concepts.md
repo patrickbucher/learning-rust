@@ -160,8 +160,164 @@ let cyrillic_upper_d = 'Д'; // 1044 (requires two bytes)
 
 ### Compound Types
 
+Rust has two compound types: tuples and arrays.
+
+#### Tuples
+
+A tuple groups together values of (possibly) different types. A tuple's
+elements can be accessed using dot-notation (using a zero-based index) or
+through the means of destructuring:
+
+```rust
+let t: (i32, f64, u8) = (123, 4.56, 78);
+
+// dot-notation
+let a = t.0;
+let b = t.1;
+let c = t.2;
+
+// destructuring
+let (a, b, c) = t;
+```
+
+#### Arrays
+
+Rust's arrays have a fixed size, so elements can be neither added nor removed,
+but replaced if the array is declared as mutable. Unlike tupels, all elements
+of an array must be of the same type.
+
+```rust
+let mut a = [1, 2, 3, 4, 5];
+a[0] = 5;
+a[4] = 1;
+println!("[{},{},{},{},{}]", a[0], a[1], a[2], a[3], a[4]); // [5,2,3,4,1]
+```
+
+The usage of out-of-bounds indices either causes a runtime panic (if the index
+value is computed at runtime) or doesn't even compile (if the index value can
+be computed at compile time).
+
 ## Functions
+
+Function names should follow the `snake_case` convention, i.e. all letters are
+in lowercase, and the words are separated by an underscore `_`.
+
+The order of the function's declarations doesn't matter; function calls are
+possible forwards and backwards.
+
+The parameter and return types of a function are not inferred and must be
+declared explicitly. The parameter's types are annotated as for variables; the
+return type is indicated after an arrow (`->`):
+
+```rust
+fn sum_up(a: i32, b: i32) -> i32 {
+    a + b
+}
+```
+
+A function can either end in an expression (as above), which is used as the
+function's return value, or an expression can be returned explicitly using the
+`return` statement:
+
+```rust
+fn sum_up(a: i32, b: i32) -> i32 {
+    return a + b;
+}
+```
+
+Any block can return a value:
+
+```rust
+let y = {
+    let x = 3;
+    x + 5 // expression: no semicolon
+}; // semicolon, ending the let statement
+```
+
+Because statements do _not_ return values, this code doesn't compile:
+
+```rust
+let c = (let b = (let c = 1)); // error: expected expression
+```
 
 ## Comments
 
+Single-line comments start with `//` and end at the line's end.
+
+Multi-line comments start with `/*` and end with `*/`.
+
 ## Control Flow
+
+### Conditional Execution
+
+Only `bool` expressions are allowed for `if` conditions:
+
+```rust
+if x < 4 {
+    println!("low");
+} else if x < 7 {
+    println!("medium");
+} else {
+    println!("high");
+}
+```
+
+`if` is an expression, not a statement, and therefore can return a value:
+
+```rust
+let max = if a > b {
+    a
+} else {
+    b
+};
+```
+
+### Loops
+
+`loop` runs infinitely, unless ended with `break`:
+
+```rust
+let numbers = [1, 2, 3, 4, 5];
+let mut i = 0;
+loop {
+    println!("{}", numbers[i]);
+    if i >= 4 {
+        break;
+    } else {
+        i += 1;
+    }
+}
+```
+
+`while` checks a condition on every iteration before the its block is executed:
+
+```rust
+let numbers = [1, 2, 3, 4, 5];
+while i < 5 {
+    println!("{}", numbers[i]);
+    i += 1;
+}
+```
+
+`for` iterates over the items of a collection, e.g. an array:
+
+```rust
+let numbers = [1, 2, 3, 4, 5];
+for i in numbers.iter() {
+    println!("{}", i);
+}
+```
+
+The `for` loop is by far the most commonly used in Rust.
+
+`continue` leaves the loop's block and moved forward to the next iteration:
+
+```rust
+let numbers = [1, 2, 3, 4, 5];
+for i in numbers.iter() {
+    if i % 2 == 0 {
+        continue; // skip even numbers
+    }
+    println!("{}", i);
+}
+```
