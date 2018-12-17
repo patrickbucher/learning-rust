@@ -272,6 +272,8 @@ let max = if a > b {
 };
 ```
 
+It's important that the expressions of both arms are of the same data type!
+
 ### Loops
 
 `loop` runs infinitely, unless ended with `break`:
