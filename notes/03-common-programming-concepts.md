@@ -84,7 +84,6 @@ Integers exist as signed and unsigned variants:
 | 32-bit       | `i32`                   | `u32`      |
 | 64-bit       | `i64`                   | `u64`      |
 | Architecture | `isize`                 | `usize`    |
-|--------------|-------------------------|------------|
 | Range        | `-(2^[n-1])..2^[n-1]-1` | `0..2^n-1` |
 
 In general, `i32` works fastest, even on 64-bit platforms.
