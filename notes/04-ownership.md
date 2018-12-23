@@ -33,7 +33,8 @@ let s2 = s1; // the value of s1 is NOT copied
 Copying the content of `s1` would be expensive in terms of runtime performance.
 Therefore, only the pointer to the string's heap memory location is copied,
 i.e. the variable's stack content is (just like for primitives), but here the
-stack content is a pointer to the heap.
+stack content is a pointer to the heap. (Note: This is _not_ what actually
+happens; see below!)
 
 The content of a heap variable can be created using the `clone()` method:
 
