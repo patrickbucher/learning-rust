@@ -253,3 +253,84 @@ fn main() {
     println!("{}", dangle()); // valid: owned value
 }
 ```
+
+## String Slices
+
+A string slice is a reference to a part of a string. A slice stores the
+starting point within the string and its length. The slice boundaries are
+stated with a inclusive lower and a exclusive upper bound, so that
+`upper-lower` computes to the slice length:
+
+```rust
+let s = String::from("hello world");
+let hello = &s[0..5];
+let world = &s[6..11];
+println!("{}, {}!", hello, world); // hello, world!
+```
+
+The lower and upper bound can be omitted, defaulting to zero resp. to the
+string length. If both bounds are omitted, the slice spans over the whole
+string:
+
+```rust
+let s = String::from("hello world");
+let hello = &s[..5]; // lower bound defaults to 0
+let world = &s[6..]; // upper bound defaults to s.len()
+println!("{}, {}!", hello, world); // hello, world!
+
+let slice = &s[..]; // no bounds: span over whole string
+println!("{}", slice); // hello world
+```
+
+When using multi-byte/non-ASCII characters, the slice must neither start nor
+end in between the UTF-8 character boundaries:
+
+```rust
+let privet = String::from("привет");
+let pri = &privet[..6]; // ok: "при"
+let vet = &privet[6..]; // ok: "вет"
+println!("{}{}", pri, vet);
+let pri_ = &privet[..7]; // wrong: "при" + first byte of 'в'
+```
+
+A string cannot be modified when a slice is referring to it:
+
+```rust
+let mut s = String::from("abcdefg");
+let abc = &s[..4];
+s.push_str("hijklmnop"); // invalid: already borrowed immutably
+```
+
+Moving the immutable reference into its own scope solves the problem:
+
+```rust
+let mut s = String::from("abcdefg");
+{
+    let abc = &s[..4];
+}
+s.push_str("hijklmnop"); // valid: immutable borrow already dropped
+```
+
+String literals are string slices referring to a certain memory area within the
+binary program. It's a good practice to accept string slices (type `&str`) as
+function parameters, because string literals already are string slices, and
+instances of `String` are cast to a string slice by referring:
+
+```rust
+fn quote(s: &str) {
+    println!("«{}»", s);
+}
+
+fn main() {
+    let s = String::from("Hello, World!");
+    quote(&s); // String object: cast by referring
+    quote("Hello, World!"); // string literal: already a slice
+}
+```
+
+Slices can also be created on other sequences, such as integer arrays:
+
+```rust
+let fib = [1, 1, 2, 3, 5, 8, 13, 21];
+let slice = &fib[2..7]; // [2, 3, 5, 8, 13]
+```
