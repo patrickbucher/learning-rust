@@ -43,7 +43,7 @@ let s1 = String::from("hello");
 let s2 = s1.clone();
 ```
 
-## Move
+## Moving
 
 The different handling of stack and heap objects has consequences in regard to
 memory management. The automatic `drop()` on primitive variables at the end of
@@ -119,5 +119,137 @@ fn main() {
     let s2 = move_or_copy(s, i); // take the ownership of the object back
     println!("s2={}", s2); // valid now!
     println!("i={}", i);
+}
+```
+
+## Borrowing with References
+
+Obtaining the ownership of a variable and giving it back is tedious. A variable
+can be _borrowed_ instead by using a reference. A reference is denoted by an
+ampersand in front of the type (`&String`) and value (`&s`):
+
+```rust
+fn borrow(str: &String) { // &String: reference to String
+    println!("str={}", str);
+}
+
+fn main() {
+    let s = String::from("abc");
+    borrow(&s); // &s is a reference to s
+    println!("s={}", s); // valid: s was only borrowed, not owned
+}
+```
+
+The value of a reference can only be modified if the reference is mutable.
+Mutable references are denoted by the token `&mut` in front of the type (`&mut
+String`) and value (`&mut s`). Mutable references can only be acquired from
+mutable variables:
+
+```rust
+fn manipulate(str: &mut String) { // &mut String: mutable reference to String
+    str.push_str("...xyz"); // allows for manipulation
+}
+
+fn main() {
+    let mut s = String::from("abc"); // mutable variable
+    manipulate(&mut s); // mutable reference
+    println!("s={}", s); // valid: s was only borrowed, not owned
+}
+```
+
+### Data Races
+
+Having multiple references to a memory object allows for _data races_: The
+values is updated through one reference, and the other references are not aware
+of that. Rust eliminates data races by enforcing a very strict set of rules:
+
+> One can only have:
+>
+> 1) either one mutable reference
+> 2) or multiple immutable references
+>
+> to the same value in the same scope.
+
+One mutable reference is ok:
+
+```rust
+let mut s = String::from("hello");
+let r1 = &mut s;
+println!("{}", r1);
+```
+
+Two mutable references are _not_ ok:
+
+```rust
+let mut s = String::from("hello");
+let r1 = &mut s;
+let r2 = &mut s; // error, only one mutable reference allowed
+println!("{}", r1);
+println!("{}", r2);
+```
+
+However, two mutable references _in different scopes_ are ok:
+
+```rust
+let mut s = String::from("hello");
+{
+    let r1 = &mut s;
+    println!("{}", r1);
+} // r1 goes out of scope
+let r2 = &mut s;
+println!("{}", r2);
+```
+
+Multiple immutable references are ok:
+
+```rust
+let mut s = String::from("hello");
+let r1 = &s;
+let r2 = &s;
+println!("{}", r1);
+println!("{}", r2);
+```
+
+But only as long as there is no mutable reference:
+
+```rust
+let mut s = String::from("hello");
+let r1 = &s;
+let r2 = &s;
+let r3 = &mut s; // error, one mutable or multiple immutable references allowed
+println!("{}", r1);
+println!("{}", r2);
+println!("{}", r3);
+```
+
+### Dangling Pointers
+
+A function returning a pointer to a heap value that goes out of scope at the
+end of that function is called a _dangling pointer_. Using dangling pointers
+can crash the program and cause severe security problems. Rust doesn't allow
+dangling pointers:
+
+```rust
+fn dangle() -> &String {
+    let s = String::from("hello");
+    &s // return a reference to an object owned by this function
+} // s goes out of scope
+
+fn main() {
+    println!("{}", dangle()); // invalid: dangling ponter
+}
+```
+
+The function must hand over the ownership of the objects it created for further
+use:
+
+```rust
+fn dangle() -> String { // return the string (with ownership)
+    let s = String::from("hello");
+    s // move
+}
+
+fn main() {
+    println!("{}", dangle()); // valid: owned value
 }
 ```
