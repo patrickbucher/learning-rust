@@ -171,3 +171,106 @@ The `{:?}` output format prints the struct on a single line, whereas the
         logins: 962,
         active: true
     }
+
+## Methods
+
+A method is a function defined in the context of a struct. The instance of the
+struct the method is called on is automatically provided as the first parameter
+called `self`. The methods of a struct must be declared within one or multiple
+`impl` blocks:
+
+```rust
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+}
+```
+The `area` method accepts a reference to a `Rectangle` (the type doesn't need
+to be declared, because it can be inferred). The method can be called using dot
+notation on the struct instance (the reference operator `&` is optional):
+
+```rust
+fn main() {
+    let r = Rectangle {
+        width: 3,
+        height: 4,
+    };
+    println!("{}", r.area()); // 12
+    println!("{}", &r.area()); // with optional reference operator
+}
+```
+
+The `self` instance can be modified by accepting a mutable reference:
+
+```rust
+impl Rectangle {
+    fn stretch(&mut self, factor: u32) {
+        self.width *= factor;
+        self.height *= factor;
+    }
+}
+
+fn main() {
+    let mut r = Rectangle {
+        width: 3,
+        height: 4,
+    };
+    println!("{}", r.area()); // 3 * 4 = 12
+    r.stretch(2);
+    println!("{}", r.area()); // 6 * 8 = 48
+}
+```
+
+Methods that own the `self` parameter are rare. They're helpful when a new
+instance is created based on an old one, and the old instance must no longer be
+used afterwards. The old instance is _consumed_ by the method:
+
+```rust
+impl Rectangle {
+    fn transform(self, factor: u32) -> Rectangle {
+        Rectangle {
+            width: self.width * factor,
+            height: self.height * factor,
+        }
+    }
+}
+
+fn main() {
+    let r = Rectangle {
+        width: 3,
+        height: 4,
+    };
+    let r = r.transform(2);
+    println!("{}", r.area());
+}
+```
+
+Associated functions belong to a struct, but do not take a `self` parameter;
+they are often used as constructors:
+
+```rust
+impl Rectangle {
+    fn square(size: u32) -> Rectangle {
+        Rectangle {
+            width: size,
+            height: size,
+        }
+    }
+}
+```
+
+An associated function can be called using double colon notation on the struct,
+as already used for `String::from()` before:
+
+```rust
+fn main() {
+    let r = Rectangle::square(3);
+    println!("w: {}, h: {}", r.width, r.height); // w: 3, h: 3
+}
+```
