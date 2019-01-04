@@ -1,5 +1,5 @@
 ---
-title: The Rust Programming Language
+title: Learning Rust
 subtitle: Personal Notes
 author: Patrick Bucher
 ---
