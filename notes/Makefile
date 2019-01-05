@@ -1,7 +1,7 @@
 EPUBPARAMS=--toc -N -s -t epub
-PDFPARAMS=--toc -N -s -t latex --pdf-engine=xelatex -V documentclass=scrartcl -V papersize=a4 -V lang=de -V urlcolor=blue -V linkcolor=blue
+PDFPARAMS=--toc -N -s -t latex --pdf-engine=xelatex -V documentclass=scrartcl -V papersize=a4 -V lang=en -V urlcolor=blue -V linkcolor=blue
 FONTS=-V mainfont='DejaVu Serif' -V sansfont='DejaVu Sans' -V monofont='DejaVu Sans Mono'
-DATE=-V date="`date +'%d.%m.%Y'`"
+DATE=-V date="`date +'%Y-%m-%d'`"
 
 all: notes.pdf notes.epub
 
