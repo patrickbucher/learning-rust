@@ -208,22 +208,56 @@ because they are intended for external use; and the external context is not
 known during compilation. (A library doesn't know from where and how it is going
 to be used.)
 
-## Namespace and Scope
+## Using External Crates and Modules
 
-Big libraries with a deep module hierarchy are painful to use if every path had
-to be qualified absolutely:
+Library crates are only useful when they are eventually used by some binary.
+Let's assume the following crates are created within the same parent directory,
+a `house` (library) serving its `resident` (binary):
+
+```bash
+$ cargo new house --lib
+$ cargo new resident --bin
+```
+
+The library consists of a module with multiple submodules in `house/src/lib.rs`:
 
 ```rust
-pub mod house {
-    pub mod basement {
-        pub mod freezer {
-            pub mod door {
-                pub fn open() {}
-                pub fn close() {}
+pub mod basement {
+    pub mod freezer {
+        pub mod door {
+            pub fn open() {
+                println!("open the door of the freezer in the basement");
+            }
+            pub fn close() {
+                println!("close the door of the freezer in the basement");
             }
         }
     }
 }
+```
+
+If the `resident` binary wants to make use of the `house` library, it must
+declare that dependency in `resident/Cargo.toml`:
+
+```toml
+[package]
+name = "resident"
+version = "0.1.0"
+authors = ["patrickbucher <patrick.bucher@stud.hslu.ch>"]
+edition = "2018"
+
+[dependencies]
+house = { path = "../house", version = "*" }
+```
+
+The path is indicated relatively (`../house`), and any version can be used
+(`*`).
+
+In order to use the external `house` crate from the library, it must also be
+declared in the code (`resident/src/main.rs`):
+
+```rust
+extern crate house;
 
 fn main() {
     house::basement::freezer::door::open();
@@ -231,7 +265,61 @@ fn main() {
 }
 ```
 
-The use keyword brings a module's content into scope, so that its content can
-be used without further qualification.
+Libraries with a deep module hierarchy are painful to use if every path had to
+be qualified absolutely. The `use` keyword brings a module's content into
+scope, so that its content can be used without further qualification.
 
-TODO: how to apply `use` in this situation?
+
+```rust
+extern crate house;
+
+use house::basement::freezer::door;
+
+fn main() {
+    door::open();
+    door::close();
+}
+```
+
+The `use` keyword can be applied at any level. Consider this additional enum
+defined in `house/src/lib.rs`:
+
+```rust
+pub enum FrozenFoodType {
+    IceCream,
+    Meat,
+    Vegetables,
+    IceRocks,
+}
+```
+
+It's possible to import just the enum:
+
+```rust
+extern crate house;
+
+use house::FrozenFoodType;
+
+fn main() {
+    let icecream = FrozenFoodType::IceCream;
+}
+```
+
+Or, one level deeper, directly the variants:
+
+```rust
+use house::FrozenFoodType::IceCream;
+```
+
+Multiple variants (or items in general) can also be imported as a list:
+
+```rust
+use house::FrozenFoodType::{IceCream, Meat};
+```
+
+It's also possible to import _all_ items of an entity, which should be used
+sparingly in order to not pollute the namespace:
+
+```rust
+use house::FrozenFoodType::*;
+```
