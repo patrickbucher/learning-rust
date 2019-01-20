@@ -217,4 +217,120 @@ for b in privet.bytes() {
 
 ## Hash Map
 
-TODO
+A `HashMap<K, V>` stores a mapping of keys of type `K` to values of type `V`
+using a cryptographically safe hashing function for placement and lookup.
+Unlike a vector, the items cannot be retrieved by index, but by their unique
+key.
+
+The type `HashMap<K, V>` is _not_ part of the prelude and hence needs to be
+made available with `use`. A new hash map can be created using the associated
+`new()` method. Items can be added using the `insert(k, v)` method, which
+accepts a key and a value:
+
+```rust
+use std::collections::HashMap;
+
+let mut points = HashMap::new();
+points.insert(String::from("Myers"), 125);
+points.insert(String::from("Roberts"), 99);
+```
+
+Keys and values can be of different types, like `String` and `i32` in the above
+example, but all keys and all values must be of the same type.
+
+A common use case is to build up a hash map based on a list of keys and another
+list of values. This can be achieved by getting an iterator on each vector
+using the `iter()` method, zipping those iterators together using the `zip()`
+method and calling the `collect()` method on the result:
+
+```rust
+use std::collections::HashMap;
+
+let names = vec!["Myers".to_string(), "Roberts".to_string()];
+let score = vec![125, 99];
+let mut points: HashMap<_, _> = names.iter().zip(score.iter()).collect();
+```
+
+The compiler needs a type annotation for `HashMap`, but can infer the key and
+value types.
+
+Keys and values are owned by the hash map upon insertion:
+
+```rust
+let mut map = HashMap::new();
+let key = String::from("Miller");
+let val = 42;
+map.insert(key, val);
+println!("{}", key); // fail: key moved to map
+```
+
+Values of a `HashMap<K, V>` can be accessed using the `get()` method with a
+key, returning an `Option<&V>` containing a reference to the value found.
+
+```rust
+let mut results = HashMap::new();
+results.insert("Peter".to_string(), 7.83);
+results.insert("Michael".to_string(), 6.92);
+results.insert("Paul".to_string(), 8.41);
+
+if let Some(x) = results.get("Peter") {
+    println!("Peter: {}", x);
+}
+```
+
+An iteration over a hash map yields key-value tuples:
+
+```rust
+let mut results = HashMap::new();
+results.insert("Peter".to_string(), 7.83);
+results.insert("Michael".to_string(), 6.92);
+results.insert("Paul".to_string(), 8.41);
+
+for (key, value) in &results {
+    println!("{}: {}", key, value);
+}
+```
+
+There can only be stored one value per key, so calling `insert(key, value)`
+with a key already contained in the map overwrites that value.
+
+```rust
+let mut results = HashMap::new();
+results.insert("Peter".to_string(), 7.83);
+results.insert("Peter".to_string(), 6.92); // overwrite!
+
+if let Some(x) = results.get("Peter") {
+    println!("Peter: {}", x); // 6.92
+}
+```
+
+Oftentimes, a new value should only be inserted into a hash map if a key is not
+contained in it yet. The `entry(key)` method takes a key and returns a `Entry`:
+a enum indicating an entry that might or might not exist. Its `or_insert(val)`
+method inserts a value into the hash map with the key given to the initial
+`entry(key)` call if an entry for that key was missing:
+
+```rust
+let mut results = HashMap::new();
+results.insert("Peter".to_string(), 7.83);
+results.insert("Michael".to_string(), 6.92);
+results.insert("Paul".to_string(), 8.41);
+
+results.entry("Phil".to_string()).or_insert(5.32); // new entry
+results.entry("Paul".to_string()).or_insert(8.97); // existing entry
+```
+
+This interface is also useful for updating entries that already do exist. The
+`or_insert(0)` call in this example is only used to make sure that there is a
+starting value for the counter. The mutable reference returned by
+`to_insert(0)` is then used to increment the value, which must be dereferenced:
+
+```rust
+let text = "He had had had a answer";
+let mut wordcount = HashMap::new();
+
+for word in text.split_whitespace() {
+    let count = wordcount.entry(word).or_insert(0);
+    *count += 1;
+}
+```
