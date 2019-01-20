@@ -119,7 +119,101 @@ for r in results {
 
 ## String
 
-TODO
+The `String` type is a collection of bytes which are interpreted as UTF-8
+encoded text. Unlike the string slice type `str` (or the reference to it
+`&str`), `String` is not part of the core language, but implemented in the
+standard library.
+
+A string can be created using the associated `new()` function, based on a
+string literal using the associated `from()` function, or using the
+`to_string()` method on an existing object implementing the `Display` trait:
+
+```rust
+let mut s1 = String::new();
+let mut s2 = String::from("hello");
+let mut s3 = "world".to_string();
+```
+
+Strings can be concatenated by using either the method `push_str()` (for adding
+a string slice) os `push()` (for a single character) on a mutable string:
+
+```rust
+let mut s = String::new();
+s.push_str("hello");
+s.push(' ');
+s.push_str("world");
+```
+
+Two existing strings can be combined to a third string using the `+` operator.
+
+```rust
+let foo = String::from("foo");
+let bar = String::from("bar");
+let qux = foo + &bar;
+println!("{}", qux);
+println!("{}", foo); // error: foo was consumed!
+println!("{}", bar); // ok: bar was not consumed
+```
+
+Internally, a method with the signature `add(self, s: &str) -> String` is
+called, which consumes the operand on the left, but doesn't own the operand on
+the right. No strings are copied; ownership of the first operand is taken and
+returned as the result of the concatenation.
+
+Because chained concatenations are hard to read, the `format!` macro offers a
+more convenient interface, which also doesn't take ownership of any of the
+parameters:
+
+```rust
+let s1 = "hello".to_string();
+let s2 = ", ".to_string();
+let s3 = "world".to_string();
+let message = format!("{}{}{}", s1, s2, s3);
+```
+
+Technically, the `String` type is a wraper over `Vec<u8>`. The `len()` method
+returns the number of _bytes_ in the string, not _characters_:
+
+```rust
+let hello = String::from("hello");
+let privet = String::from("привет");
+println!("{}", hello.len());  // 5
+println!("{}", privet.len()); // 12
+```
+
+The first string `"hello"` consists only of ASCII characters, which all can be
+encoded with a single byte in UTF-8. The cyrillic characters of the second
+string `"привет"`, however, require two bytes in UTF-8.
+
+Strings cannot be indexed in Rust, because a index might only be refering to
+some part of a encoded character, and the compiler prevents such error-prone
+operations. An indexing operation on the _characters_ of a UTF-8 string would
+not be possible in constant time `O(1)`, because a byte might only be _part of
+a character_, and the surrounding bytes needed to considered, too.
+
+Slicing strings, however, is legal, but causes a panic if a slice starts or
+ends between two bytes belonging to the same character:
+
+```rust
+let privet = String::from("привет");
+let pri = &privet[0..6];    // first three characters: при
+let vet = &privet[6..12];   // last three characters: вет
+println!("{}{}", pri, vet); // привет
+let pri_ = &privet[0..7];   // panic: index 7 not a char boundary!
+```
+
+It's possible to iterate either over the bytes or the characters of a string:
+
+```rust
+let privet = String::from("привет");
+for c in privet.chars() {
+    print!("{}", c); // привет
+}
+println!();
+for b in privet.bytes() {
+    print!("{} ", b); // 208 191 209 128 208 184 208 178 208 181 209 130
+}
+```
 
 ## Hash Map
 
