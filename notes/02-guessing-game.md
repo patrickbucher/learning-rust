@@ -8,7 +8,7 @@ Bring the standard input/output library into scope:
 use std::io;
 ```
 
-Create a new `String` and bint it to a mutable variable:
+Create a new `String` and bind it to a mutable variable:
 
 ```rust
 let mut s = String::new();
