@@ -32,8 +32,8 @@ mod network {
 }
 ```
 
-The functions of a module are said to live in the modules _namespace_, which is
-expressed by the reference `network::connect` for the above example.
+The functions of a module are said to live in the module's _namespace_, which
+is expressed by the reference `network::connect` for the above example.
 
 Multiple modules can be declared alongside in the same file:
 
