@@ -13,6 +13,7 @@ enum ColorType {
     CMYK,
 }
 ```
+
 The variants of an enum belong to the same type. They are namespaced under the
 enum's name and need to be qualified in order to be used:
 
@@ -95,7 +96,7 @@ Output:
 
 Unlike many other programming language, Rust has no `null` (or `nil`)
 references. The absence (and presence) of a value is instead expressed by the
-`Option<T>`; a enum with two variants and a type parameter `T`:
+`Option<T>`; an enum with two variants and a type parameter `T`:
 
 ```rust
 enum Option<T> {
@@ -115,6 +116,7 @@ let a_number = Some(42);
 let a_word = Some(String::from("whatever"));
 let none: Option<i32> = None;
 ```
+
 The type can be inferred in case of `Some` but must be annotated for `None`,
 for there is no value to infer from.
 
@@ -197,8 +199,8 @@ fn number_of_legs(animal: Animal) -> u8 {
 Matches are said to be _exhaustive_; the compiler makes sure that all the
 possibilities are handled. If one or many variants are _not_ of interest, the
 `_` pattern, which matches to anything, can be used for the last arm. (If it
-were the last arm, the subsequent patterns could not possibly match, because
-`_` already matched everything.)
+were not the last arm, the subsequent patterns could not possibly match,
+because `_` already matched everything.)
 
 ```rust
 fn number_of_legs(animal: Animal) -> u8 {
