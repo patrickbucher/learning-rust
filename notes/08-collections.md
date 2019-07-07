@@ -52,7 +52,7 @@ it:
 ```rust
 let mut v = vec![1, 2, 3];
 let one = &v[0];     // immutable borrow
-v.push(4);           // mutable borrow
+v.push(4);           // error: cannot borrow as mutable
 println!("{}", one); // use immutable borrow later
 ```
 
