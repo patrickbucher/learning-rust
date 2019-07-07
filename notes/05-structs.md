@@ -130,7 +130,8 @@ let red = RGB(255, 0, 0);
 let cube = Block(1, 1, 1);
 ```
 
-A loose bunch of variables on one side and a struct on the other side can be seen as the two extremes of a continuum:
+A loose bunch of variables on one side and a struct on the other side can be
+seen as the two extremes of a continuum:
 
 1. _loose variables_ can be grouped together to a _tuple_
 2. a _tuple_ can be named as a whole to get a _named tuple_
@@ -191,6 +192,7 @@ impl Rectangle {
     }
 }
 ```
+
 The `area` method accepts a reference to a `Rectangle` (the type doesn't need
 to be declared, because it can be inferred). The method can be called using dot
 notation on the struct instance (the reference operator `&` is optional):
@@ -251,8 +253,9 @@ fn main() {
 }
 ```
 
-Associated functions belong to a struct, but do not take a `self` parameter;
-they are often used as constructors:
+Associated functions, similar to `static` methods in other programming
+languages, belong to a struct, but do not take a `self` parameter; they are
+often used as constructors:
 
 ```rust
 impl Rectangle {
