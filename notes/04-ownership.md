@@ -87,9 +87,9 @@ println!("s2={}", s2); // valid, s2 is the new owner
 
 ### Move on Function Call
 
-A function call behaves a lot like an assignment in terms of ownership. A
-function expecting a `String` will take ownership of that value, but a integer
-value will just be copied:
+A function call behaves a lot like an assignment in terms of ownership of the
+parameters. A function expecting a `String` will take ownership of that value,
+but a integer value will just be copied:
 
 ```rust
 fn move_or_copy(str: String, nbr: i32) {
