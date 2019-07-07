@@ -59,7 +59,7 @@ println!("{}", one); // use immutable borrow later
 The reason for this restriction is the way the memory of a vector is organized:
 If the vector no longer fits into its current memory area after an additional
 item is added, the _whole_ vector needs to be moved to a bigger continuous
-memory are, and thus rendering the existing references obsolete.
+memory area, and thus rendering the existing references obsolete.
 
 The items of a vector can be iterated over using the `for`/`in` loop:
 
