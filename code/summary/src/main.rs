@@ -1,5 +1,7 @@
 pub trait Summary {
-    fn summarize(&self) -> String;
+    fn summarize(&self) -> String {
+        String::from("(Read more...)")
+    }
 }
 
 pub struct NewsArticle {
@@ -16,6 +18,12 @@ pub struct Tweet {
     pub retweet: bool,
 }
 
+pub struct BlogPost {
+    pub title: String,
+    pub url: String,
+    pub author: String,
+}
+
 impl Summary for NewsArticle {
     fn summarize(&self) -> String {
         format!("{}, by {} ({})", self.headline, self.author, self.location)
@@ -27,6 +35,8 @@ impl Summary for Tweet {
         format!("{}: {}", self.username, self.content)
     }
 }
+
+impl Summary for BlogPost {}
 
 fn main() {
     let n = NewsArticle {
@@ -41,6 +51,12 @@ fn main() {
         reply: false,
         retweet: false,
     };
+    let b = BlogPost {
+        title: "Why Sacks of Rice fall down in China".to_string(),
+        url: "medium.com/why-sacks-of-rice-fall-down-in-china".to_string(),
+        author: "Russel F. Important".to_string(),
+    };
     println!("NewsArticle: {}", n.summarize());
     println!("Twitter: {}", t.summarize());
+    println!("BlogPost: {}", b.summarize());
 }
