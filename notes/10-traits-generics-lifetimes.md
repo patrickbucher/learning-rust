@@ -116,6 +116,16 @@ different types (say, `i32` and `f32` for a mathematics library that supports
 both integer and floating point arithmetic), types can be parametrized using
 _generics_.
 
+### Generic Structs
+
+TODO: p. 173 generics for structs
+
+### Generic Enums
+
+TODO: p. 174 generics for enums
+
+### Generic Functions
+
 The two functions `largest_i` and `largest_f` take a list of integers (`i32`)
 or floats (`f32`), respectively, find the biggest item in the list and return
 it:
@@ -183,15 +193,79 @@ Comparisons with the `>` operator do not work for _all_ types, but only for
 types that implement the trait `std::cmp::PartialOrd` (as the compiler
 suggests).
 
-TODO: p. 182 Trait Bounds
+### Trait Bounds
 
-TODO: p. 185 conditionally implement methods
+The types that can be used for a generic type parameter can be constrained
+using a _trait bound_. The type parameter (`<T>`) is supplied with a trait name
+(`<T: Trait>`), so that the function is only appliable to types satisfying the
+given trait. It's also possible to constrain a type using multiple traits by
+separating those traits with a `+`, such as `<T: Trait1 + Trait2>`.
 
-TODO: p. 173 generics for structs
+The `largest` function from above can be made to work by constraining the type
+parameter `T` to the traits `PartialOrd` (for the `>` comparison) and `Copy`
+(so that the items from the list are copied and not moved out of the list):
 
-TODO: p. 174 generics for enums
+```rust
+fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
+    let mut largest = list[0];
+
+    for &item in list.iter() {
+        if item > largest {
+            largest = item
+        }
+    }
+
+    largest
+}
+```
+
+An alternate syntax using the `where` clause helps keeping the function
+signature short:
+
+```rust
+fn largest<T>(list: &[T]) -> T
+where
+    T: PartialOrd + Copy,
+{
+    let mut largest = list[0];
+
+    for &item in list.iter() {
+        if item > largest {
+            largest = item
+        }
+    }
+
+    largest
+}
+```
+
+The difference is more striking if multiple type parameters are involved:
+
+```rust
+fn set<K: Display + Copy, V: PartialOrd + Copy>(key: K, value: V) {
+	// ...
+}
+```
+
+Compared to:
+
+```rust
+fn set<K, V>(key: K, value: V)
+where
+	K: Display + Copy,
+	V: PartialOrd + Copy,
+{
+	// ...
+}
+```
+
+### Generic Methods
 
 TODO: p. 175 generics for methods
+
+### Conditionally Implement Methods
+
+TODO: p. 185
 
 TODO: p. 177 note on performance
 
