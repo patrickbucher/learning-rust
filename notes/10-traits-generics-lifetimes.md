@@ -1,7 +1,5 @@
 # Traits, Generics and Lifetimes
 
-TODO: common introductory words
-
 ## Traits
 
 Traits are Rust's way of declaring common functionality (a set of method
@@ -118,11 +116,120 @@ _generics_.
 
 ### Generic Structs
 
-TODO: p. 173 generics for structs
+The two structs `PointDiscrete` and `PointContinuous` define the same fields
+(`x` and `y`), but use different type for those: integers and floats.
+
+```rust
+struct PointDiscrete {
+    x: i32,
+    y: i32,
+}
+
+struct PointContinuous {
+    x: f32,
+    y: f32,
+}
+```
+
+Those two types can almost be used alike, but for the type system, there
+something fundamentally different.
+
+```rust
+fn main() {
+    let a = PointDiscrete { x: 12, y: 7 };
+    let b = PointContinuous { x: 3.75, y: 2.12 };
+    println!("a=({}, {}), b=({}, {})", a.x, a.y, b.x, b.y);
+}
+```
+
+Introducing a generic type parameter `T` not only helps merging the two struct
+definitions to one, but also allows using other types, such as `f64` or `u16`:
+
+```rust
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+fn main() {
+    let a = Point { x: 12, y: 7 };
+    let b = Point { x: 3.75, y: 2.12 };
+    println!("a=({}, {}), b=({}, {})", a.x, a.y, b.x, b.y);
+}
+```
+
+The actual types of point `a` and `b` are inferred. Since there's only a single
+type parameter defined, and `T` is the same for the field `x` and `y`, the
+following code won't compile:
+
+```rust
+let c = Point { x: 10, y: 3.14 };
+println!("c=({}, {})", c.x, c.y);
+```
+
+The compiler infers some integer type for `x`, so `y` must also be an integer:
+
+error[E0308]: mismatched types
+  --> src/main.rs:11:31
+   |
+11 |     let c = Point { x: 10, y: 3.14 };
+   |                               ^^^^ expected integer, found floating-point number
+   |
+   = note: expected type `{integer}`
+              found type `{float}`
+
+If two type parameters, `T` und `U`, are used for the struct definitions, the
+above code compiles, no matter if `T` and `U` are the same types or different:
+
+```rust
+struct Point<T, U> {
+    x: T,
+    y: U,
+}
+
+fn main() {
+    let a = Point { x: 12, y: 7 };
+    let b = Point { x: 3.75, y: 2.12 };
+    println!("a=({}, {}), b=({}, {})", a.x, a.y, b.x, b.y);
+
+    let c = Point { x: 10, y: 3.14 };
+    println!("c=({}, {})", c.x, c.y);
+}
+```
+
+However, using different types for `x` and `y` could make it harder to use
+common operations on those fields: The less the compiler knows about a type,
+the fewer operations can be performed on fields of that type. Therefore generic
+type parameters should only be used if it clearly serves the use case at hand,
+and not for flexibility for it's own sake.
 
 ### Generic Enums
 
-TODO: p. 174 generics for enums
+Rust's two most common enums, `Option<T>` and `Result<T, E>` use generic type
+parameters:
+
+```rust
+enum Option<T> {
+	Some(T),
+	None,
+}
+```
+
+`Option` only has a single type parameter, `T`. The `None` case does not need a
+type, because it is used to signify the absence of a value, and hence the
+absence of a type.
+
+```rust
+enum Result<T, E> {
+	Ok(T),
+	Err(E),
+}
+```
+
+`Result`, however, is parametrized with two types, `T` and `E`; the `E`
+parameter is used for some error type, whereas the `T` parameter specifies the
+type for the result of a successful operation, which usually is not an error
+message, even though this enum definition does not forbid using it that way.
 
 ### Generic Functions
 
