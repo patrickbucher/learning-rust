@@ -1,5 +1,10 @@
 # Traits, Generics and Lifetimes
 
+Traits and generics help programmers write more flexible code that can be
+re-used instead of being copied and (slightly) modified all the time. Lifetimes
+ensure that no invalid references can occur, which is one of the pillars of
+Rust's runtime safety.
+
 ## Traits
 
 Traits are Rust's way of declaring common functionality (a set of method
@@ -726,8 +731,147 @@ scope. This is because the generic lifetime `'a` will be the _smaller_ lifetime
 of the two parameters `x` and `y`, and all references are used within that
 smaller scope.
 
-- explain the borrow checker and the motivation behind it
-- explain this using the _lifetime elision_ rules (p. 196)
-- introduce lifetime annotation syntax (p. 190)
-- fix example with two parameters from above using lifetime annotations
-- static lifetimes (p. 198)
+### Lifetime Annotations in Structs
+
+Structs can hold references:
+
+```rust
+struct Excerpt {
+    part: &str,
+}
+
+fn main() {
+    let text = String::from("This is important. Or maybe not...");
+    let first_sentence = text.split('.').next().expect("no . found");
+    let excerpt = Excerpt {
+        part: first_sentence,
+    };
+    println!("{}", excerpt.part);
+}
+```
+
+However, this code does not compile, because the reference has no lifetime
+specified:
+
+	error[E0106]: missing lifetime specifier
+	 --> src/main.rs:2:11
+	  |
+	2 |     part: &str,
+	  |           ^ expected lifetime parameter
+
+This is an issue, because the struct as a whole could outlive the reference
+it's holding, leading to a dangling pointer. A lifetime stating that both the
+struct and its field have the same lifetime fixes the problem:
+
+```rust
+struct Excerpt<'a> {
+    part: &'a str,
+}
+```
+
+### Lifetime Elision
+
+Not every function returning a reference to one of its parameters needs
+lifetime annotations. Consider this function, which returns the first word of a
+given string as a reference:
+
+```rust
+fn first_word(s: &str) -> &str {
+    let bytes = s.as_bytes();
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[0..i]; // return part up to first space
+        }
+    }
+    &s[..] // no spaces: s is a single word
+}
+
+fn main() {
+    let text = String::from("Rust kicks derrieres").to_string();
+    let word = first_word(&text);
+    println!("{}", word); // Rust
+}
+```
+
+This code compiles, even though there are no lifetimes specified. The compiler
+has a set of rules called _lifetime elision rules_. If those apply to the code
+in question, i.e. to the parameter's _input lifetimes_ and to the resulting
+references _output lifetimes_, the lifetimes can be inferred from the context.
+Those rules are:
+
+1. Every input parameter gets its own lifetime parameter.
+2. If there is one input lifetime parameter, the output lifetime parameter is
+   assigned this input lifetime parameter.
+3. If there are multiple input lifetime parameters, but one of them is `&self`
+   or `&mut self` (the function is a method), the lifetime of `self` is
+   assigned to all output lifetime parameters.
+
+### Static Lifetime
+
+There is one special lifetime parameter: the `'static` lifetime. This donates
+that a value is in scope for the entire lifetime of the program. String
+literals, which are stored in the binary upon compilation, have the `'static`
+lifetime.
+
+This code is valid, because the string literal lives long enough (for the whole
+runtime of the program that is).
+
+```rust
+let s: &'static str = "This is a question.";
+println!("{}", s);
+```
+
+However, this code does not compile:
+
+```rust
+let j = 123;
+let i: &'static i32 = &j;
+println!("{}", i);
+```
+
+`j` only lives as long as the enclosing scope, and i, the reference to it, is
+supposed to live for the duration of the whole program:
+
+	error[E0597]: `j` does not live long enough
+	 --> src/main.rs:6:27
+	  |
+	6 |     let i: &'static i32 = &j;
+	  |            ------------   ^^ borrowed value does not live long enough
+	  |            |
+	  |            type annotation requires that `j` is borrowed for `'static`
+	7 |     println!("{}", i);
+	8 | }
+	  | - `j` dropped here while still borrowed
+
+### Generics, Traits, and Lifetimes Combined
+
+The function `longest_print` uses all the concepts covered in this chapter:
+generics, traits and lifetimes:
+
+```rust
+use std::fmt::Display;
+
+fn longest_print<'a, T>(x: &'a str, y: &'a str, caller: T) -> &'a str
+where
+    T: Display,
+{
+    println!("longest_print called from {}", caller);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+
+fn main() {
+    let a = &String::from("hello");
+    let b = &String::from("Rust");
+    let r = longest_print(&a, &b, "main");
+    println!("longest: '{}'", r);
+}
+```
+
+- The generic type parameter `T` for the function parameter `caller`.
+- The trait `Display` to constrain the parameter `T`, which must be printable.
+- The lifetime `'a` to ensure that the resulting reference does not outlive the
+  parameter references.
