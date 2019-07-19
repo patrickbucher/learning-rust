@@ -551,10 +551,181 @@ compilation time can be seen as a investment rather than a cost.
 
 ## Lifetimes
 
-TODO:
+Every reference in Rust has a _lifetime_. This is a scope for which that
+reference is valid. As soon as the end of that scope is reached, the lifetime
+expires, and the reference becomes invalid.
 
-- example that works without lifetimes (one parameter)
-- example that fails without lifetimes (two parameters)
+### Dangling References
+
+A reference to a value that went out of scope is called a _dangling reference_.
+Such a reference is invalid and must not be used any longer, which is enforced
+by the Rust compiler. The following program won't compile:
+
+```rust
+fn main() {
+    let r;
+    { 
+        let x = 5;
+        r = &x;
+    } // here, x goes out of scope
+    println!("r: {}", r);
+}
+```
+
+Error message:
+
+	   Compiling tmp v0.1.0 (/home/paedu/learning-rust/code/tmp)
+	error[E0597]: `x` does not live long enough
+	 --> src/main.rs:5:9
+	  |
+	5 |         r = &x;
+	  |         ^^^^^^ borrowed value does not live long enough
+	6 |     }
+	  |     - `x` dropped here while still borrowed
+	7 |     println!("r: {}", r);
+	  |                       - borrow later used here
+
+The _borrow checker_ compares the scopes involved and notices that the subject
+of the reference (`x`) does not live as long as the reference (`r`).
+
+A simplified version of the program without the inner scope will compile:
+
+```rust
+fn main() {
+    let x = 5;
+    let r = &x;
+    println!("r: {}", r);
+}
+```
+
+The reference `r` and the subject `x` have the same scope and, hence, the same
+lifetime.
+
+### Lifetimes in Functions
+
+Consider this program that figures out which of two strings is the longer one:
+
+```rust
+fn main() {
+    let a = String::from("foobar");
+    let b = String::from("qux");
+
+    let result = longest(a.as_str(), b.as_str());
+    println!("The longest string is '{}'", result);
+}
+```
+
+It uses the `longest` function to do the actual work:
+
+```rust
+fn longest(x: &str, y: &str) -> &str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
+
+This code doesn't compile:
+
+	error[E0106]: missing lifetime specifier
+	 --> src/main.rs:9:33
+	  |
+	9 | fn longest(x: &str, y: &str) -> &str {
+	  |                                 ^ expected lifetime parameter
+	  |
+	  = help: this function's return type contains a borrowed value, but the
+	          signature does not say whether it is borrowed from `x` or `y`
+
+The compiler cannot know if the reference being returned from the function will
+be borrowed from `x` or from `y`. This is an issue, because the borrow checker
+is unable to figure out the valid scope for the returned reference, since `x`
+and `y` could have different lifetimes, 
+
+Lifetime annotations describe the relationships of the lifetimes of multiple
+references. They are just a hint to the borrow checker, and do not change the
+lifetime or scope of any reference.
+
+The syntax of lifetime annotations looks as follows:
+
+```rust
+&i32        // a reference without an annotated lifetime 
+&'a i32     // a reference with the explicit lifetime a
+&'b mut i32 // a mutable reference with the explicit lifetime b
+```
+
+The lifetime parameter also needs to be declared in angle brackets after the
+function name. The following version of the `longest` function annotates both
+function parameters and the returned reference with the same lifetime:
+
+```rust
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+```
+
+The method signature can be read as: "The function longest has a lifetime
+parameter `a`; the parameters `x` and `y` are both references with the same
+lifetime `a`, and the reference returned has also the same lifetime `a`."
+
+This code compiles, and now the borrow checker knows how to enforce the
+lifetimes of the references passed into this function. 
+
+```rust
+fn main() {
+    let result: &str;
+    let a = String::from("foobar");
+    {
+        let b = String::from("qux");
+        result = longest(a.as_str(), b.as_str());
+    }
+    println!("The longest string is '{}'", result);
+}
+```
+
+Error message:
+
+	error[E0597]: `b` does not live long enough
+	 --> src/main.rs:6:38
+	  |
+	6 |         result = longest(a.as_str(), b.as_str());
+	  |                                      ^ borrowed value does not live long enough
+	7 |     }
+	  |     - `b` dropped here while still borrowed
+	8 |     println!("The longest string is '{}'", result);
+	  |                                            ------ borrow later used here
+
+The borrow checker sees that `a`, `b` and `result` are supposed to have the
+same lifetime, but also notices that `b` has a shorter scope than the other
+references. Not considering the actual values behind `a` and `b`, the compiler
+does not know that `result` will be referring to `a` in this specific example,
+so potentially a dangling pointer could result from this code. The compilation
+therefore fails.
+
+Consider a slightly modified version of the above client code:
+
+```rust
+fn main() {
+    let result: &str;
+    let a = String::from("foobar");
+    {
+        let b = String::from("qux");
+        result = longest(a.as_str(), b.as_str());
+        println!("The longest string is '{}'", result);
+    }
+}
+```
+
+This code compiles, even though the three variables involved have a different
+scope. This is because the generic lifetime `'a` will be the _smaller_ lifetime
+of the two parameters `x` and `y`, and all references are used within that
+smaller scope.
+
 - explain the borrow checker and the motivation behind it
 - explain this using the _lifetime elision_ rules (p. 196)
 - introduce lifetime annotation syntax (p. 190)
