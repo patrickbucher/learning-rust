@@ -368,13 +368,186 @@ where
 
 ### Generic Methods
 
-TODO: p. 175 generics for methods
+To implement a method for all possible types on a struct with a type parameter,
+the type parameter must also be declared for the `impl` block:
+
+```rust
+struct Point<T> {
+    x: T,
+    y: T,
+}
+
+impl<T> Point<T> {
+    fn x(&self) -> &T {
+        &self.x
+    }
+    fn y(&self) -> &T {
+        &self.y
+    }
+}
+```
+
+It is also possible to implement certain methods only for specific types, say,
+floating point numbers, which support additional mathematical operations (e.g.
+square roots) compared to integers:
+
+```rust
+impl Point<f32> {
+    fn distance_from_origin(&self) -> f32 {
+        (self.x.powi(2) + self.y.powi(2)).sqrt()
+    }
+    fn distance_from(&self, other: &Point<f32>) -> f32 {
+        ((self.x - other.x).powi(2) + (self.y - other.y).powi(2)).sqrt()
+    }
+}
+
+fn main() {
+    let p = Point { x: 3.75, y: 2.12 };
+    let q = Point { x: 1.5, y: 8.95 };
+
+    println!("distance p to (0, 0): {}", p.distance_from_origin());
+    println!("distance q to (0, 0): {}", q.distance_from_origin());
+    println!("distance p to q: {}", p.distance_from(&q));
+    println!("distance q to p: {}", q.distance_from(&p));
+}
+```
+
+The methods can be called on any `Point` using `f32` values. However, if a
+point uses integer values, the methods above are not available:
+
+```rust
+fn main() {
+    let a = Point { x: 1, y: 2 };
+    println!("distance a to (0, 0): {}", a.distance_from_origin())
+}
+```
+
+Output:
+
+	error[E0599]: no method named `distance_from_origin` found for type `Point<{integer}>` in the current scope
+	  --> src/main.rs:17:44
+	   |
+	1  | struct Point<T> {
+	   | --------------- method `distance_from_origin` not found for this
+	...
+	17 |     println!("distance a to (0, 0): {}", a.distance_from_origin())
+	   |                                            ^^^^^^^^^^^^^^^^^^^^
+
+The type parameters of a method parameter are not restricted to the type
+parameters of the `impl` block. Starting from this struct definition with
+different types for `x` and `y`:
+
+```rust
+struct Point<T, U> {
+    x: T,
+    y: U,
+}
+```
+
+A method can be implemented that works on a `Point` with certain type
+parameters, while accepting `Point` parameters that use (possibly) different
+type parameters:
+
+```rust
+impl<T, U> Point<T, U> {
+    fn mixup<V, W>(self, other: Point<V, W>) -> Point<T, W> {
+        Point {
+            x: self.x,  // T
+            y: other.y, // W
+        }
+    }
+}
+
+fn main() {
+    let a = Point { x: 1, y: 2.5 };
+    let b = Point { x: 3.99, y: 8 };
+    let p = a.mixup(b);
+    println!("p=({},{})", p.x, p.y); // Output: p=(1,8)
+}
+```
+
+The type parameters `T` and `U` are the types of the callee (`self`), whereas
+`V` and `W` are the types of the method parameter (`other`). The method `mixup`
+produces a new point with mixed-up type parameters. For this purpose, type
+parameters from both the `impl` block and the method signature can be used.
 
 ### Conditionally Implement Methods
 
-TODO: p. 185
+Methods can be implemented conditionally for types that satisfy specific
+traits. The `cmp_display` method can only be invoked on a `Pair<T>` whose `T`
+implements both the `Display` and the `PartialOrd` trait:
 
-TODO: p. 177 note on performance
+```rust
+use std::fmt::Display;
+
+struct Pair<T> {
+    x: T,
+    y: T,
+}
+
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.x >= self.y {
+            // PartialOrd
+            println!("The largest member is x={}", self.x); // Display
+        } else {
+            println!("The largest member is y={}", self.y); // Display
+        }
+    }
+}
+
+fn main() {
+    let p = Pair { x: 3, y: 7 };
+    p.cmp_display();
+}
+```
+
+Since integer types satisfy both traits, the code above compiles, and the
+`cmp_display` method can be called on the `Pair p`.
+
+It is also possible to implement a trait for any type that implements another
+trait. Let's say that the method `identify` should implemented for all the
+types that satisfy the `Display` trait:
+
+
+```rust
+use std::fmt::Display;
+
+trait Subject {
+    fn identify(&self);
+}
+
+impl<T: Display> Subject for T {
+    fn identify(&self) {
+        println!("I am {}.", self);
+    }
+}
+
+fn main() {
+    let pi = 3.14;
+    pi.identify(); // I am 3.14.
+}
+```
+
+The `identify()` method is now available for all other types satisfying
+`Display`, without providing any futher implementations. Such implementations
+are called _blanket implementations_. They are documented in the "Implementors"
+section to each trait.
+
+### Compilation and Performance
+
+The Rust compiler turns generic code into code with specific types upon
+compilation (_monomorphization). If a struct `Point<T>` is used with the
+specific types `i32` and `f32`, the compiler will fill in the types and produce
+two implementations: `Point_i32` and `Point_f32`. For any usage of some
+`Point<T>`, the type parameter will be inferred, and the code will be compiled
+using the specific types.
+
+This comes at some cost: Not only is the compilation process more complicated
+and therefore slower, but also is the resulting code gets bigger. However,
+handling generics at compile time ensures that there are no runtime costs; and
+because a programm is usually compiled once and run many times, the additional
+compilation time can be seen as a investment rather than a cost.
 
 ## Lifetimes
 
