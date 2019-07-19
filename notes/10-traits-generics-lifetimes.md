@@ -551,4 +551,12 @@ compilation time can be seen as a investment rather than a cost.
 
 ## Lifetimes
 
-TODO: p. 187 ff.
+TODO:
+
+- example that works without lifetimes (one parameter)
+- example that fails without lifetimes (two parameters)
+- explain the borrow checker and the motivation behind it
+- explain this using the _lifetime elision_ rules (p. 196)
+- introduce lifetime annotation syntax (p. 190)
+- fix example with two parameters from above using lifetime annotations
+- static lifetimes (p. 198)
