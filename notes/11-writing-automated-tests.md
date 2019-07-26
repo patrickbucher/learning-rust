@@ -264,4 +264,154 @@ wrong panic messages).
 
 ## Test Execution
 
-TODO: p. 215
+The command `cargo test` compiles the project in test mode and runs the
+resulting test binary. Command line parameters can be indicated both for cargo
+and the test binary. For the latter case, parameters following the `--`
+separator are sent to the test binary:
+
+	cargo test --foo # send parameter --foo to cargo
+	cargo test -- --bar #  send parameter --bar to the test binary
+	cargo test --foo -- --bar # send --foo to cargo, --bar to the test binary
+
+By default, multiple tests run in multiple threads: one test per thread, that
+is. The order of test execution is not deterministic, and therefore tests
+should not depend on one another. However, the number of threads can be defined
+using the `--test-threads` parameter, which can be set to `1` for sequential
+execution.
+
+	cargo test -- --test-threads=1
+
+The standard output of passing tests won't be shown in the test result.
+Consider this two test cases:
+
+```rust
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn passing_test() {
+        println!("is 2 + 2 = 4?");
+        assert_eq!(2 + 2, 4);
+    }
+
+    #[test]
+    fn failing_test() {
+        println!("is 2 + 2 = 5?");
+        assert_eq!(2 + 2, 5);
+    }
+}
+```
+
+When run with `cargo test`, only the `println!` output of the failing test is
+shown in the `stdout` section of the test output:
+
+	---- tests::failing_test stdout ----
+	is 2 + 2 = 5?
+	thread 'tests::failing_test' panicked at 'assertion failed: `(left == right)`
+	  left: `4`,
+	 right: `5`', src/lib.rs:12:9
+	note: Run with `RUST_BACKTRACE=1` environment variable to display a backtrace.
+
+When run with `cargo test -- --nocapture` instead, also the output of the
+passing test is shown:
+
+	running 2 tests
+	is 2 + 2 = 5?
+	is 2 + 2 = 4?
+	test tests::passing_test ... ok
+	test tests::failing_test ... FAILED
+
+To avoid that the test output and test results are interleaved, restricting the
+test execution to one thread serializes the test execution and hence the
+output:
+
+	$ cargo test -- --nocapture --test-threads=1
+
+	running 2 tests
+	test tests::failing_test ... is 2 + 2 = 5?
+	FAILED
+	test tests::passing_test ... is 2 + 2 = 4?
+	ok
+
+A subset of the available test cases can be run by indicating an expression to
+be matched by the names of the test functions to be executed. Given this
+module:
+
+```rust
+pub fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+#[cfg(test)]
+mod tests {
+    use super::add;
+
+    #[test]
+    fn add_positive_to_positive() {
+        assert_eq!(7, add(3, 4))
+    }
+
+    #[test]
+    fn add_negative_to_positive() {
+        assert_eq!(2, add(-4, 6))
+    }
+
+    #[test]
+    fn add_negative_to_negative() {
+        assert_eq!(-9, add(-2, -7))
+    }
+}
+```
+
+The expression `add` will match all three test functions:
+
+	$ cargo test add
+
+	running 3 tests
+	test tests::add_negative_to_negative ... ok
+	test tests::add_positive_to_positive ... ok
+	test tests::add_negative_to_positive ... ok
+
+	test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+
+Whereas the expression `add_neg` will only match two of the three test cases,
+filtering out the third one:
+
+	$ cargo test add_neg
+
+	running 2 tests
+	test tests::add_negative_to_negative ... ok
+	test tests::add_negative_to_positive ... ok
+
+	test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out
+
+A test case annotated with the `#[ignore]` attribute won't be run by default:
+
+```rust
+#[test]
+#[ignore]
+fn add_big_to_big() {
+	assert_eq!(1000000, add(999999, 1))
+}
+```
+	$ cargo test
+
+	running 4 tests
+	test tests::add_big_to_big ... ignored
+	test tests::add_negative_to_negative ... ok
+	test tests::add_positive_to_positive ... ok
+	test tests::add_negative_to_positive ... ok
+
+	test result: ok. 3 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out
+
+Ignored tests can be run separately by setting the `--ignored` flag:
+
+	$ cargo test -- --ignored
+
+	running 1 test
+	test tests::add_big_to_big ... ok
+
+	test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out
+
+## Test Organization
+
+TODO: p. 220 ff.
