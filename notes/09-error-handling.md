@@ -289,7 +289,7 @@ fn main() {
 }
 ```
 
-# Using `panic!` or `Result<T, E>`?
+## Using `panic!` or `Result<T, E>`?
 
 Since there's no way to recover from a panic, working with `Result<T, E>` is
 isually the more appropriate choice. The use of `panic!` (and the methods
