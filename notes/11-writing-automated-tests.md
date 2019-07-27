@@ -264,6 +264,8 @@ wrong panic messages).
 
 ## Test Execution
 
+### Arguments
+
 The command `cargo test` compiles the project in test mode and runs the
 resulting test binary. Command line parameters can be indicated both for cargo
 and the test binary. For the latter case, parameters following the `--`
@@ -272,6 +274,8 @@ separator are sent to the test binary:
 	cargo test --foo # send parameter --foo to cargo
 	cargo test -- --bar #  send parameter --bar to the test binary
 	cargo test --foo -- --bar # send --foo to cargo, --bar to the test binary
+
+### Parallel Execution
 
 By default, multiple tests run in multiple threads: one test per thread, that
 is. The order of test execution is not deterministic, and therefore tests
@@ -300,6 +304,8 @@ mod tests {
     }
 }
 ```
+
+### Output
 
 When run with `cargo test`, only the `println!` output of the failing test is
 shown in the `stdout` section of the test output:
@@ -331,6 +337,8 @@ output:
 	FAILED
 	test tests::passing_test ... is 2 + 2 = 4?
 	ok
+
+### Test Selection
 
 A subset of the available test cases can be run by indicating an expression to
 be matched by the names of the test functions to be executed. Given this
@@ -384,6 +392,8 @@ filtering out the third one:
 
 	test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out
 
+### Ignoring Tests
+
 A test case annotated with the `#[ignore]` attribute won't be run by default:
 
 ```rust
@@ -414,4 +424,177 @@ Ignored tests can be run separately by setting the `--ignored` flag:
 
 ## Test Organization
 
-TODO: p. 220 ff.
+### Unit Tests
+
+Unit tests in Rust are written in a sub-module called `tests` and only test
+their super-module, not code of any other modules. The privacy rules of Rust
+allow a sub-module to call the private functions of its super-module, and
+hence, in contrast to many other test frameworks and programming languages,
+unit tests in Rust can also cover the private functions of a module. For unit
+tests, the `test` module must be annotated with `#[cfg(test)]`.
+
+This module contains public functions for addition and multiplication, and a
+`tests` sub-module testing both the public and private functions
+(`calc/src/lib.rs`):
+
+```rust
+pub fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+pub fn multiply(a: i32, b: i32) -> i32 {
+    add_multiple_times(a, b)
+}
+
+fn add_multiple_times(a: i32, n: i32) -> i32 {
+    let mut product = 0;
+    for _i in 0..n {
+        product += a;
+    }
+    product
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_add() {
+        assert_eq!(add(2, 3), 5);
+    }
+
+    #[test]
+    fn test_multiply() {
+        assert_eq!(multiply(3, 4), 12);
+    }
+
+    #[test]
+    fn test_add_multuple_times() {
+        assert_eq!(add_multiple_times(3, 2), 6);
+    }
+}
+```
+
+The multiplication is implemented as a repeated addition, and the unit test is
+able to cover both the public and private API.
+
+### Integration Tests
+
+Integration tests in Rust only cover the public interface of the module to be
+tested. The test code is organized in a folder called `tests`, located next to
+the `src` folder. Since the integration test is neither part of the module to
+be tested, nor a sub-module thereof, the module to be tested must be integrated
+as an external crate (`calc/tests/calc_test.rs`):
+
+```rust
+extern crate calc;
+
+#[test]
+fn test_add() {
+    assert_eq!(calc::add(2, 3), 5);
+}
+
+#[test]
+fn test_multiply() {
+    assert_eq!(calc::multiply(3, 4), 12);
+}
+```
+
+The `#[cfg(test)]` annotation is _not_ needed here. The integration test only
+covers the public API and thus simulates the usage of the module by another
+project.
+
+Integration tests can be executed separately from unit tests by indicating the
+test files (without `.rs` suffix) to be executed:
+
+	$ cargo test --test calc_test
+
+Each file in the `tests` folder is compiled as its own separate crate. Common
+functionality can be extracted and put into a module, for example called
+`common`.
+
+This test sub-module sets up a test case for the addition test
+(`tests/common.rs`):
+
+```rust
+pub struct AdditionTest {
+    pub a: i32,
+    pub b: i32,
+    pub expected: i32,
+}
+
+pub fn get_add_test_case() -> AdditionTest {
+    AdditionTest {
+        a: 3,
+        b: 5,
+        expected: 8,
+    }
+}
+```
+
+It can be used like this (`tests/calc_test.rs`):
+
+```rust
+extern crate calc;
+
+mod common;
+
+#[test]
+fn test_add() {
+    let test_case = common::get_add_test_case();
+    assert_eq!(calc::add(test_case.a, test_case.b), test_case.expected);
+}
+```
+
+If the module is defined in `tests/common.rs`, the module will be treated as an
+additional integration test (just without any test methods), but not so if the
+module is defined in `tests/common/mod.rs`.
+
+### Binary Crates
+
+The functions in the `src/main.rs` file (of a binary crate) cannot be covered
+by integration tests. However, functions living in `src/lib.rs` can be both
+used by the code in `src/main.rs` and covered by unit and integration tests.
+Therefore, the code in `src/main.rs` should be kept small, moving as much of it
+to modules at possible, so that it can be automatically tested.
+
+For example, the `main` function of the `calculator` binary crate only calls
+the `add` function from `src/lib.rs`:
+
+```rust
+extern crate calculator;
+
+fn main() {
+    println!("3 + 2 is {}", calculator::add(3, 2));
+}
+```
+
+The file `src/lib.rs` contains both the `add` function and a test case for it:
+
+```rust
+pub fn add(a: i32, b: i32) -> i32 {
+    return a + b;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::add;
+
+    #[test]
+    fn test_add() {
+        assert_eq!(add(2, 3), 5);
+    }
+}
+```
+
+The `add` function can also be tested using an integration test
+(`test/integration_tests.rs`):
+
+```rust
+extern crate calculator;
+
+#[test]
+fn test_add() {
+    assert_eq!(calculator::add(2, 3), 5);
+}
+```
