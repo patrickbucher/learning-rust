@@ -225,11 +225,131 @@ The program is terminated with exit code `1` in case of a failure using the
 	$ cargo run query
 	Problem parsing arguments: not enough arguments
 
-TODO: p. 240 (extracting logic from main)
+## Refactoring
+
+Once the command line parameters are wrapped up in a handy config object, the
+program logic can be extracted from the `main` function and put into a `run`
+function:
+
+```rust
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.filename);
+
+    run(config);
+}
+
+fn run(config: Config) {
+    let mut f = File::open(config.filename).expect("file not found");
+    let mut contents = String::new();
+    f.read_to_string(&mut contents).expect("error reading file");
+    println!("content:\n{}", contents)
+}
+```
+
+The `run` function causes panics, which takes away control from the `main`
+function. To give that control back, this `run` implementation returns a
+result, wrapping possible errors up in a `Box`. Instead of calling `except` on
+the expressions that return a `Result` by themselves, the `?` operator can be
+used:
+
+```rust
+use std::error::Error;
+
+fn run(config: Config) -> Result<(), Box<Error>> {
+    let mut f = File::open(config.filename)?;
+    let mut contents = String::new();
+    f.read_to_string(&mut contents)?;
+    println!("content:\n{}", contents);
+	Ok(())
+}
+```
+
+The `Ok` variant only wraps the unit value `()`. In `main`, the error message
+can be used accordingly:
+
+```rust
+fn main() {
+	//  omitted
+
+    if let Err(e) = run(config) {
+        println!("Application error: {}", e);
+        process::exit(1);
+    }
+}
+```
+
+Unlike `Config::new`, `run` does not a value that can be unwrapped. So here the
+`if let` construct is used to handle possible errors.
+
+The extracted parts ‒ the `run` function and the `Config` struct with its `new`
+method ‒ can now be moved into a separated library crate, which makes it easier
+to reuse and test that code:
+
+```rust
+use std::error::Error;
+use std::fs::File;
+use std::io::prelude::*;
+
+pub struct Config {
+    pub query: String,
+    pub filename: String,
+}
+
+impl Config {
+	// omitted
+}
+
+pub fn run(config: Config) -> Result<(), Box<Error>> {
+	// omitted
+}
+```
+
+The `Config` struct, its fields, its `new` method, and the `run` function need
+to be public, so that they can be used from the stripped-down `main.rs`:
+
+```rust
+extern crate minigrep;
+
+use std::env;
+use std::process;
+
+use minigrep::Config;
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        println!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+
+    println!("Searching for {}", config.query);
+    println!("In file {}", config.filename);
+
+    if let Err(e) = minigrep::run(config) {
+        println!("Application error: {}", e);
+        process::exit(1);
+    }
+}
+```
+
+The extracted functionality now has to be included as an extern crate
+`minigrep`.
 
 ## Test-Driven Development
 
-1. write test that fails for the expected reason
-2. make the test compile and then pass
-3. refactor the code without breaking the test
-4. repeat from step 1 for the next part
+The program will be finished from here in a process called Test-Driven
+Development (TDD), which works as follows:
+
+1. Write test that fails for the expected reason.
+2. Make the test compile and then pass.
+3. Refactor the code without breaking the test.
+4. Repeat from step 1 for the next part.
