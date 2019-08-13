@@ -353,3 +353,91 @@ Development (TDD), which works as follows:
 2. Make the test compile and then pass.
 3. Refactor the code without breaking the test.
 4. Repeat from step 1 for the next part.
+
+### Failing Test Case
+
+First, a (failing) test case ‒ `one_result` ‒ is added to `lib.rs`:
+
+```rust
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn one_result() {
+        let query = "duct";
+        let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.";
+
+        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+    }
+}
+```
+
+### Dummy Implementation
+
+This code does not even compile, because the `search` function is missing. A
+dummy implementation, returning an empty vector, makes the code compile, but
+still lets the test fail:
+
+```rust
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    vec![]
+}
+```
+
+The `search` function needs to annotate a lifetime: The strings in the
+resulting vectors are pulled out of the `contents` parameter, and therefore
+must life as long as that underlying string object.
+
+### Real Implementation
+
+With this implementation of `search`, the test will pass:
+
+```rust
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            results.push(line);
+        }
+    }
+
+    results
+}
+```
+
+The text is analyzed line by line using the `lines` method of the `contents`
+string. The `contains` method returns true, if the given substring `query` is
+part of the string (the current line, that is). Matching lines are added to the
+`results` vector, which is returned from the function.
+
+The test is now passing, but the program does not make use of `search` yet,
+which can be done as such:
+
+```rust
+pub fn run(config: Config) -> Result<(), Box<Error>> {
+    let mut f = File::open(config.filename)?;
+    let mut contents = String::new();
+    f.read_to_string(&mut contents)?;
+    for line in search(&config.query, &contents) {
+        println!("{}", line);
+    }
+    Ok(())
+}
+```
+
+The program now yields only the matching lines:
+
+```bash
+$ cargo run nobody poem.txt
+Searching for nobody
+In file poem.txt
+I'm nobody! Who are you?
+Are you nobody, too?
+```
+
+TODO: p. 249 ff.
