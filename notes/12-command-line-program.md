@@ -440,4 +440,184 @@ I'm nobody! Who are you?
 Are you nobody, too?
 ```
 
-TODO: p. 249 ff.
+## Environment Variable for Case Insensitive Search
+
+`minigrep` needs an option to search through files in a case-insensitive
+manner. To make it possible for the user to make that option permanent instead
+of providing it with every invocation of the program, an environment variable
+should be introduced instead of a command line argument.
+
+Continuing the test-driven approach from before, an additional (failing) test
+is added to the test module of `lib.rs`:
+
+```rust
+#[test]
+fn case_insensitive() {
+	let query = "rUsT";
+	let contents = "\
+Rust:
+safe, fast, productive.
+Pick three.
+Trust me.";
+
+	assert_eq!(
+		vec!["Rust:", "Trust me."],
+		search_case_insensitive(query, contents)
+	);
+}
+```
+
+For the implementation, both the query and every line to be tested are
+converted to lowercase:
+
+```rust
+pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let query = query.to_lowercase();
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.to_lowercase().contains(&query) {
+            results.push(line);
+        }
+    }
+
+    results
+}
+```
+
+The slice `query` is converted to a `String` by the `to_lowercase` method.
+Therefore, it has to be passed as `&query` into the `contains` method.
+
+Both test cases now run successfully.
+
+### Additional Option
+
+The new case insensitive option will be held by the `Config` struct:
+
+```rust
+pub struct Config {
+    pub query: String,
+    pub filename: String,
+    pub case_sensitive: bool,
+}
+```
+
+Depending on its value, either the `search` (case sensitive) or the
+`search_case_insensitive` function will be called from run:
+
+```rust
+pub fn run(config: Config) -> Result<(), Box<Error>> {
+    let mut f = File::open(config.filename)?;
+    let mut contents = String::new();
+    f.read_to_string(&mut contents)?;
+
+    let results = if config.case_sensitive {
+        search(&config.query, &contents)
+    } else {
+        search_case_insensitive(&config.query, &contents)
+    };
+
+    for line in results {
+        println!("{}", line);
+    }
+    Ok(())
+}
+```
+
+If the environment variable `CASE_INSENSITIVE` is set (to any value), the
+according option should be set to `true`. The `var` function of the `env`
+module retrieves the value of the given environment variable and returns a
+`Result`. This logic belongs to the constructor of `Config`:
+
+```rust
+use std::env;
+
+impl Config {
+    pub fn new(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
+        let query = args[1].clone();
+        let filename = args[2].clone();
+
+        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
+
+        Ok(Config {
+            query,
+            filename,
+            case_sensitive,
+        })
+    }
+}
+```
+
+The `is_err` method returns true if the environment variable `CASE_INSENSITIVE`
+is not set, in which case a case-sensitive search has to be performed. In all
+other cases, a case-insensitive search was chosen by the user.
+
+The behaviour of the program now can be changed by setting the
+`CASE_INSENSITIVE` environment variable:
+
+```bash
+$ cargo run To poem.txt
+Searching for To
+In file poem.txt
+To tell your name the livelong day
+To an admiring bog!
+
+$ CASE_INSENSITIVE=1 cargo run To poem.txt
+Searching for To
+In file poem.txt
+Are you nobody, too?
+How dreary to be somebody!
+To tell your name the livelong day
+To an admiring bog!
+```
+
+The second invocation yields two additional lines, which matches the specified behaviour.
+
+### Printing to Standard Error
+
+The program prints debug and error messages to standard output (`stdout`), just
+like the matching lines. In order to process the desired output -- the matching
+lines -- further with an other program, or to store it in a file, the debug and
+error messages should be sent to standard error (`stderr`) instead.
+
+The `eprintln!` macro works just like the `println!` macro, but it prints to
+`stderr` instead of `stdout`. Since only the `main` function prints debug and
+error messages, it is the only place due for refactoring:
+
+```rust
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+
+    eprintln!("Searching for {}", config.query);
+    eprintln!("In file {}", config.filename);
+
+    if let Err(e) = minigrep::run(config) {
+        eprintln!("Application error: {}", e);
+        process::exit(1);
+    }
+}
+```
+
+The debug and error messages can now be disposed of by forwarding them do
+`/dev/null`, for example:
+
+```bash
+$ cargo run To poem.txt 2> /dev/null
+To tell your name the livelong day
+To an admiring bog!
+
+$ CASE_INSENSITIVE=1 cargo run To poem.txt 2> /dev/null
+Are you nobody, too?
+How dreary to be somebody!
+To tell your name the livelong day
+To an admiring bog!
+```
