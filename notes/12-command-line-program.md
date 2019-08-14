@@ -137,8 +137,6 @@ fn main() {
 }
 ```
 
-- TODO: iterate over lines, substring matching
-
 ## Error Handling
 
 This constructor from above causes a panic if too few arguments are provided:
