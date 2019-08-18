@@ -246,6 +246,8 @@ retrieved from the cache, and not calculated:
 	55
 	55
 
+### Fixing the Cache Using a Map
+
 This cache only works if it is used with the same parameter repeatedly. A
 useful implementation would not only store one result, but map the input
 parameter to cached results:
