@@ -306,3 +306,184 @@ The `fib` closure is only called for the first time a parameter is used:
 	89
 	55
 	89
+
+## Iterators
+
+An iterator allows to process its underlying items one by one. The iterator
+takes care of the logic of iterating over the items, and determines when the
+sequence has reached its end.
+
+An iterator can be retrieved by calling the `iter` method on a collection:
+
+```rust
+let v = vec![1, 2, 3];
+let i = v.iter();
+```
+
+The iterator's elements then can be iterated over using a `for`/`in` loop:
+
+```rust
+for e in i {
+	println!("{}", e);
+}
+```
+
+### The `Iterator` Trait and the `next` Method
+
+An iterator must implement the `Iterator` trait, which is defined as follows:
+
+```rust
+pub trait Iterator {
+	type Item;
+	fn next(&mut self) -> Option<Self::Item>;
+	// additional methods
+}
+```
+
+The declaration `type Item` and the `Option`s type `Self::Item` define a
+_associated type_. Implementing an iterator also requires defining an `Item`
+type.
+
+The `next` method is the only method that implementors need to define. It moves
+on to the next item, and returns it wrapped up in a `Option`. The `self`
+reference is mutable, because calling `next` modifies the iterator's underlying
+state ‒ the current position in the iterator.
+
+An iterator can not only be processed using a `for`/`in` loop, but also
+directly using the `next` method. When doing so, the iterator reference has to
+be mutable explicitly. (The `for`/`in` loop makes the iterator mutable in the
+background.)
+
+```rust
+let v = vec![1, 2, 3];
+let mut i = v.iter();
+println!("{:?}", i.next());
+println!("{:?}", i.next());
+println!("{:?}", i.next());
+println!("{:?}", i.next());
+```
+
+Output:
+
+	Some(1)
+	Some(2)
+	Some(3)
+	None
+
+### Consuming Adaptors
+
+Methods that call the `next` method use up the iterator, and therefore are
+called _consuming adaptors`. The `sum` method is an example for this:
+
+```rust
+let v = vec![1, 2, 3];
+let i = v.iter();
+let total: i32 = i.sum();
+println!("{}", total); // 6
+```
+
+The iterator `i` must not be used after calling the `sum` method. A `value used
+after move` compiler error would be the consequence of doing so nonetheless.
+
+### Iterator Adaptors
+
+Methods that turn an iterator into another iterator are called _iterator
+adaptors_. Iterators are _lazu evaluated_: A consuming adaptor has to be
+applied in order to get the result of calling an iterator adaptor. For example,
+the `map` method does not really create a new iterator:
+
+```rust
+let v = vec![1, 2, 3];
+v.iter().map(|x| x + 1);
+```
+
+Calling the `collect` method ‒ a _consuming adaptor_ ‒ will produce a new
+collection with the mapped elements (here: added one to them):
+
+```rust
+let v = vec![1, 2, 3];
+let plus_one: Vec<_> = v.iter().map(|x| x + 1).collect();
+println!("{:?}", plus_one); // [2, 3, 4]
+```
+
+### Filtering
+
+The `filter` method takes a closure returning a boolean that is called for each
+of the iterator's items in turn. If the closure returns `true`, the item is
+included in the newly produces iterator; otherwise not.
+
+```rust
+let v = vec![1, 2, 3, 4, 5];
+let even: Vec<_> = v.into_iter().filter(|x| x % 2 == 0).collect();
+println!("{:?}", even); // [2, 4]
+```
+
+Notice that here the `into_iter` method is called, which takes ownership of the
+underlying collection. (Calling `iter_mut` would borrow the underlying elements
+mutably.)
+
+### Implementing an Iterator
+
+To implement an own iterator, only the `next` method has to be implemented. A
+counter that runs from `0` to an arbitrary `limit` is defined as follows:
+
+```rust
+struct Counter {
+    count: u32,
+    limit: u32,
+}
+
+impl Counter {
+    fn new(limit: u32) -> Counter {
+        Counter {
+            count: 0,
+            limit: limit,
+        }
+    }
+}
+```
+
+The `iterator` trait can be implemented as follows:
+
+```rust
+impl Iterator for Counter {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        self.count += 1;
+
+        if self.count <= self.limit {
+            Some(self.count)
+        } else {
+            None
+        }
+    }
+}
+```
+
+The elements type is defined as `u32` using a type association. The `next`
+method increases its internal counter by one. If the counter is still within
+the limit, it is returned wrapped in the `Some` variant as an `Option`.
+Otherwise, the `None` variant is returned.
+
+The counter can be used as follows:
+
+```rust
+let c = Counter::new(3);
+for e in c {
+	println!("{}", e);
+}
+```
+
+This counter now offers different useful iterator methods by default:
+
+```rust
+let c1to5 = Counter::new(5); // [1, 2, 3, 4, 5]
+let c1to7 = Counter::new(7); // [1, 2, 3, 4, 5, 6, 7]
+let sum: u32 = c1to5
+	.zip(c1to7.skip(2))      // [(1, 3), (2, 4), (3, 5), (4, 6), (5, 7)]
+	.map(|(a, b)| a * b)	 // [3, 8, 15, 24, 35]
+	.filter(|x| x % 3 == 0)  // [3, 15, 24]
+	.sum();
+println!("{}", sum);         // 42
+```
