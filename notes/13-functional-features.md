@@ -487,3 +487,149 @@ let sum: u32 = c1to5
 	.sum();
 println!("{}", sum);         // 42
 ```
+
+## Improvements to `minigrep`
+
+With knowledge about iterators, the code of the `minigrep` program from the
+last chapter can be improved.
+
+### Owning Iterator instead of `clone`
+
+The `new` associated function of `Config` expects borrows the command line
+arguments in a slice of strings and clones them:
+
+```rust
+impl Config {
+    pub fn new(args: &[String]) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("not enough arguments");
+        }
+
+        let query = args[1].clone();
+        let filename = args[2].clone();
+
+        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
+
+        Ok(Config { query, filename, case_sensitive })
+    }
+}
+```
+
+At the moment, `env::args`, which is already an iterator, is converted to a
+vector in `main.rs`:
+
+```rust
+fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Config::new(&args).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+
+	// ...
+}
+```
+
+This conversion using the `collect` method can be omitted, and `env::args`
+passed directly to the `Config::new` function:
+
+```rust
+fn main() {
+    let config = Config::new(env::args()).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {}", err);
+        process::exit(1);
+    });
+
+	// ...
+}
+```
+
+This won't compile, because `Config::new` still expects a slice of strings. The
+parameter can be changed as follows, in order to expect the arguments as a
+mutable arguments iterator (see the documentation of `env::arg`):
+
+```rust
+impl Config {
+    pub fn new(mut args: std::env::Args) -> Result<Config, &'static str> {
+
+	// ...
+    }
+}
+```
+
+The logic to read the arguments is now rewritten in terms of iterators, i.e.
+the arguments are accessed one by one, handling the returned `Option` entries
+using the `match` keyword:
+
+```rust
+impl Config {
+    pub fn new(mut args: std::env::Args) -> Result<Config, &'static str> {
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a file name"),
+        };
+
+		// ...
+    }
+}
+```
+
+The first argument ‒ the path to the executable ‒ is passed. The next two
+arguments are interpreted as the query string and the filename parameters.
+
+### Iterator vs. Explicit Loop
+
+The explicit loop over the content's lines in the `search` function uses an
+intermediary vector to hold the results:
+
+```rust
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut results = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            results.push(line);
+        }
+    }
+
+    results
+}
+```
+
+Iterators make it possible to write this code in a more concise way:
+
+```rust
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    contents
+        .lines()
+        .filter(|line| line.contains(query))
+        .collect()
+}
+```
+
+The `search_case_insensitive` function can be refactored using iterators, too:
+
+```rust
+pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let query = query.to_lowercase();
+    contents
+        .lines()
+        .filter(|line| line.to_lowercase().contains(&query))
+        .collect()
+}
+```
+
+This code is more concise and focues on the function's logic instead of on the
+technical details ‒ the _what_ is emphasized, rather than the _how_.
+
+Iterators are an example of Rust's _zero-cost abstractions_. This means, the
+more convenient iterator syntax is guaranteed to produce code without any
+overhead compared to the approach containing explicit loops and intermediary
+stores.
