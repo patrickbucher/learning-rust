@@ -1,3 +1,7 @@
+//! The crate _mememo_ provides trivial implementations of the operations _mean_, _median_, and
+//! _mode_. This crate is not intended for productive use, but only to demonstrate the use of
+//! crates and other Rust features.
+
 use std::collections::HashMap;
 
 /// Calculates the mean of the elements in the given vector.
