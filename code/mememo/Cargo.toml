@@ -1,9 +1,9 @@
 [package]
 name = "mememo"
 version = "0.1.0"
+description = "mememo stands for Mean, Median, Mode and provides trivial implementations for those operations"
 authors = ["Patrick Bucher <patrick.bucher@stud.hslu.ch>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
 
 [dependencies]
