@@ -1,5 +1,13 @@
 use std::collections::HashMap;
 
+/// Calculates the mean of the elements in the given vector.
+///
+/// Example:
+///
+/// ```
+/// let numbers = vec![1, 2, 3, 4];
+/// assert_eq!(2.5, mememo::mean(&numbers));
+/// ```
 pub fn mean(numbers: &Vec<i32>) -> f64 {
     let mut sum = 0;
     for i in numbers {
@@ -13,6 +21,29 @@ pub enum Median {
     MiddleTwoMean(f64),
 }
 
+/// Calculates the median of the elements in the given vector.
+///
+/// For a vector with an _odd_ number of elements, the value of the middle
+/// element will be returned:
+///
+/// ```
+/// let numbers = vec![1, 2, 3, 4, 5];
+/// match mememo::median(&numbers) {
+///     mememo::Median::MiddleSingle(got) => assert_eq!(3, got),
+///     _ => panic!("wrong median calculation"),
+/// }
+/// ```
+///
+/// For a vector with an _even_ number of elements, the mean of the two middle
+/// elements will be calculated:
+///
+/// ```
+/// let numbers = vec![1, 2, 3, 4];
+/// match mememo::median(&numbers) {
+///     mememo::Median::MiddleTwoMean(got) => assert_eq!(2.5, got),
+///     _ => panic!("wrong median calculation"),
+/// };
+/// ```
 pub fn median(numbers: &Vec<i32>) -> Median {
     let i = numbers.len() / 2;
     if numbers.len() % 2 == 0 && numbers.len() >= 2 {
@@ -23,6 +54,14 @@ pub fn median(numbers: &Vec<i32>) -> Median {
     }
 }
 
+/// Calculates the mode of the elements in the given vector.
+///
+/// Example:
+///
+/// ```rust
+/// let numbers = vec![1, 2, 3, 1, 2, 1];
+/// assert_eq!(1, mememo::mode(&numbers));
+/// ```
 pub fn mode(numbers: &Vec<i32>) -> i32 {
     let mut counter: HashMap<i32, i32> = HashMap::new();
     let mut max_key: i32 = 0;
