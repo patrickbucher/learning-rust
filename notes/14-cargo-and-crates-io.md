@@ -230,6 +230,35 @@ match mememo::median(&numbers) {
 
 ### Crate Metadata
 
+When a new crate is created using `cargo new`, some meta data is automatically
+put into `Cargo.toml`, such as the crate's name, the initial version, and the
+author's details (which are obtained from the `git` config). In order to
+publish a crate on [Crates.io](https://crates.io), at least two additional
+fields need to be defined:
+
+1. `description`: a short description (one or two sentences) about the crate.
+   This description will be displayed in the search results on Crates.io.
+2. `license`: a _license identifier value_ specifying the license the code is
+   released under. Those identifiers can be obtained from the Linux
+   Foundation's Software Package Data Exchange (SPDX) under
+   [spdx.org/licenses](https://spdx.org/licenses/). Multiple licenses can be
+   listed separated by `OR`.
+
+For example, `Cargo.toml` of `mememo` with an added `description` and dual
+licensing (MIT and GPLv3 or later) looks as follows:
+
+```toml
+[package]
+name = "mememo"
+version = "0.1.0"
+description = "mememo stands for Mean, Median, Mode. It provides trivial implementations for those operations."
+authors = ["Patrick Bucher <patrick.bucher@stud.hslu.ch>"]
+edition = "2018"
+license = "MIT OR GPL-3.0-or-later"
+
+[dependencies]
+```
+
 ### Publishing the Crate
 
 ## Workspaces
