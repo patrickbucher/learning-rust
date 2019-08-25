@@ -178,7 +178,55 @@ empty line). There's another documentation comment below, which belongs to the
 
 These kinds of comments appear on the front page of the crate's documentation.
 
-### Reexports
+### Re-exports
+
+The internal structure of the code often does not provide the most convenient
+API possible. The code examples of the `median` function serve as good example
+for the verbosity an API user is facing:
+
+```rust
+let numbers = vec![1, 2, 3, 4, 5];
+match mememo::median(&numbers) {
+    mememo::Median::MiddleSingle(got) => assert_eq!(3, got), // verbose!
+    _ => panic!("wrong median calculation"),
+}
+let numbers = vec![1, 2, 3, 4];
+match mememo::median(&numbers) {
+    mememo::Median::MiddleTwoMean(got) => assert_eq!(2.5, got), // verbose!
+    _ => panic!("wrong median calculation"),
+};
+```
+
+It would be much more convenient if the client could write
+`mememo::MiddleSingle` or `mememo::MiddleTwoMean` instead of always having to
+add the `Median` in between.
+
+Rust allows to re-export such items under a more convenient name using the `pub
+use` notation. The internal structure of the code is preserved, but the client
+has it much easier to deal with the exposed API.
+
+The enum's variants can be re-exported as follows:
+
+```rust
+pub use Median::MiddleSingle;
+pub use Median::MiddleTwoMean;
+```
+
+These re-exports are now displayed in an additional section (_Re-exports_) in
+the documentation. The API can now be used as follows:
+
+```rust
+let numbers = vec![1, 2, 3, 4, 5];
+match mememo::median(&numbers) {
+    mememo::MiddleSingle(got) => assert_eq!(3, got), // less verbose!
+    _ => panic!("wrong median calculation"),
+}
+let numbers = vec![1, 2, 3, 4];
+match mememo::median(&numbers) {
+    mememo::MiddleTwoMean(got) => assert_eq!(2.5, got), // less verbose!
+    _ => panic!("wrong median calculation"),
+};
+```
 
 ### Crate Metadata
 

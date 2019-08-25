@@ -6,6 +6,9 @@
 
 use std::collections::HashMap;
 
+pub use Median::MiddleSingle;
+pub use Median::MiddleTwoMean;
+
 /// Calculates the mean of the elements in the given vector.
 ///
 /// # Example
@@ -37,7 +40,7 @@ pub enum Median {
 /// ```
 /// let numbers = vec![1, 2, 3, 4, 5];
 /// match mememo::median(&numbers) {
-///     mememo::Median::MiddleSingle(got) => assert_eq!(3, got),
+///     mememo::MiddleSingle(got) => assert_eq!(3, got),
 ///     _ => panic!("wrong median calculation"),
 /// }
 /// ```
@@ -48,7 +51,7 @@ pub enum Median {
 /// ```
 /// let numbers = vec![1, 2, 3, 4];
 /// match mememo::median(&numbers) {
-///     mememo::Median::MiddleTwoMean(got) => assert_eq!(2.5, got),
+///     mememo::MiddleTwoMean(got) => assert_eq!(2.5, got),
 ///     _ => panic!("wrong median calculation"),
 /// };
 /// ```
