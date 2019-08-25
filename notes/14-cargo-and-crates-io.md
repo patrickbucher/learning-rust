@@ -102,6 +102,82 @@ The implementations are omitted and can be seen in the file
 
 ### Documentation Comments
 
+Whereas ordinary comments clarify details on specific sections of code,
+_documentation comments_ are intended for the user of the public API rather
+than for a maintainer of the code.
+
+Rust code is commented using two slashes (`//`), and those comments can occur
+anywhere in the code. Documentation comments start with three slashes (`///`)
+and must be located just before the element they're documenting. Those comments
+should indicate how to use the public item at hand. For this purpose, Markdown
+syntax can be used, as well as code examples.
+
+Here's the documentation comment of the `mean` function discussed above:
+
+```rust
+/// Calculates the mean of the elements in the given vector.
+///
+/// # Example
+///
+/// ```
+/// let numbers = vec![1, 2, 3, 4];
+/// assert_eq!(2.5, mememo::mean(&numbers));
+/// ```
+pub fn mean(numbers: &Vec<i32>) -> f64 {
+	// ...
+}
+```
+
+The `cargo doc` tool generates HTML documentation based on these comments and
+puts it into the `target/doc` folder. The documentation can be generated an
+opened in a browser by invoking `cargo doc --open`.
+
+It is important that the code examples used in documentation comments do
+actually compile ‒ and pass the assertions used. Broken example code is
+annoying, and `cargo test` makes sure, the example code is working code, by
+executing the code as `Doc-tests`:
+
+	$ cargo test
+
+	...
+
+	Doc-tests mememo
+	test src/lib.rs - mean (line 11) ... ok
+	test src/lib.rs - mode (line 65) ... ok
+	test src/lib.rs - median (line 33) ... ok
+	test src/lib.rs - median (line 44) ... ok
+
+	test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+
+Having an _Example_ section is common for Rust crates. Other sections commonly
+provided are:
+
+- Panics: scenarios in which the code will panic (to be avoided by the caller)
+- Errors: kinds of errors being returned and their underlying conditions
+- Safety: invariants the caller needs to hold up when invoking `unsafe` code
+
+In order to document the item that contains the comment, the comment style
+`//!` can be used. For example, the entire `mememo` crate (`src/lib.rs`) can be
+documented as follows:
+
+```rust
+//! # mememo
+//!
+//! The crate _mememo_ provides trivial implementations of the operations
+//! _mean_, _median_, and _mode_. This crate is not intended for productive
+//! use, but only to demonstrate the use of crates and other Rust features.
+
+use std::collections::HashMap;
+
+/// Calculates the mean of the ...
+```
+
+There's no code following this comment (the import section only starts after an
+empty line). There's another documentation comment below, which belongs to the
+`mean` function further down the file.
+
+These kinds of comments appear on the front page of the crate's documentation.
+
 ### Reexports
 
 ### Crate Metadata
