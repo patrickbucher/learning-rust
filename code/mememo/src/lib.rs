@@ -6,7 +6,7 @@ use std::collections::HashMap;
 
 /// Calculates the mean of the elements in the given vector.
 ///
-/// Example:
+/// # Example
 ///
 /// ```
 /// let numbers = vec![1, 2, 3, 4];
@@ -26,6 +26,8 @@ pub enum Median {
 }
 
 /// Calculates the median of the elements in the given vector.
+///
+/// # Example
 ///
 /// For a vector with an _odd_ number of elements, the value of the middle
 /// element will be returned:
@@ -60,7 +62,7 @@ pub fn median(numbers: &Vec<i32>) -> Median {
 
 /// Calculates the mode of the elements in the given vector.
 ///
-/// Example:
+/// # Example
 ///
 /// ```rust
 /// let numbers = vec![1, 2, 3, 1, 2, 1];
