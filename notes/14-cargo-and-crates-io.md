@@ -251,7 +251,7 @@ licensing (MIT and GPLv3 or later) looks as follows:
 [package]
 name = "mememo"
 version = "0.1.0"
-description = "mememo stands for Mean, Median, Mode. It provides trivial implementations for those operations."
+description = "mememo stands for Mean, Median, Mode. It provides trivial..."
 authors = ["Patrick Bucher <patrick.bucher@stud.hslu.ch>"]
 edition = "2018"
 license = "MIT OR GPL-3.0-or-later"
