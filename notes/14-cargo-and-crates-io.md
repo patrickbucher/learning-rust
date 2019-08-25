@@ -1,7 +1,7 @@
 # Cargo and Crates.io
 
 The Cargo toolchain and the crate repository [Crates.io](https://crates.io)
-form a strong eco-system around the programming language. Cargo's
+form a strong ecosystem around the programming language. Cargo's
 [documentation](https://doc.rust-lang.org/cargo/) covers all the details.
 
 ## Customizing Builds
@@ -44,7 +44,7 @@ binary is critical.
 [Crates.io](https://crates.io) is not only a one-way channel to retrieve code
 from. It is also a place where developers can share their own code. In order to
 be useful to other developers, the code must provide useful documentation,
-accurate meta-data, a useful API, and a comprehensive test-suite.
+accurate metadata, a useful API, and a comprehensive test-suite.
 
 Those requirements are best demonstrated using an example: The library crate
 `mememo`, which is short for _mean, median, and mode_`, implements trivial
@@ -230,7 +230,7 @@ match mememo::median(&numbers) {
 
 ### Crate Metadata
 
-When a new crate is created using `cargo new`, some meta data is automatically
+When a new crate is created using `cargo new`, some metadata is automatically
 put into `Cargo.toml`, such as the crate's name, the initial version, and the
 author's details (which are obtained from the `git` config). In order to
 publish a crate on [Crates.io](https://crates.io), at least two additional
@@ -279,12 +279,12 @@ publish additional code with a higher version number.
 
 When the crate is ready for publishing ‒ with a sufficient code-quality,
 without known critical bugs, with a useful and well-documented public API, a
-test-suite, and the necessary meta data ‒ the crate can be published:
+test-suite, and the necessary metadata ‒ the crate can be published:
 
 	$ cargo publish
 
 To publish a new (higher) version of an existing crate, simply increase the
-`version` meta data field in `Cargo.toml` according to the rules of Semantic
+`version` metadata field in `Cargo.toml` according to the rules of Semantic
 Versioning ([semver.org](https://semver.org/)) and then call `cargo publish`
 again. It is a good idea to also tag the version in the SCM system, e.g. using
 `git tag v0.1.1` to add the version tag `v0.1.1` to current committed state of
@@ -312,6 +312,12 @@ allowing future use for the specified version again:
 
 ## Workspaces
 
+TODO
+
 ## Installing Binaries
 
+TODO
+
 ## Extending Cargo
+
+TODO
