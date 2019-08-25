@@ -261,6 +261,55 @@ license = "MIT OR GPL-3.0-or-later"
 
 ### Publishing the Crate
 
+In order to publish a crate, an account on [Crates.io](https://crates.io) is
+needed, which currently requires a [GitHub](https://github.com) account. After
+the account is created, a new API key can be generated and obtained under
+[crates.io/me](https://crates.io/me). This key can be used to login to
+[Crates.io](https://crates.io) from the local computer:
+
+	$ cargo login abcdefghijklmnopqrstuvwxyz012345
+
+This key is stored locally under `~/.cargo/credentials` and is considered a
+_secret_, thus must not be shared with others. To logout, simply delete the key
+from the `credentials` file.
+
+Before publishing code, it is import to consider that a publish is permanent.
+Existing code can be neither deleted nor owerwritten.  It is only possible to
+publish additional code with a higher version number.
+
+When the crate is ready for publishing ‒ with a sufficient code-quality,
+without known critical bugs, with a useful and well-documented public API, a
+test-suite, and the necessary meta data ‒ the crate can be published:
+
+	$ cargo publish
+
+To publish a new (higher) version of an existing crate, simply increase the
+`version` meta data field in `Cargo.toml` according to the rules of Semantic
+Versioning ([semver.org](https://semver.org/)) and then call `cargo publish`
+again. It is a good idea to also tag the version in the SCM system, e.g. using
+`git tag v0.1.1` to add the version tag `v0.1.1` to current committed state of
+the repository.
+
+### Un-publishing Versions
+
+Even though it is not possible to remove crates or specific versions thereof
+from [Crates.io](https://crates.io), it is possible to prevent future use of
+specific versions of the crate using the `cargo yan` command.
+
+Let's say the version `0.1.0` is buggy, and therefore a later version `0.1.1`
+was released fixing those bugs, future use of the version `0.1.0` can be
+prevented as follows:
+
+	$ cargo yank --vers 0.1.0
+
+If an existing project already uses that version and thus has an entry for it
+in `Cargo.lock`, the project still builds, and the version `0.1.0` can still be
+used from that project. New projects, however, are required to use the later
+version `0.1.1` as a dependency ‒ unless the the yank operation is undone,
+allowing future use for the specified version again:
+
+	$ cargo yank --vers 0.1.0 --undo
+
 ## Workspaces
 
 ## Installing Binaries
