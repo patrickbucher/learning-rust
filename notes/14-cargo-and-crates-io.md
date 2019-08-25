@@ -312,12 +312,188 @@ allowing future use for the specified version again:
 
 ## Workspaces
 
-TODO
+Oftentimes, crates are not worked on in isolation, but together as a project.
+Cargo makes working on multiple packages belonging together more comfortable
+using _workspaces_. Commands like `cargo fmt` and `cargo test` are applied on
+all packages of the workspace, saving the developer a lot of typing and work.
 
-## Installing Binaries
+A workspace shares the binary output and the `Cargo.lock` file; with the latter
+it is ensured that all packages belonging to the workspace use the same
+versions of the dependent crates.
 
-TODO
+Technically, a workspace is a folder containing a `Cargo.toml` file with a
+`[workspace]` section. Here, the `members` are listed, i.e. the packages
+belonging to the workspace.
 
-## Extending Cargo
+### Example: `mean` workspace
 
-TODO
+For the sake of an example, the workspace `mean` for a trivial project should
+be created. It contains two library crates `sum` and `avg`, and one binary
+crate `mean`; the latter depending on the former two.
+
+First, the workspace directory is created and entered:
+
+	$ mkdir mean
+	$ cd mean
+
+Second, the library crates `sum` and `avg`, as well as the binary crate `mean`
+are created:
+
+	$ cargo new --lib sum
+	$ cargo new --lib avg
+	$ cargo new --bin mean
+
+The directory structure now looks like this:
+
+	mean
+	├── Cargo.lock
+	├── Cargo.toml
+	├── avg
+	│   ├── Cargo.toml
+	│   └── src
+	│       └── lib.rs
+	├── mean
+	│   ├── Cargo.toml
+	│   └── src
+	│       └── main.rs
+	└── sum
+		├── Cargo.toml
+		└── src
+			└── lib.rs
+
+Third, the `Config.toml` file is created, declaring the crates just created as
+members of the workspace:
+
+```toml
+[workspace]
+
+members = [
+	"sum", "avg", "mean"
+]
+```
+
+The workspace can be build using `cargo build`, putting the resulting binaries
+in the shared `target` directory, which helps avoiding unnecessary rebuilding
+operations.
+
+For the two library crates `sum` and `avg`, one public function has to
+implemented for each.
+
+The `sum` library needs a `sum` function, which sums up a vector of integers
+and returns that sum (`sum/src/lib.rs`):
+
+```rust
+/// Sums up the given vector and returns the sum.
+///
+/// # Example
+///
+/// ```
+/// let numbers = vec![1, 2, 3, 4];
+/// assert_eq!(10, sum::sum(numbers));
+/// ```
+pub fn sum(numbers: Vec<i32>) -> i32 {
+    let mut result = 0;
+    for n in numbers {
+        result += n;
+    }
+    result
+}
+```
+
+The `avg` library needs a `avg` function, which calculates the average of a
+given vector of integers (`sum/src/lib.rs`):
+
+```rust
+extern crate sum;
+
+/// Calculates the average of the given vector and returns it.
+///
+/// # Example
+///
+/// ```
+/// let numbers = vec![1, 2, 3, 4];
+/// assert_eq!(2.5, avg::avg(numbers));
+/// ```
+pub fn avg(numbers: Vec<i32>) -> f64 {
+    let n = numbers.len();
+    let sum = sum::sum(numbers);
+    let average: f64 = (sum as f64) / (n as f64);
+    average
+}
+```
+
+This implementation makes use of the `sum` crate implemented just before, which
+needs to be declared as a dependency (`avg/Cargo.toml`):
+
+```toml
+[dependencies]
+
+sum = { path = "../sum" }
+```
+
+The `mean` crate invokes the `avg` function and outputs both the input vector
+and result (`mean/src/main.rs`):
+
+```rust
+extern crate avg;
+
+fn main() {
+    let numbers = vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    println!("numbers: {:?}", numbers);
+    let average = avg::avg(numbers);
+    println!("mean thereof: {}", average);
+}
+```
+
+Again, the external crate needs to referred as a dependency
+(`mean/Cargo.toml`):
+
+```toml
+[dependencies]
+avg = { path = "../avg" }
+```
+
+The program can be invoked using `cargo run`. If a workspace contains multiple
+binary crates, the crate to be run has to be specified using the `-p` flag:
+
+	$ cargo run -p mean
+	numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	mean thereof: 5.5
+
+Builds, tests, formatters and the like can also be run for single workspace
+members using the `-p` flag:
+
+	$ cargo build -p avg
+	$ cargo test -p sum
+	$ cargo fmt -p mean
+
+Crates within a workspace all need to be published seperately. For version
+control, git submodules might be a good fit for organizing a workspace.
+
+## Cargo Binaries
+
+[Crates.io](https://crates.io) is not only a place to share code, it can also
+be used to publish programs. Using the `cargo install` command, the output of a
+binary crate can be installed locally. This command installs the popular
+`ripgrep` command:
+
+	$ cargo install ripgrep
+
+The `ripgrep` crate and its dependencies are downloaded, built, and the
+resulting binary `ripgrep` is installed under `~/.cargo/bin/rg`. If the parent
+folder `~/.cargo/bin` is part of the `$PATH` variable, `rg` can be invoked
+directly:
+
+	$ rg --version
+	ripgrep 11.0.2
+	-SIMD -AVX (compiled)
+	+SIMD +AVX (runtime)
+
+Binaries in the `~/.cargo/bin` folder named `cargo-[something]` are treated as
+cargo subcommands and can be invoked as `cargo [something]`. The command `cargo
+--list` shows all installed subcommands. For example, `cargo fmt` invokes the
+program under `~/.cargo/bin/cargo-fmt`.
+
+Binary crates can be removed using `cargo uninstall`:
+
+	$ cargo uninstall ripgrep
