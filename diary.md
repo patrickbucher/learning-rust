@@ -7,7 +7,35 @@ Hello_ in _Exercises for Programmers_, but since this requires user input, I
 have to postpone it after having read chapter 2 of the book.
 
 As an aside, I followed the suggestion from the _No Boilerplate_ video on
-how to learn Rust and started reading _Ultralearning_ as a side quest.
+how to learn Rust and started reading _Ultralearning_ as a side quest. I read
+the nine principles and am trying to apply them to Rust as follows:
+
+1. **Metalearning**: first draw a map.
+    - Focus on the hard and unfamiliar parts of Rust: ownership, lifetimes,
+      smart pointers, async/await.
+2. **Focus**: sharpen your knife.
+    - Build a habit of reading a lot of hard material.
+3. **Directness**: go straight ahead.
+    - Don't try to write a complete personal summary about everything you learn;
+      spend time programming instead.
+    - Only write about hard things in order to understand them (Feynman method).
+4. **Drill**: attack your weakest point.
+    - Don't get overwhelmed by a lot of new syntax and new concepts.
+    - Focus on one single concept at the time; proceed step by step.
+5. **Retrieval**: test to learn.
+    - Write actual, useful programs in Rust.
+6. **Feedback**: don't dodge the punches.
+    - The Rust compiler is ruthless—but also helpful! The code must pass its
+      checks in order to run.
+7. **Retention**: don't fill a leaky bucket.
+    - Apply new concepts to actual problems in real programs.
+    - Write about things you have to look up frequently.
+    - Dont mind forgetting things you never use in practice.
+8. **Intuition**: dig deep before building up.
+    - Try out new concepts and libraries; write about them to deepen your
+      understanding.
+9. **Experimentation**: explore outside your comfort zone.
+    - Solve practical, real-world problems with Rust.
 
 # Day 0 (2024-03-24)
 
