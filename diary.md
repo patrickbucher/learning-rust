@@ -1,3 +1,11 @@
+# Day 2 (2024-03-26)
+
+I re-read chapter 2, both in the physical book and in the online version, which
+are identical. I worked through the guessing game example. Afterwards, I solved
+a couple of rustlings on variables. Then I was able to do the first of the
+_Exercises for Programmers_; however without the constraint of separating string
+concatenation from output.
+
 # Day 1 (2024-03-25)
 
 I re-read chapter 1 of _The Rust Programming Language_—both in the paperback and
