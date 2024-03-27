@@ -1,3 +1,15 @@
+# Day 3 (2024-03-27)
+
+I re-read chapter 3 and worked through three additional exercises, which all
+involve input and output. Since `println!` always creates a newline before the
+input, I wanted to use `print!` instead first, but this output didn't flush. As
+I looked the issue up, one of the first results was a [question of
+mine](https://stackoverflow.com/q/39174864) on StackOverflow, dating back to my
+first encounter with rust eight(!) years ago. Those little issues always
+derailed me so far, but this time I will pull through.
+
+I also finished a lot of rustlings; up to vectors.
+
 # Day 2 (2024-03-26)
 
 I re-read chapter 2, both in the physical book and in the online version, which
