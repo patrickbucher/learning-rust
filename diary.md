@@ -1,3 +1,13 @@
+# Day 4 (2024-03-28)
+
+I started reading chapter 4 on _Ownership_ in the Brown University version of
+the book. The first three chapters are almost identical in the original and in
+Brown University's adapted version. However, chapter 4 is _totally_ different.
+
+At the beginning, I struggled with the difference between code that fails to
+compile and code that is actually unsafe. However, the concepts are explained
+way more in depth in the Brown University version of the book.
+
 # Day 3 (2024-03-27)
 
 I re-read chapter 3 and worked through three additional exercises, which all
@@ -6,9 +16,12 @@ input, I wanted to use `print!` instead first, but this output didn't flush. As
 I looked the issue up, one of the first results was a [question of
 mine](https://stackoverflow.com/q/39174864) on StackOverflow, dating back to my
 first encounter with rust eight(!) years ago. Those little issues always
-derailed me so far, but this time I will pull through.
+derailed me so far, but this time I will pull through. I also finished a lot of
+rustlings; up to vectors.
 
-I also finished a lot of rustlings; up to vectors.
+In the afternoon, I re-read chapter 4 on _Ownership_, which leaves me with the
+ambiguous feeling that I understood the rules, but still cannot apply them to
+programs.
 
 # Day 2 (2024-03-26)
 
