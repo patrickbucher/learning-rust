@@ -43,6 +43,13 @@
     - permissions belong to _paths_, not to variables
 - data must outlive all references to it!
 
+## Insight
+
+- Don't worry about invalid pointers; just don't dereference them.
+- Look at the entire scope to figure out possible ownership issues.
+    - An invalidated reference is not a problem, as long as it isn't used any
+      longer.
+
 ## Question
 
 - "Referencing a variable is a borrow?"
