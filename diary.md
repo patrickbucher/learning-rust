@@ -18,6 +18,13 @@ with different consequences:
 I now got a clearer picture of ownership, but still fail to get all the quizzes
 right. So I need to practice.
 
+Later on, I wrote my first productive Rust code: a utility to calculate 500
+meter split times for rowing sessions called
+[rowcalc](https://github.com/patrickbucher/rowcalc), for which I used the
+[clap](https://docs.rs/clap/latest/clap/) library to parse command line
+arguments. I'll improve and extend the tool in the future, but it's a good
+start.
+
 # Day 4 (2024-03-28)
 
 I started reading chapter 4 on _Ownership_ in the Brown University version of
