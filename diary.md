@@ -1,3 +1,23 @@
+# Day 5 (2024-03-29)
+
+I finished reading chapter 4 of the Brown University book, which still was a bit
+overwhelming. Instead of just explaining the borrow checker rules, a destinction
+between unsafe programs on one side and safe programs rejected by the borrow
+checker nonetheless on the other side is made. The reason for this distinction
+is also given: If the borrow checker rejects your program, there are two reasons
+with different consequences:
+
+1. If the program is rejected due to actual undefined behaviour, you need to
+   modify the logic of your program. Maybe the sequence in which variables are
+   accessed needs to be changed, or maybe some values need to be copied instead
+   of being referred to.
+2. If the program that cannot cause undefined behaviour is rejected, you
+   probably just need to do slight changes to the data access paths, e.g. adding
+   a `mut` to make a variable mutable.
+
+I now got a clearer picture of ownership, but still fail to get all the quizzes
+right. So I need to practice.
+
 # Day 4 (2024-03-28)
 
 I started reading chapter 4 on _Ownership_ in the Brown University version of
