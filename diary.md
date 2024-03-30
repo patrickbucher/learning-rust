@@ -1,3 +1,12 @@
+# Day 6 (2024-03-30)
+
+I finished reading chapter 5 on structs (and methods) in the book. I also worked
+through some simple exercises. I used the chrono crate for date handling, and
+the `format!` macro for formatted output.
+
+I have to re-read chapter 5 tomorrow, because I failed the quizzes today. (I
+didn't try too hard.)
+
 # Day 5 (2024-03-29)
 
 I finished reading chapter 4 of the Brown University book, which still was a bit
@@ -24,6 +33,8 @@ meter split times for rowing sessions called
 [clap](https://docs.rs/clap/latest/clap/) library to parse command line
 arguments. I'll improve and extend the tool in the future, but it's a good
 start.
+
+In the afternoon, I read the first half of chapter 5 on structs.
 
 # Day 4 (2024-03-28)
 
