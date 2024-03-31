@@ -1,3 +1,10 @@
+# Day 7 (2024-03-31)
+
+I finished reading chapter 5 and did some examples alongside. I found the
+[`duration_str`](https://docs.rs/duration-str/latest/duration_str/) crate, which
+I'd like to use for my rowcalc program. I also further experimented with the
+`fmt!` macro to pad numbers with zeros.
+
 # Day 6 (2024-03-30)
 
 I finished reading chapter 5 on structs (and methods) in the book. I also worked
