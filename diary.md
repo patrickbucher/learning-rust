@@ -1,3 +1,8 @@
+# Day 8 (2024-04-01)
+
+I read chapter 6 about enums, the `match` keyword, and the `if let` construct
+and made some examples alongside. I also did a few exercises.
+
 # Day 7 (2024-03-31)
 
 I finished reading chapter 5 and did some examples alongside. I found the
