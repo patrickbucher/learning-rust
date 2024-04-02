@@ -1,3 +1,10 @@
+# Day 9 (2024-04-02)
+
+I read chapter 7 about packages, modules, and crates. I skip on re-reading it in
+the Brown University version, because there's not much to do with (nested)
+modules at this point. Now I'm looking forward to collections, which allows me
+to continue with Rustlings.
+
 # Day 8 (2024-04-01)
 
 I read chapter 6 about enums, the `match` keyword, and the `if let` construct
