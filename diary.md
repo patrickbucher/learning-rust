@@ -1,3 +1,9 @@
+# Day 10 (2024-04-03)
+
+I read chapter 8 on collections. In order to complete the exercises, I figured
+out how to structure a project with multiple binary crates. The exercises at the
+end of the chapter were rather tricky, but (therefore) also useful.
+
 # Day 9 (2024-04-02)
 
 I read chapter 7 about packages, modules, and crates. I skip on re-reading it in
