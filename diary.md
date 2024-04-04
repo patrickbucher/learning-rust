@@ -1,8 +1,15 @@
+# Day 11 (2024-04-04)
+
+I read chapter 9 on error handling, which introduces the `?` operator I stumbled
+upon recently. I have to adopt that one into daily use!
+
 # Day 10 (2024-04-03)
 
 I read chapter 8 on collections. In order to complete the exercises, I figured
 out how to structure a project with multiple binary crates. The exercises at the
 end of the chapter were rather tricky, but (therefore) also useful.
+
+I also did a couple of exercises and continued with the Rustlings.
 
 # Day 9 (2024-04-02)
 
