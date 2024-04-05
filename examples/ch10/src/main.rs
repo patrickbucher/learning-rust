@@ -54,4 +54,19 @@ fn main() {
     let circ = Circle { radius: 5.0 };
     println!("{} -> {}", rect.area(), rect.scale(2.0).area());
     println!("{} -> {}", circ.area(), circ.scale(2.0).area());
+
+    let alice = "Alice".to_string();
+    let bob = "bob";
+    println!(
+        "Which is longer, {alice} or {bob}? {}!",
+        longest(&alice, bob)
+    );
+}
+
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
 }

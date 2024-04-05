@@ -1,3 +1,20 @@
+# Day 12 (2024-04-05)
+
+I read chapter 10 on generics, traits, and lifetimes. I'll skip the Brown
+University version for most chapters from now on, except for some very tough
+ones. It seems to me that the Brown University book just belabours the point of
+ownership. I see the point of exercises where you must assume that the compiler
+passed code it'd actually reject, but having to deal with two mental models at
+the same time ("Assuming that the compiler would accept _this_ function, which
+of the following invocations of it would cause a compiler error") is rather
+frustrating then enlightening. I'd rather get to know the ownership rules by
+actual programming experience.
+
+Speaking of which, I published a library crate
+[akshually](https://crates.io/crates/akshually) to collect some functions I keep
+on re-writing. For the artwork, I could put my trolling skills to good use once
+again.
+
 # Day 11 (2024-04-04)
 
 I read chapter 9 on error handling, which introduces the `?` operator I stumbled
