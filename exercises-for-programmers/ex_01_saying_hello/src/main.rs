@@ -1,10 +1,9 @@
-use std::io;
+use akshually;
 
 fn main() {
-    println!("What is your name?");
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).expect("enter your name");
-    let name = input.trim();
-    println!("Hello, {name}, nice to meet you!");
-    // TODO: separate string concatenation and output (constraint)
+    if let Some(input) = akshually::prompt_line::<String>("What is your name? ") {
+        let name = input.trim();
+        let output = format!("Hello, {name}, nice to meet you!");
+        println!("{output}");
+    }
 }

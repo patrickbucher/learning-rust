@@ -3,5 +3,14 @@
 version = 3
 
 [[package]]
+name = "akshually"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3450b56ebaa3113decd8559982735058f6872a665e66de9bc78f28214d1d38ab"
+
+[[package]]
 name = "ex_01_saying_hello"
 version = "0.1.0"
+dependencies = [
+ "akshually",
+]
