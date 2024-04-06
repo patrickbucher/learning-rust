@@ -1,3 +1,9 @@
+# Day 13 (2024-04-06)
+
+Today was a rather unproductive day. I only read half of chapter 11 on automated
+tests. I'll re-read the entire chapter tomorrow and will do some examples
+alongside.
+
 # Day 12 (2024-04-05)
 
 I read chapter 10 on generics, traits, and lifetimes. I'll skip the Brown
