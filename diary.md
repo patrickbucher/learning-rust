@@ -1,3 +1,8 @@
+# Day 14 (2024-04-07)
+
+I re-read the entire chapter 11 and made some examples alongside. From now on,
+I'll write tests for the exercises where appropriate.
+
 # Day 13 (2024-04-06)
 
 Today was a rather unproductive day. I only read half of chapter 11 on automated
