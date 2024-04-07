@@ -1,7 +1,9 @@
 # Day 14 (2024-04-07)
 
 I re-read the entire chapter 11 and made some examples alongside. From now on,
-I'll write tests for the exercises where appropriate.
+I'll write tests for the exercises where appropriate. I also did a couple of
+exercises, which are quite repetitive on one hand, but help me building muscle
+memory on the other hand.
 
 # Day 13 (2024-04-06)
 
