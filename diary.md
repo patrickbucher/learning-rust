@@ -1,3 +1,9 @@
+# Day 15 (2024-04-08)
+
+I read chapter 12 and worked through the little project. I also implemented the
+binary search algorithm from Grokking Algorithm. (I now covered most of the
+topics to implement the basic algorithms from that particular book.)
+
 # Day 14 (2024-04-07)
 
 I re-read the entire chapter 11 and made some examples alongside. From now on,
