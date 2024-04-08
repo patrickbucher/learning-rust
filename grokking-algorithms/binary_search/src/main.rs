@@ -1,7 +1,13 @@
 use std::cmp::Ordering;
 
 fn main() {
-    println!("Hello, world!");
+    let haystack = vec![1, 3, 4, 6, 7, 9];
+    let needle = 3;
+    if let Some(index) = search(&haystack, &needle) {
+        println!("found {needle} in {haystack:?} at index {index}");
+    } else {
+        println!("unable to find {needle} in {haystack:?}");
+    }
 }
 
 pub fn search<T>(sorted: &Vec<T>, needle: &T) -> Option<usize>
