@@ -1,0 +1,20 @@
+[package]
+name = "ch08"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "ex1"
+path = "src/ex1/bin/main.rs"
+
+[[bin]]
+name = "ex2"
+path = "src/ex2/bin/main.rs"
+
+[[bin]]
+name = "ex3"
+path = "src/ex3/bin/main.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

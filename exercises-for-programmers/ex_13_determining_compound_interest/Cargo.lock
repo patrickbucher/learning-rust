@@ -4,12 +4,12 @@ version = 3
 
 [[package]]
 name = "akshually"
-version = "0.1.1"
+version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3450b56ebaa3113decd8559982735058f6872a665e66de9bc78f28214d1d38ab"
+checksum = "ffd91cf56e683478989af414d75d55dd5b39a89a55d0b73f069e5b7aedb213a0"
 
 [[package]]
-name = "ex_01_saying_hello"
+name = "ex_13_determining_compound_interest"
 version = "0.1.0"
 dependencies = [
  "akshually",
