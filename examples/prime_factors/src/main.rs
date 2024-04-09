@@ -8,7 +8,7 @@ fn main() {
         .expect("too few arguments provided")
         .parse()
         .expect("no positive integer provided");
-    let result = prime_factors(x);
+    let result = prime_factors_fast(x);
     let output = result
         .iter()
         .map(|i| i.to_string())
@@ -45,17 +45,82 @@ fn prime_factors(n: u32) -> Vec<u32> {
     factors
 }
 
+fn prime_factors_fast(n: u32) -> Vec<u32> {
+    let mut sieve = PrimeSieve::new();
+    let mut factors: Vec<u32> = Vec::new();
+    let mut x = n;
+    let mut prime = sieve.next().expect("running out of prime numbers");
+    while x > 1 {
+        if x % prime == 0 {
+            x /= prime;
+            factors.push(prime);
+        } else {
+            prime = sieve.next().expect("running out of prime numbers");
+        }
+    }
+    factors
+}
+
+struct PrimeSieve {
+    i: u32,
+    cache: Vec<u32>,
+}
+
+impl PrimeSieve {
+    fn new() -> PrimeSieve {
+        PrimeSieve {
+            i: 2,
+            cache: Vec::new(),
+        }
+    }
+}
+
+impl Iterator for PrimeSieve {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut j = 2;
+        loop {
+            if self.cache.iter().any(|x| j % x == 0) {
+                j += 1;
+            } else {
+                self.cache.push(j);
+                self.i = j;
+                return Some(j);
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn primes_up_to_10() {
+    fn primes_up_to_20() {
         assert_eq!(prime_sieve(20), vec![2, 3, 5, 7, 11, 13, 17, 19]);
+    }
+
+    #[test]
+    fn prime_sieve_up_to_20() {
+        let mut sieve = PrimeSieve::new();
+        assert_eq!(sieve.next(), Some(2));
+        assert_eq!(sieve.next(), Some(3));
+        assert_eq!(sieve.next(), Some(5));
+        assert_eq!(sieve.next(), Some(7));
+        assert_eq!(sieve.next(), Some(11));
+        assert_eq!(sieve.next(), Some(13));
+        assert_eq!(sieve.next(), Some(17));
+        assert_eq!(sieve.next(), Some(19));
     }
 
     #[test]
     fn prime_factors_136() {
         assert_eq!(prime_factors(136), vec![2, 2, 2, 17]);
+    }
+
+    #[test]
+    fn prime_factors_fast_136() {
+        assert_eq!(prime_factors_fast(136), vec![2, 2, 2, 17]);
     }
 }
