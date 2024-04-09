@@ -1,3 +1,8 @@
+# Day 16 (2024-04-09)
+
+I read chapter 13, did some examples on my own, and applied the proposed
+improvements to the `minigrep` project from yesterday.
+
 # Day 15 (2024-04-08)
 
 I read chapter 12 and worked through the little project. I also implemented the
