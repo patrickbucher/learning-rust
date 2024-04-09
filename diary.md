@@ -1,9 +1,18 @@
 # Day 16 (2024-04-09)
 
 I read chapter 13, did some examples on my own, and applied the proposed
-improvements to the `minigrep` project from yesterday. Later in the morning, I
-implemented prime factorization in Rust, which mixes loops and
-iterators/closures.
+improvements to the `minigrep` project from yesterday.
+
+Later in the morning, I implemented prime factorization in Rust, which mixes
+loops and iterators/closures. The implementation was rather slow, i.e. two
+orders of magnitude slower than `factor(1)`, which is implemented in C.
+
+I had the idea to use some kind of stream to interleave factorization with the
+prime number search in order to make it run faster. Only in the evening I had
+the insight that an Iterator is exactly what I needed. I implemented  my first
+iterator, which allowed me to rewrite the factorization function. Now it works
+roughly at the same speed as `factor(1)`. This programming example screams for
+an article!
 
 # Day 15 (2024-04-08)
 
