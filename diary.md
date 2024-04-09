@@ -1,7 +1,9 @@
 # Day 16 (2024-04-09)
 
 I read chapter 13, did some examples on my own, and applied the proposed
-improvements to the `minigrep` project from yesterday.
+improvements to the `minigrep` project from yesterday. Later in the morning, I
+implemented prime factorization in Rust, which mixes loops and
+iterators/closures.
 
 # Day 15 (2024-04-08)
 
