@@ -1,3 +1,8 @@
+# Day 17 (2024-04-10)
+
+I read chapter 14 and added some doc comments to my `akshually` library, which I
+then published in a new version.
+
 # Day 16 (2024-04-09)
 
 I read chapter 13, did some examples on my own, and applied the proposed
