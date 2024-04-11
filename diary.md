@@ -1,7 +1,13 @@
+# Day 18 (2024-04-11)
+
+I finished my article on prime factorization in Rust and published it. Then I
+started reading chapter 15 on smart pointers.
+
 # Day 17 (2024-04-10)
 
 I read chapter 14 and added some doc comments to my `akshually` library, which I
-then published in a new version.
+then published in a new version. I started writing an article about iterators,
+and how they can be used to speed up prime factorization.
 
 # Day 16 (2024-04-09)
 
