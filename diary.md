@@ -1,3 +1,11 @@
+# Day 19 (2024-04-12)
+
+I finished reading chapter 15, which left open many questions. I'm wondering if
+I should re-read it straight away—or if I first should finish the entire book,
+because some error messages I encountered when playing with my own examples
+hinted to information that will only be introduced in chapter 19. But I
+definitively need to re-read chapter 15.
+
 # Day 18 (2024-04-11)
 
 I finished my article on prime factorization in Rust and published it. Then I
