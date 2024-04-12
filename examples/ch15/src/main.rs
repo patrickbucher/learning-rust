@@ -1,3 +1,6 @@
+use std::rc::Rc;
+use std::cell::RefCell;
+
 fn main() {
     // cons list
     let numbers = vec![1, 2, 3, 4, 5];
@@ -14,6 +17,35 @@ fn main() {
     head = prepend(head, 4);
     head = prepend(head, 1);
     println!("values: {:?}", get_values(&head));
+
+    // double linked list
+    let mut a = DoubleNode::Some(Node {
+        value: 3,
+        prev: Rc::new(RefCell::new(DoubleNode::None)),
+        next: Rc::new(RefCell::new(DoubleNode::None)),
+    });
+    let mut b = DoubleNode::Some(Node {
+        value: 5,
+        prev: Rc::new(RefCell::new(DoubleNode::None)),
+        next: Rc::new(RefCell::new(DoubleNode::None)),
+    });
+    let mut c = DoubleNode::Some(Node {
+        value: 8,
+        prev: Rc::new(RefCell::new(DoubleNode::None)),
+        next: Rc::new(RefCell::new(DoubleNode::None)),
+    });
+    // TODO: connect the nodes
+}
+
+struct Node {
+    value: i32,
+    prev: Rc<RefCell<DoubleNode>>,
+    next: Rc<RefCell<DoubleNode>>,
+}
+
+enum DoubleNode {
+    Some(Node),
+    None,
 }
 
 fn prepend(head: SingleNode, value: i32) -> SingleNode {
