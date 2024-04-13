@@ -22,7 +22,7 @@
     - safety: no undefined behaviour
     - see list of undefinded behaviour on [Rust Docs](https://doc.rust-lang.org/reference/behavior-considered-undefined.html)
 - stack frame: function scope (and block scope?)
-- pointer/pintee: stack -> heap
+- pointer/pointee: stack -> heap
 - heap data: `Box::new(VALUE)`
     - deallocated as pointer owning the heap data goes out of scope
 - pointing to deallocated memory is _not_ a problem

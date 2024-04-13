@@ -15,13 +15,12 @@ Goal: Work through the book by the end of April.
 11. [x] Writing Automated Tests
 12. [x] An I/O Project: Building a Command Line Program
 13. [x] Functional Language Features: Iterators and Closures
-14. [ ] More about Cargo and Crates.io
-    - We, 2024-04-10
+14. [x] More about Cargo and Crates.io
 15. [ ] Smart Pointers
     - Th, 2024-04-11
     - Fr, 2024-04-12
-16. [ ] Fearless Concurrency
     - Sa, 2024-04-13
+16. [ ] Fearless Concurrency
     - Su, 2024-04-14
 17. [ ] Object Oriented Programming Features of Rust
     - Mo, 2024-04-15

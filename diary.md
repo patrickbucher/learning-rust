@@ -1,3 +1,8 @@
+# Day 20 (2024-04-13)
+
+I'll re-read chapter 15 now and take notes. I'll also create some code snippets
+with unit tests to check my understanding of the topic.
+
 # Day 19 (2024-04-12)
 
 I finished reading chapter 15, which left open many questions. I'm wondering if
