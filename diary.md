@@ -1,7 +1,8 @@
 # Day 21 (2024-04-14)
 
 I continued reading chapter 15 while taking notes and writing some example code.
-I also worked through exercise 17.
+I also worked through exercise 17. Later, I worked through the sections on
+`Deref` and `Drop`, for which I implemented a couple of examples.
 
 # Day 20 (2024-04-13)
 
