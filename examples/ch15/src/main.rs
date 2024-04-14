@@ -19,22 +19,24 @@ fn main() {
     println!("values: {:?}", get_values(&head));
 
     // double linked list
-    let mut a = DoubleNode::Some(Node {
+    let a = DoubleNode::Some(Node {
         value: 3,
         prev: Rc::new(RefCell::new(DoubleNode::None)),
         next: Rc::new(RefCell::new(DoubleNode::None)),
     });
-    let mut b = DoubleNode::Some(Node {
+    let _b = DoubleNode::Some(Node {
         value: 5,
         prev: Rc::new(RefCell::new(DoubleNode::None)),
         next: Rc::new(RefCell::new(DoubleNode::None)),
     });
-    let mut c = DoubleNode::Some(Node {
+    let _c = DoubleNode::Some(Node {
         value: 8,
         prev: Rc::new(RefCell::new(DoubleNode::None)),
         next: Rc::new(RefCell::new(DoubleNode::None)),
     });
-    // TODO: connect the nodes
+    if let DoubleNode::Some(a) = a {
+        println!("{}", a.value);
+    }
 }
 
 struct Node {
