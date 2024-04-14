@@ -45,6 +45,15 @@ struct Node {
     next: Rc<RefCell<DoubleNode>>,
 }
 
+impl Node {
+    fn prev(&self) -> Rc<RefCell<DoubleNode>> {
+        self.prev.clone()
+    }
+    fn next(&self) -> Rc<RefCell<DoubleNode>> {
+        self.next.clone()
+    }
+}
+
 enum DoubleNode {
     Some(Node),
     None,
