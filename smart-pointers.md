@@ -18,3 +18,25 @@
     - tranfering ownership without copying the data
     - if only trait implementation is relevant, but not exact type
 - no runtime performance overhead
+
+## `Deref`: Treat Smart Pointers Like References
+
+- The dereferencing operator `*` follows the reference to the value. Given the
+  following bindings:
+    - `let a = 4;`
+    - `let b = &a;`
+    - `let c = Box::new(a);`
+    - Both `b` and `c` can be dereferenced as `*b` and `*c`, respectively.
+    - `Box<T>` implements the `Deref` trait.
+- The compiler applies _deref coercion_ where possible, so that arguments to a
+  function are automatically dereferenced if needed. (E.g. a `String` argument
+  can be used for a `&str` parameter
+- The `DerefMut<T>` trait allows to override the `*` operator for m utable
+  references.
+    - Rust performs the following deref oeprations:
+        - `&T` -> `&U` for `T: Deref<Target=U>`
+            - from immutable to immutable
+        - `&mut T` -> `&mut U` for `T: DerefMut<Target=U>`
+            - from mutable to mutable
+        - `&mut T` -> `&U` for `T: Deref<Target=U>`
+            - from mutable to immutable
