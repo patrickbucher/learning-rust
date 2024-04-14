@@ -1,6 +1,8 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
+use ch15::deref::VerboseBox;
+
 fn main() {
     // cons list
     let numbers = vec![1, 2, 3, 4, 5];
@@ -42,6 +44,8 @@ fn main() {
         println!("{}", Rc::weak_count(&a.prev()));
         println!("{}", Rc::weak_count(&a.next()));
     }
+
+    println!("{}", *VerboseBox::new(5));
 }
 
 struct Node {
