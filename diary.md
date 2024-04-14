@@ -1,3 +1,8 @@
+# Day 21 (2024-04-14)
+
+I continued reading chapter 15 while taking notes and writing some example code.
+I also worked through exercise 17.
+
 # Day 20 (2024-04-13)
 
 I'll re-read chapter 15 now and take notes. I'll also create some code snippets
