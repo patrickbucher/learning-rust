@@ -52,6 +52,8 @@ fn main() {
     no_fives.add(4);
     no_fives.add(5);
     no_fives.add(6);
+    std::mem::drop(no_fives);
+    println!("no_fives goes out of scope");
 }
 
 struct Node {

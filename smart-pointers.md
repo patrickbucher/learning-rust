@@ -40,3 +40,13 @@
             - from mutable to mutable
         - `&mut T` -> `&U` for `T: Deref<Target=U>`
             - from mutable to immutable
+
+## `Drop`: Running Code on Cleanup
+
+- When a value whose type implements the `Drop` trait goes out of scope,
+  `drop()` is called on it.
+- The `drop()` method takes a mutable reference to `self`.
+- It is not allowed to call the `drop()` method manually, but indirectly by
+  calling the `std::mem::drop` on the value, which will invoke its `drop()`
+  method.
+- The `drop()` method acts like a _destructor_ (like `finalize` in Java).
