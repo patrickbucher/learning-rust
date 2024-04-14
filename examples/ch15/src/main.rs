@@ -2,6 +2,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use ch15::deref::VerboseBox;
+use ch15::drop::BullyingVector;
 
 fn main() {
     // cons list
@@ -46,6 +47,11 @@ fn main() {
     }
 
     println!("{}", *VerboseBox::new(5));
+
+    let mut no_fives = BullyingVector::new(5);
+    no_fives.add(4);
+    no_fives.add(5);
+    no_fives.add(6);
 }
 
 struct Node {
