@@ -16,7 +16,10 @@ fn main() {
     head = prepend(head, 7);
     head = prepend(head, 4);
     head = prepend(head, 1);
-    println!("values: {:?}", get_values(&head));
+    println!("{:?}", get_values(&head));
+    if let Some(next) = head.next {
+        println!("{} -> {}", head.value, next.value);
+    }
 
     // double linked list
     let a = DoubleNode::Some(Node {
@@ -36,6 +39,8 @@ fn main() {
     });
     if let DoubleNode::Some(a) = a {
         println!("{}", a.value);
+        println!("{}", Rc::weak_count(&a.prev()));
+        println!("{}", Rc::weak_count(&a.next()));
     }
 }
 
