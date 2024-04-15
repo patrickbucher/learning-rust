@@ -31,6 +31,35 @@ impl Node {
         new_node
     }
 
+    pub fn append_sorted(self, value: i32) -> Self {
+        let mut current = Rc::new(RefCell::new(List::Item(self)));
+        loop {
+            let rc = Rc::clone(&current);
+            let rf = rc.borrow_mut();
+            if value < (*rf).value() {
+                let new_node = match *rf.prev {
+                    List::Item(node) => {
+                        Node {
+                            value,
+                            prev: Rc::clone(&node.prev),
+                            next: Rc::clone(&node),
+                        };
+
+                    },
+                    List::Nil => {
+                        Node {
+                            value,
+                            prev: Rc::new(RefCell::new(List::Nil)),
+                            next: Rc::clone(&current),
+                        };
+                    },
+                };
+                // TODO: current.prev.next = new_node
+                // TODO: current.prev = new_node
+            }
+        }
+    }
+
     pub fn values(self) -> Vec<i32> {
         let mut result = Vec::new();
         let mut current = Rc::new(RefCell::new(List::Item(self)));
