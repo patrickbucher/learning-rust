@@ -26,6 +26,24 @@ impl Node {
     }
 
     pub fn prepend(self, value: i32) -> Self {
-        Self::new(value)
+        let mut new_node = Self::new(value);
+        new_node.next = Rc::new(RefCell::new(List::Item(self)));
+        new_node
+    }
+
+    pub fn values(self) -> Vec<i32> {
+        let mut result = Vec::new();
+        let mut current = Rc::new(RefCell::new(List::Item(self)));
+        loop {
+            let rc = Rc::clone(&current);
+            let rf = rc.borrow();
+            if let List::Item(ref node) = *rf {
+                result.push(node.value);
+                current = Rc::clone(&node.next);
+            } else {
+                break;
+            }
+        }
+        result
     }
 }
