@@ -80,6 +80,11 @@
     - At runtime, multiple immutable borrows _or_ a single mutable borrow is
       allowed.
 
+## `Rc<T>` and `RefCell<T>`: Multiple Mutable Owners
+
+- An `Rc<T>`, which allows for multiple owners, holding a `RefCell<T>`, which
+  allows for mutable borrows, allows for multiple mutable owners.
+
 ## Overview
 
 |         | `Box<T>`            | `Rc<T>`      | `RefCell<T>`        |
