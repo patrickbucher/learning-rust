@@ -1,6 +1,10 @@
 # Day 22 (2024-04-15)
 
 I re-read the section about `Rc<T>` and made some (working) examples for it.
+Later, I finished working through the entire chapter and made some examples for
+each kind of smart pointer. However, still didn't manage to implement a double
+linked list with useful features. I'll try that out at another occasion. I now
+have some useful notes for smart pointers.
 
 # Day 21 (2024-04-14)
 

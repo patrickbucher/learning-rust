@@ -84,6 +84,21 @@
 
 - An `Rc<T>`, which allows for multiple owners, holding a `RefCell<T>`, which
   allows for mutable borrows, allows for multiple mutable owners.
+- This combination allows for reference cycles, e.g. a linked list where the
+  last element refers to the first element. No element will ever be dropped,
+  leading to a memory leak.
+
+## Strong and Weak References
+
+- `Rc::clone()` creates a _strong reference_ and increases the _strong count_.
+  If the strong count becomes 0, the `Rc<T>` value is dropped.
+- `Rc::downgrade()` creates a _weak reference_ of type `Weak<T>` and increases
+  the _weak count_, but without increasing the strong count.
+- Strong references express ownership, weak references don't. Cycles can be
+  prevented by using weak counts.
+- Call the `upgrade()` method on a `Weak<T>` to get an `Option<Rc<T>>`. (The
+  value behind the weak reference could already have been dropped, in which case
+  `None` is returned.)
 
 ## Overview
 
