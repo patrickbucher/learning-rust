@@ -6,6 +6,10 @@ each kind of smart pointer. However, still didn't manage to implement a double
 linked list with useful features. I'll try that out at another occasion. I now
 have some useful notes for smart pointers.
 
+In the evening, I messed around with a double linked list. I realized that I
+could also implement a sorting list with a single linked list, defeating the
+point of the exercise. So I'll continue with chapter 16 tomorrow.
+
 # Day 21 (2024-04-14)
 
 I continued reading chapter 15 while taking notes and writing some example code.
