@@ -64,3 +64,26 @@
       the reference count to the same data.
     - Use `Rc::strong_count(&x)` to get the reference count of `x`.
     - The strong count decreases automatically as references go out of scope.
+
+## `RefCell<T>`: Interior Mutability Pattern
+
+- Interior Mutability Pattern: Mutate data over immutable reference (bend Rust's
+  borrowing rules). Rules are checked at runtime rather than at compile time.
+- Rationale: The Rust compiler rejects some memory-safe programs; `RefCell<T>`
+  allows them passing the compiler checks using `unsafe` code.
+- A `RefCell<T>` can only be used in single-threaded code.
+- The value inside `RefCell<T>` can be mutated even if `RefCell<T>` itself is
+  immutable.
+- The methods `borrow()` and `borrow_mut()` borrow the value from a `RefCell`,
+  immutably and mutably, respectively. A `Ref<T>` (immutable) or `MutRef<T>` is
+  returned, which both implement the `Deref` trait.
+    - At runtime, multiple immutable borrows _or_ a single mutable borrow is
+      allowed.
+
+## Overview
+
+|         | `Box<T>`            | `Rc<T>`      | `RefCell<T>`        |
+|---------|---------------------|--------------|---------------------|
+| Owners  | single              | multiple     | single              |
+| Borrows | mutable & immutable | immutable    | mutable & immutable |
+| Checks  | compile time        | compile time | runtime             |
