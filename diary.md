@@ -1,3 +1,7 @@
+# Day 22 (2024-04-15)
+
+I re-read the section about `Rc<T>` and made some (working) examples for it.
+
 # Day 21 (2024-04-14)
 
 I continued reading chapter 15 while taking notes and writing some example code.

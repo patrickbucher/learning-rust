@@ -50,3 +50,17 @@
   calling the `std::mem::drop` on the value, which will invoke its `drop()`
   method.
 - The `drop()` method acts like a _destructor_ (like `finalize` in Java).
+
+## `Rc<T>`: Reference Counted Smart Pointer
+
+- In some data structures (e.g. graphs, double linked lists), data has multiple
+  owners, and should only be cleaned up after all its owners went out of scope.
+- The reference counter `Rc<T>` counts references; if zero references are
+  reached, the value will be dropped.
+- `Rc<T>` is only for immutable references in single-threaded scenarios.
+- Use `Rc::new()` to create a new reference counter; and `Rc::clone(&x)` to
+  increase the reference count to `x`. (`use std::rc::Rc`)
+    - `Rc::clone` does _not_ clone all the underlying data, it only increases
+      the reference count to the same data.
+    - Use `Rc::strong_count(&x)` to get the reference count of `x`.
+    - The strong count decreases automatically as references go out of scope.
