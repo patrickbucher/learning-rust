@@ -1,5 +1,5 @@
-use std::rc::Rc;
 use std::cell::RefCell;
+use std::rc::Rc;
 
 pub struct Node<'a> {
     value: i32,
@@ -30,11 +30,11 @@ mod test {
 
     #[test]
     fn nothing() {
-        let a = Node{
+        let a = Node {
             value: 1,
             next: Rc::new(RefCell::new(List::None)),
         };
-        let b = Node{
+        let b = Node {
             value: 2,
             next: Rc::new(RefCell::new(List::None)),
         };
