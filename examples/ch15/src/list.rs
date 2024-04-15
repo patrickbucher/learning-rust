@@ -45,7 +45,7 @@ where
 
     pub fn values(&self) -> Vec<T> {
         let mut vec = vec![self.value];
-        let mut rc: Rc<RefCell<List<T>>> = Rc::clone(&self.next);
+        let rc: Rc<RefCell<List<T>>> = Rc::clone(&self.next);
         loop {
             let rf = rc.borrow();
             match *rf {
