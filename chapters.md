@@ -17,8 +17,7 @@ Goal: Work through the book by the end of April.
 13. [x] Functional Language Features: Iterators and Closures
 14. [x] More about Cargo and Crates.io
 15. [x] Smart Pointers
-16. [ ] Fearless Concurrency
-    - Tu, 2024-04-16
+16. [x] Fearless Concurrency
 17. [ ] Object Oriented Programming Features of Rust
     - We, 2024-04-17
 18. [ ] Patterns and Matching

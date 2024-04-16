@@ -1,3 +1,8 @@
+# Day 23 (2024-04-16)
+
+I read chapter 16 on concurrency and made a couple of (more or less) convincing
+examples.
+
 # Day 22 (2024-04-15)
 
 I re-read the section about `Rc<T>` and made some (working) examples for it.
