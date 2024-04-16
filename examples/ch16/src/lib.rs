@@ -1,4 +1,5 @@
-use std::sync::mpsc;
+use std::collections::HashMap;
+use std::sync::{mpsc, Arc, Mutex};
 use std::thread;
 use std::time::Duration;
 
@@ -51,4 +52,27 @@ pub fn pythagoras(catheti: Vec<(f32, f32)>) -> Vec<(f32, f32, f32)> {
     worker.join().unwrap();
 
     results
+}
+
+pub fn waste_money(balance: f32, expenses: HashMap<u64, f32>) {
+    let account = Arc::new(Mutex::new(balance));
+    let mut handles = Vec::new();
+    for (ms, amount) in expenses {
+        println!("spend {amount:.2} every {ms}ms");
+        let account = Arc::clone(&account);
+        let handle = thread::spawn(move || loop {
+            thread::sleep(Duration::from_millis(ms));
+            let mut b = account.lock().unwrap();
+            if amount > *b {
+                println!("bust");
+                return;
+            }
+            *b -= amount;
+            println!("spent {amount:.2} after {ms}ms, new balance: {b:.2}");
+        });
+        handles.push(handle);
+    }
+    for handle in handles {
+        handle.join().unwrap();
+    }
 }
