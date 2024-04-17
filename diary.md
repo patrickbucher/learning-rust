@@ -1,7 +1,11 @@
 # Day 24 (2024-04-17)
 
 I started reading chapter 17 on OOP, and now understand the purpose of the `dyn`
-keyword.
+keyword. I first wanted to skim the rest of the chapter and do an alternative
+example (implementing the state pattern for text files, then refactoring it to
+an enum, which makes for a good article). However, I noticed that some
+additional mechanisms are introduced in the book's example, so I'll work through
+that carefully tomorrow morning.
 
 # Day 23 (2024-04-16)
 
