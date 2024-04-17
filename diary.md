@@ -1,3 +1,8 @@
+# Day 24 (2024-04-17)
+
+I started reading chapter 17 on OOP, and now understand the purpose of the `dyn`
+keyword.
+
 # Day 23 (2024-04-16)
 
 I read chapter 16 on concurrency and made a couple of (more or less) convincing
