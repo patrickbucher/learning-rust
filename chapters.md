@@ -18,12 +18,13 @@ Goal: Work through the book by the end of April.
 14. [x] More about Cargo and Crates.io
 15. [x] Smart Pointers
 16. [x] Fearless Concurrency
-17. [ ] Object Oriented Programming Features of Rust
-    - We, 2024-04-17
+17. [x] Object Oriented Programming Features of Rust
 18. [ ] Patterns and Matching
-    - Th, 2024-04-18
-19. [ ] Advanced Features
-    - Fr, 2024-04-19
     - Sa, 2024-04-20
-20. [ ] Final Project: Building a Multithreaded Web Server
+19. [ ] Advanced Features
     - Su, 2024-04-21
+    - Mo, 2024-04-22
+    - Tu, 2024-04-23
+20. [ ] Final Project: Building a Multithreaded Web Server
+    - We, 2024-04-24
+    - Th, 2024-04-25

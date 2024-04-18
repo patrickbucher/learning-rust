@@ -1,3 +1,9 @@
+# Day 25 (2024-04-18)
+
+I finished reading chapter 17 and worked through the state pattern example
+besides. Now I'd like to write an article about the state pattern (with examples
+in Python) and a re-implementation of it using a Rust enum.
+
 # Day 24 (2024-04-17)
 
 I started reading chapter 17 on OOP, and now understand the purpose of the `dyn`
