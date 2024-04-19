@@ -1,3 +1,9 @@
+# Day 26 (2024-04-19)
+
+I added the prime number APIs from my `factor` re-implementation to my
+`akshually` library. I added APIs to compute the GCD and to reduce fractions. I
+also re-organized the library into a `io` and a `math` module.
+
 # Day 25 (2024-04-18)
 
 I finished reading chapter 17 and worked through the state pattern example
