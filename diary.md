@@ -1,3 +1,9 @@
+# Day 27 (2024-04-20)
+
+I read chapter 18 on patterns and completed some additional rustlings.
+Unfortunately, there are no more rustlings on pattern matching, which was the
+subject of chapter 18.
+
 # Day 26 (2024-04-19)
 
 I added the prime number APIs from my `factor` re-implementation to my
