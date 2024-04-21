@@ -2,7 +2,8 @@
 
 Today, I read chapter 19 without doing any examples. The chapter mostly covers
 things that are good to know for a beginner like me, and I'll return to them as
-the need arises.
+the need arises. I also worked through exercise 18, because I felt guilty not
+writing a single line of code today.
 
 # Day 27 (2024-04-20)
 
