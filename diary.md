@@ -1,3 +1,9 @@
+# Day 28 (2024-04-21)
+
+Today, I read chapter 19 without doing any examples. The chapter mostly covers
+things that are good to know for a beginner like me, and I'll return to them as
+the need arises.
+
 # Day 27 (2024-04-20)
 
 I read chapter 18 on patterns and completed some additional rustlings.
