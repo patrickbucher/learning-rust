@@ -1,3 +1,9 @@
+# Day 30 (2024-04-23)
+
+I started the day by refactoring the code in `ghbu` that fetches the repository
+SSH URLs. It now returns a map of SSH URL by repository name. I also put that
+code into the library crate.
+
 # Day 29 (2024-04-22)
 
 Well, there was no commit in _this_ repository yesterday for the first time in
