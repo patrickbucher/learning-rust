@@ -1,3 +1,13 @@
+# Day 29 (2024-04-22)
+
+Well, there was no commit in _this_ repository yesterday for the first time in
+four weeks, but I didn't fail; quite the opposite. I worked through chapter 20,
+but didn't write any code. (Now I know where to look up in case I'd like to
+implement a thread pool.)
+
+I re-started my GitHub Backup project, this time called `ghbu`, and made some
+fair progress. The first prototype will be working after a couple of sessions.
+
 # Day 28 (2024-04-21)
 
 Today, I read chapter 19 without doing any examples. The chapter mostly covers
