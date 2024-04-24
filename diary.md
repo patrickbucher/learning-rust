@@ -1,3 +1,8 @@
+# Day 31 (2024-04-24)
+
+I continued working on `ghbu`, for which I made sure the path specified by the
+`--to` argument exists and is a directory.
+
 # Day 30 (2024-04-23)
 
 I started the day by refactoring the code in `ghbu` that fetches the repository
