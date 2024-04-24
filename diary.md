@@ -1,7 +1,9 @@
 # Day 31 (2024-04-24)
 
 I continued working on `ghbu`, for which I made sure the path specified by the
-`--to` argument exists and is a directory.
+`--to` argument exists and is a directory. Later, I managed to clone a
+repository using my SSH key via the `libgit2` implementation of Rust in the form
+of the `git2` library.
 
 # Day 30 (2024-04-23)
 
