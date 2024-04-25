@@ -1,3 +1,11 @@
+# Day 32 (2024-04-25)
+
+I realized that `git clone` is not built into `libgit2` and, therefore, needs to
+be implemented as a `fetch` operation, followed by a fast-forward merge. I now
+consider just using `git` as an external process. However, I managed to do a
+full backup of all my Git repositories on my FreeBSD backup server, which solves
+a practical problem. I can continue from there.
+
 # Day 31 (2024-04-24)
 
 I continued working on `ghbu`, for which I made sure the path specified by the
