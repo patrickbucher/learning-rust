@@ -1,3 +1,8 @@
+# Day 33 (2024-04-26)
+
+I decided to work with bare repositories in `ghbu`, which not only saves up to
+50% of storage, but also won't require any merges when updating the backup.
+
 # Day 32 (2024-04-25)
 
 I realized that `git clone` is not built into `libgit2` and, therefore, needs to
