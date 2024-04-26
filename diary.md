@@ -1,7 +1,9 @@
 # Day 33 (2024-04-26)
 
 I decided to work with bare repositories in `ghbu`, which not only saves up to
-50% of storage, but also won't require any merges when updating the backup.
+50% of storage, but also won't require any merges when updating the backup. I
+tested the approach with `clone --bare` and `fetch` manually, and it seems to
+work beautifully.
 
 # Day 32 (2024-04-25)
 
