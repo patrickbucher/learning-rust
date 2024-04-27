@@ -6,6 +6,14 @@ space is saved. This is exactly what I need for a backup. There are various
 improvements to be done to `ghbu`, which I've already written down. However,
 after working a month with Rust, I finally managed to write something useful.
 
+I had a closer look at two books in my shelf: _Rust Web Development_ and _Rust
+Server, Services, and Apps_. The former is a bit longer and uses the `warp`
+library for HTTP. The latter is shorter and uses the `actix` stack, and I
+decided to work through that book first, i.e. in May.
+
+In the evening, I finished the rustlings, some of which were rather mediocre and
+annoying. But at least I got a good glimpse into various topics.
+
 # Day 33 (2024-04-26)
 
 I decided to work with bare repositories in `ghbu`, which not only saves up to
