@@ -1,3 +1,11 @@
+# Day 34 (2024-04-27)
+
+I managed to finish the MVP for `ghbu`. New repositories are cloned, existing
+repositories are fetched. Thanks to working with bare repositories, up to 50% of
+space is saved. This is exactly what I need for a backup. There are various
+improvements to be done to `ghbu`, which I've already written down. However,
+after working a month with Rust, I finally managed to write something useful.
+
 # Day 33 (2024-04-26)
 
 I decided to work with bare repositories in `ghbu`, which not only saves up to
