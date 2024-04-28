@@ -1,3 +1,8 @@
+# Day 35 (2024-04-28)
+
+I added a `--cleanup` flag to `ghbu`, which causes broken repositories to be
+deleted (and cloned later during the backup run).
+
 # Day 34 (2024-04-27)
 
 I managed to finish the MVP for `ghbu`. New repositories are cloned, existing
@@ -12,7 +17,9 @@ library for HTTP. The latter is shorter and uses the `actix` stack, and I
 decided to work through that book first, i.e. in May.
 
 In the evening, I finished the rustlings, some of which were rather mediocre and
-annoying. But at least I got a good glimpse into various topics.
+annoying. But at least I got a good glimpse into various topics. I also started
+reading _Rust Servers, Services, and Apps_, which I'll refer to as _the RSSA
+book_ from now on.
 
 # Day 33 (2024-04-26)
 
