@@ -1,3 +1,8 @@
+# Day 36 (2024-04-29)
+
+I continued refactoring the `ghbu` code. There's still a lot to do, but the
+important thing is to make steady progress.
+
 # Day 35 (2024-04-28)
 
 I added a `--cleanup` flag to `ghbu`, which causes broken repositories to be
