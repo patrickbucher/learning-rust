@@ -1,6 +1,10 @@
 # Day 37 (2024-04-30)
 
-I read through the first chapter in the RSSA book once.
+I read through the second chapter in the RSSA book once. During the day, I
+worked through all the example code. I learned about the `From<T>` trait, and
+how it works together with the `into()` method.
+
+This concludes my first full month of everyday Rust programming.
 
 # Day 36 (2024-04-29)
 
