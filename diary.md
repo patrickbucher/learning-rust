@@ -1,3 +1,7 @@
+# Day 37 (2024-04-30)
+
+I read through the first chapter in the RSSA book once.
+
 # Day 36 (2024-04-29)
 
 I continued refactoring the `ghbu` code. There's still a lot to do, but the
