@@ -1,3 +1,10 @@
+# Day 38 (2024-05-01)
+
+I refactored the error handling in `ghbu`. It was really helpful to draw the
+object graph to work out dependencies—and to flatten the code structure. The `?`
+operator is extremely handy. The lack thereof is exactly what makes error
+handling in Go so tedious.
+
 # Day 37 (2024-04-30)
 
 I read through the second chapter in the RSSA book once. During the day, I
