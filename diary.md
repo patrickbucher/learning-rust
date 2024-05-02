@@ -1,3 +1,12 @@
+# Day 39 (2024-05-02)
+
+I finished my refactoring of `ghbu` for now. There are no `unwrap()` calls left
+in the code, and the structure is acceptable for now. The next step will be to
+extend the functionality, so that I can also backup the repositories of the
+organizations I belong to. For that, I have to explore the GitHub API. Securing
+one's Gitea Repositories could also be interesting; not only for me, but also
+for my students.
+
 # Day 38 (2024-05-01)
 
 I refactored the error handling in `ghbu`. It was really helpful to draw the
