@@ -1,3 +1,11 @@
+# Day 40 (2024-05-03)
+
+I started exploring the GitHub API for backing up an organization's repos. I
+laid out a plan and will introduce a pair of new mutually exclusive command line
+arguments `--org ORG` and `--user USER`, which will be backed up to the folder
+`TO/ORG` and `TO/USER`, respectively, with `TO` given by the command line
+argument `--to TO`.
+
 # Day 39 (2024-05-02)
 
 I finished my refactoring of `ghbu` for now. There are no `unwrap()` calls left
