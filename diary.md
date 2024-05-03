@@ -6,6 +6,9 @@ arguments `--org ORG` and `--user USER`, which will be backed up to the folder
 `TO/ORG` and `TO/USER`, respectively, with `TO` given by the command line
 argument `--to TO`.
 
+In the evening, I managed to implement the new feature. So `ghbu` is
+feature-complete for now, at least for GitHub backups.
+
 # Day 39 (2024-05-02)
 
 I finished my refactoring of `ghbu` for now. There are no `unwrap()` calls left
