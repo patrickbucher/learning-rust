@@ -1,3 +1,7 @@
+# Day 41 (2024-05-04)
+
+I worked through two _Exercises for Programmers_.
+
 # Day 40 (2024-05-03)
 
 I started exploring the GitHub API for backing up an organization's repos. I
