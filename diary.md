@@ -1,6 +1,15 @@
+# Day 42 (2024-05-05)
+
+I extended `ghbu` to also display timings. Unfortunately, there's no formatting
+routines provided by the standard library to output the timings such as
+`3m12s654ms`, like the Go standard library does. But `seconds.milliseconds` is a
+good compromise in my case.
+
 # Day 41 (2024-05-04)
 
-I worked through two _Exercises for Programmers_.
+I worked through two _Exercises for Programmers_. Later, I did a third one. The
+exercises are kind of repetetive, but as I glanced at some further exercises,
+there seems to be more interesting one coming up.
 
 # Day 40 (2024-05-03)
 
