@@ -1,3 +1,8 @@
+# Day 43 (2024-05-06)
+
+I extended `akshually` to a function that formats a `Duration` "Go-style", e.g.
+`1h13m57s123ms`.
+
 # Day 42 (2024-05-05)
 
 I extended `ghbu` to also display timings. Unfortunately, there's no formatting
