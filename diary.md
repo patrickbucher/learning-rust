@@ -1,7 +1,8 @@
 # Day 43 (2024-05-06)
 
 I extended `akshually` to a function that formats a `Duration` "Go-style", e.g.
-`1h13m57s123ms`.
+`1h13m57s123ms`. Afterwards, I extended `ghbu` to make use of this function. I
+also improved the output slightly.
 
 # Day 42 (2024-05-05)
 
