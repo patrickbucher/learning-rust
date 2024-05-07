@@ -1,3 +1,9 @@
+# Day 44 (2024-05-07)
+
+I worked through exercises 22 and 23 in _Exercises for Programmers_. The latter
+was quite interesting to solve, because I good make good use of enums. The
+implementation was straightforward once I got the data structure in place.
+
 # Day 43 (2024-05-06)
 
 I extended `akshually` to a function that formats a `Duration` "Go-style", e.g.
