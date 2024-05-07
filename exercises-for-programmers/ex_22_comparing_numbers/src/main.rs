@@ -1,5 +1,4 @@
 use akshually::io::prompt_line;
-use std::cmp;
 use std::process;
 
 fn main() {
