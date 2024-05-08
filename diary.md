@@ -1,3 +1,9 @@
+# Day 45 (2024-05-08)
+
+I read the first half of chapter 3 in the RSSA book and worked through exercise
+24 in _Exercises for Programmers_, for which I learned two new APIs:
+`Vec::remove` and `Iterator::position`.
+
 # Day 44 (2024-05-07)
 
 I worked through exercises 22 and 23 in _Exercises for Programmers_. The latter
