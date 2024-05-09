@@ -1,3 +1,9 @@
+# Day 46 (2024-05-09)
+
+I read the second half of chapter 3 in the RSSA book. I also worked through
+exercise 25, for which I used an enum and wrote tests; the first I should do
+more often, the second always.
+
 # Day 45 (2024-05-08)
 
 I read the first half of chapter 3 in the RSSA book and worked through exercise
