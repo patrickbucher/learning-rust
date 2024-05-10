@@ -1,3 +1,8 @@
+# Day 47 (2024-05-10)
+
+I worked through exercise 26 from _Exercises for Programmers_, for which I used
+the logarithm methods of `f64` (`log10`).
+
 # Day 46 (2024-05-09)
 
 I read the second half of chapter 3 in the RSSA book. I also worked through
