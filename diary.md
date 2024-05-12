@@ -1,3 +1,8 @@
+# Day 49 (2024-05-12)
+
+I finished working through chapter 3 in the RSSA book. My first impression on
+Actix: it looks quite powerful and reasonable.
+
 # Day 48 (2024-05-11)
 
 I worked through the first half of chapter 3 in the RSSA book. I learned about
