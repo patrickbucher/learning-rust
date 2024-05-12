@@ -1,3 +1,8 @@
+# Day 48 (2024-05-11)
+
+I worked through the first half of chapter 3 in the RSSA book. I learned about
+the `path` attribute, which allows to customize the paths to module files.
+
 # Day 47 (2024-05-10)
 
 I worked through exercise 26 from _Exercises for Programmers_, for which I used
