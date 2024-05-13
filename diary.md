@@ -1,3 +1,9 @@
+# Day 50 (2024-05-13)
+
+I started the day with exercise 27, which required digging into the `regex`
+crate. This comes in very handy, because I'd like to re-implement the soccer
+table example as an exercise.
+
 # Day 49 (2024-05-12)
 
 I finished working through chapter 3 in the RSSA book. My first impression on
