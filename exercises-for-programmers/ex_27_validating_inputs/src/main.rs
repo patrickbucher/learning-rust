@@ -1,6 +1,12 @@
 use akshually::io::prompt_line;
 use regex::Regex;
 
+#[derive(Debug, PartialEq)]
+struct EmployeeID {
+    prefix: String,
+    number: u16,
+}
+
 fn main() {
     let first_name: Option<String> = prompt_line("Enter the first name: ");
     let last_name: Option<String> = prompt_line("Enter the last name: ");
@@ -33,14 +39,20 @@ fn validate_name(name: Option<String>) -> Option<String> {
 }
 
 fn validate_zip_code(code: Option<String>) -> Option<u16> {
-    Some(code?.parse::<u16>().ok()?)
+    code?.parse::<u16>().ok()
 }
 
-fn validate_employee_id(id: Option<String>) -> Option<String> {
+fn validate_employee_id(id: Option<String>) -> Option<EmployeeID> {
     let s = id?;
-    let pattern = Regex::new(r"^[A-Z]{2}-[0-9]{4}$").ok()?;
-    if pattern.is_match(&s) {
-        Some(s)
+    let pattern = Regex::new(r"^([A-Z]{2})-([0-9]{4})$").ok()?;
+    let groups = pattern.captures(&s)?;
+    if groups.len() == 3 {
+        let prefix = groups.get(1)?.as_str();
+        let number = groups.get(2)?.as_str().parse::<u16>().ok()?;
+        Some(EmployeeID {
+            prefix: prefix.to_string(),
+            number,
+        })
     } else {
         None
     }
@@ -67,7 +79,10 @@ mod tests {
         assert_eq!(validate_employee_id(Some("foobar".into())), None);
         assert_eq!(
             validate_employee_id(Some("AZ-1234".into())),
-            Some("AZ-1234".into())
+            Some(EmployeeID {
+                prefix: "AZ".into(),
+                number: 1234
+            })
         );
     }
 }
