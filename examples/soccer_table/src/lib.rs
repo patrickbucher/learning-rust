@@ -6,7 +6,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Box<Vec<String>>,
     println!("dir: {:?}, day: {}", dir, day.map_or(0, |v| v));
     match list_day_files(dir, day) {
         Ok(map) => {
-            for (k, v) in *map {
+            for (k, v) in map {
                 println!("{k}: {v}");
             }
         },
@@ -15,7 +15,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Box<Vec<String>>,
     Ok(Box::new(Vec::new()))
 }
 
-fn list_day_files(dir: &Path, day: Option<usize>) -> Result<Box<HashMap<String, usize>>, ()> {
+fn list_day_files(dir: &Path, day: Option<usize>) -> Result<HashMap<String, usize>, ()> {
     if !dir.exists() || !dir.is_dir() {
         return Err(());
     }
@@ -35,7 +35,7 @@ fn list_day_files(dir: &Path, day: Option<usize>) -> Result<Box<HashMap<String, 
                 }
             }
         }
-        Ok(Box::new(days_by_file))
+        Ok(days_by_file)
     } else {
         Err(())
     }
