@@ -1,8 +1,23 @@
+# Day 51 (2024-05-14)
+
+TODO
+
 # Day 50 (2024-05-13)
 
 I started the day with exercise 27, which required digging into the `regex`
 crate. This comes in very handy, because I'd like to re-implement the soccer
 table example as an exercise.
+
+I struggled a bit with the command-line argument parsing for the soccer-table
+example. The reason for this was another optional argument that is parsed from
+an optional string to a number. The process involves transitions from `Option`
+to `Result`, which takes a while to be done nicely in code. It reminded me about
+the importance of the _Separation of Concerns_, which is extremely important
+when learning Rust: first get the code to compile, then make it elegant.
+
+I have to take some more time to study all the methods of `Option` and `Result`,
+and how they interact to create more succinct code with less `match` and `if
+let` statements.
 
 # Day 49 (2024-05-12)
 
