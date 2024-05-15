@@ -1,3 +1,9 @@
+# Day 52 (2024-05-15)
+
+I managed to finish the file name filtering and refactored the code using
+clippy, which showed me a lot of small improvements, which combined helped
+reducing a lot of code.
+
 # Day 51 (2024-05-14)
 
 I finished the extraction of days from the file names, als also refactored the
