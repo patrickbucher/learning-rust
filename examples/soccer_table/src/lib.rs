@@ -4,25 +4,27 @@ use std::path::{Path, PathBuf};
 
 pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Box<Vec<String>>, ()> {
     println!("dir: {:?}, day: {}", dir, day.map_or(0, |v| v));
-    for s in list_relevant_files(dir, day) {
-        println!("{}", s);
+    if let Ok(files) = list_relevant_files(dir, day) {
+        for p in files {
+            println!("{}", p.display());
+        }
     }
     Ok(Box::new(Vec::new()))
 }
 
-fn list_relevant_files(dir: &Path, day: Option<usize>) -> Vec<String> {
+fn list_relevant_files(dir: &Path, day: Option<usize>) -> Result<Vec<PathBuf>, ()> {
     match list_files(dir) {
         Ok(files) => {
             let files_to_days: HashMap<_, _> = files
                 .iter()
-                .map(|f| (f.as_path(), extract_day(&f)))
-                .map(|(p, o)| (p.to_str().unwrap_or(""), o.unwrap_or(0)))
-                .filter(|(s, d)| *s != "" && *d != 0)
-                .filter(|(s, d)| day.is_none() || *d <= day.unwrap_or(usize::MAX))
+                .map(|f| (f, extract_day(&f)))
+                .map(|(p, o)| (p, o.unwrap_or(0)))
+                .filter(|(_, d)| *d != 0)
+                .filter(|(_, d)| day.is_none() || *d <= day.unwrap_or(usize::MAX))
                 .collect();
-            files_to_days.keys().map(|s| s.to_string()).collect()
+            Ok(files_to_days.keys().map(|p| PathBuf::from(p)).collect())
         }
-        Err(()) => Vec::new(),
+        Err(()) => Err(()),
     }
 }
 
