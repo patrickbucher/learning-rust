@@ -1,6 +1,7 @@
 # Day 51 (2024-05-14)
 
-TODO
+I finished the extraction of days from the file names, als also refactored the
+code. However, further refactoring is due.
 
 # Day 50 (2024-05-13)
 
