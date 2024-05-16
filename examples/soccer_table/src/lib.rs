@@ -1,15 +1,27 @@
 use regex::Regex;
 use std::collections::HashMap;
+use std::fs;
 use std::path::{Path, PathBuf};
 
 pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Box<Vec<String>>, ()> {
+    let mut lines: Vec<String> = Vec::new();
     println!("dir: {:?}, day: {}", dir, day.map_or(0, |v| v));
     if let Ok(files) = list_relevant_files(dir, day) {
         for p in files {
-            println!("{}", p.display());
+            lines.append(&mut read_lines(&p))
         }
     }
+    for line in lines {
+        println!("{}", line);
+    }
     Ok(Box::new(Vec::new()))
+}
+
+fn read_lines(file: &Path) -> Vec<String> {
+    match fs::read_to_string(file) {
+        Ok(s) => s.trim().split('\n').map(|s| s.trim().to_string()).collect(),
+        Err(_) => Vec::new(),
+    }
 }
 
 fn list_relevant_files(dir: &Path, day: Option<usize>) -> Result<Vec<PathBuf>, ()> {
