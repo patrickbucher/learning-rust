@@ -1,3 +1,9 @@
+# Day 53 (2024-05-16)
+
+I started writing the parsing code for the soccer table example. I used the
+`TryFrom` trait with its `try_into` method, which returns a `Result`, for the
+first time.
+
 # Day 52 (2024-05-15)
 
 I managed to finish the file name filtering and refactored the code using
