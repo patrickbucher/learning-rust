@@ -13,8 +13,51 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Box<Vec<String>>,
     }
     for line in lines {
         println!("{}", line);
+        let r: Result<MatchResult, _> = line.try_into();
+        match r {
+            Ok(m) => println!("{:?}", m),
+            Err(e) => eprintln!("{}", e),
+        }
     }
     Ok(Box::new(Vec::new()))
+}
+
+#[derive(Debug)]
+struct MatchResult {
+    home_team: String,
+    away_team: String,
+    home_goals: u8,
+    away_goals: u8,
+}
+
+impl TryFrom<String> for MatchResult {
+    type Error = String;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        let pattern = "^(.+) ([0-9]+):([0-9]+) (.+)$";
+        match Regex::new(pattern) {
+            Ok(p) => match p.captures(&value) {
+                Some(groups) => {
+                    let matches: Vec<&str> = groups
+                        .iter()
+                        .filter(|g| g.is_some())
+                        .map(|g| g.unwrap().as_str())
+                        .collect();
+                    for m in matches {
+                        println!("match: {m}");
+                    }
+                    return Ok(MatchResult {
+                        home_team: "".into(),
+                        away_team: "".into(),
+                        home_goals: 0,
+                        away_goals: 0,
+                    });
+                }
+                None => Err(format!("'{value}' does not match '{pattern}'")),
+            },
+            Err(e) => Err(format!("build regex from '{pattern}': {e}")),
+        }
+    }
 }
 
 fn read_lines(file: &Path) -> Vec<String> {
