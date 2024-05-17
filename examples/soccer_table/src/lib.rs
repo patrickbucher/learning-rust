@@ -39,10 +39,10 @@ impl TryFrom<String> for MatchResult {
         match Regex::new(pattern) {
             Ok(p) => {
                 let caps = p.captures(&value).ok_or(err.clone())?;
-                let home_team = caps.get(1).ok_or(err.clone())?.as_str();
-                let home_goals = caps.get(2).ok_or(err.clone())?.as_str();
-                let away_goals = caps.get(3).ok_or(err.clone())?.as_str();
-                let away_team = caps.get(4).ok_or(err.clone())?.as_str();
+                let home_team = caps.get(1).ok_or("missing home_team")?.as_str();
+                let home_goals = caps.get(2).ok_or("missing home_goals")?.as_str();
+                let away_goals = caps.get(3).ok_or("missing away_goals")?.as_str();
+                let away_team = caps.get(4).ok_or("missing away_team")?.as_str();
                 match (home_goals.parse::<u8>(), away_goals.parse::<u8>()) {
                     (Ok(home_goals), Ok(away_goals)) => Ok(MatchResult {
                         home_team: home_team.into(),
@@ -50,7 +50,7 @@ impl TryFrom<String> for MatchResult {
                         home_goals,
                         away_goals,
                     }),
-                    _ => Err(err.clone()),
+                    _ => Err(err),
                 }
             }
             Err(e) => Err(format!("parse regex '{pattern}': {e}")),
