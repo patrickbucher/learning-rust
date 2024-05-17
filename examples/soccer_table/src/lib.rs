@@ -35,27 +35,25 @@ impl TryFrom<String> for MatchResult {
 
     fn try_from(value: String) -> Result<Self, Self::Error> {
         let pattern = "^(.+) ([0-9]+):([0-9]+) (.+)$";
+        let err = format!("'{value}' does not match '{pattern}'");
         match Regex::new(pattern) {
-            Ok(p) => match p.captures(&value) {
-                Some(groups) => {
-                    let matches: Vec<&str> = groups
-                        .iter()
-                        .filter(|g| g.is_some())
-                        .map(|g| g.unwrap().as_str())
-                        .collect();
-                    for m in matches {
-                        println!("match: {m}");
-                    }
-                    return Ok(MatchResult {
-                        home_team: "".into(),
-                        away_team: "".into(),
-                        home_goals: 0,
-                        away_goals: 0,
-                    });
+            Ok(p) => {
+                let caps = p.captures(&value).ok_or(err.clone())?;
+                let home_team = caps.get(1).ok_or(err.clone())?.as_str();
+                let home_goals = caps.get(2).ok_or(err.clone())?.as_str();
+                let away_goals = caps.get(3).ok_or(err.clone())?.as_str();
+                let away_team = caps.get(4).ok_or(err.clone())?.as_str();
+                match (home_goals.parse::<u8>(), away_goals.parse::<u8>()) {
+                    (Ok(home_goals), Ok(away_goals)) => Ok(MatchResult {
+                        home_team: home_team.into(),
+                        away_team: away_team.into(),
+                        home_goals,
+                        away_goals,
+                    }),
+                    _ => Err(err.clone()),
                 }
-                None => Err(format!("'{value}' does not match '{pattern}'")),
-            },
-            Err(e) => Err(format!("build regex from '{pattern}': {e}")),
+            }
+            Err(e) => Err(format!("parse regex '{pattern}': {e}")),
         }
     }
 }
