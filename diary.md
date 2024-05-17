@@ -1,3 +1,8 @@
+# Day 54 (2024-05-17)
+
+I managed to get the parsing code for the soccer table working, but the code
+still needs improvement.
+
 # Day 53 (2024-05-16)
 
 I started writing the parsing code for the soccer table example. I used the
