@@ -4,7 +4,6 @@ mod table_row;
 use parsing::{list_relevant_files, read_lines, MatchResult};
 use std::collections::{hash_map::Entry, HashMap};
 use std::fmt::{Display, Error, Formatter};
-use std::iter;
 use std::path::Path;
 use table_row::TableRow;
 
@@ -15,7 +14,7 @@ pub struct Table {
 impl Table {
     pub fn ranked(&self) -> Vec<TableRow> {
         let mut rows = self.rows.clone();
-        rows.sort_by(|a, b| a.cmp(&b));
+        rows.sort_by(|a, b| a.cmp(b));
         rows.iter_mut()
             .enumerate()
             .map(|(i, r)| {
@@ -32,9 +31,7 @@ impl Display for Table {
             "{:>3} {:30} {:>3} {:>3} {:>3} {:>3} {:>3} {:>3} {:>3}",
             "#", "Team", "P", "W", "T", "L", "+", "-", "="
         );
-        let separator = iter::repeat("-")
-            .take(title.chars().count())
-            .collect::<String>();
+        let separator = "-".repeat(title.chars().count());
         f.write_str(&format!("{}\n", &title))?;
         f.write_fmt(format_args!("{}\n", separator))?;
         let rows = self.ranked();
