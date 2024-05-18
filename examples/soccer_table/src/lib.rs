@@ -3,11 +3,51 @@ mod table_row;
 
 use parsing::{list_relevant_files, read_lines, MatchResult};
 use std::collections::{hash_map::Entry, HashMap};
+use std::fmt::{Display, Error, Formatter};
+use std::iter;
 use std::path::Path;
 use table_row::TableRow;
 
 pub struct Table {
-    pub rows: Vec<TableRow>,
+    rows: Vec<TableRow>,
+}
+
+impl Table {
+    pub fn sorted(&self) -> Vec<TableRow> {
+        let mut rows = self.rows.clone();
+        rows.sort_by(|a, b| a.cmp(&b));
+        rows.iter_mut().enumerate().map(|(i, r)| {r.rank = (i as u8) +1; r.clone() }).collect()
+    }
+}
+
+impl Display for Table {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        let title = format!(
+            "{:>3} {:30} {:>3} {:>3} {:>3} {:>3} {:>3} {:>3} {:>3}",
+            "#", "Team", "P", "W", "T", "L", "+", "-", "="
+        );
+        let separator = iter::repeat("-")
+            .take(title.chars().count())
+            .collect::<String>();
+        f.write_str(&format!("{}\n", &title))?;
+        f.write_fmt(format_args!("{}\n", separator))?;
+        let rows = self.sorted();
+        for r in rows {
+            f.write_fmt(format_args!(
+                "{:>3} {:30} {:>3} {:>3} {:>3} {:>3} {:>3} {:>3} {:>3}\n",
+                r.rank,
+                r.team,
+                r.points,
+                r.wins,
+                r.defeats,
+                r.ties,
+                r.goals_scored,
+                r.goals_conceded,
+                r.goals_diff
+            ))?;
+        }
+        Ok(())
+    }
 }
 
 pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, ()> {
@@ -30,14 +70,13 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, ()> {
         }
     }
     let grouped = group_by_team(single_rows);
-    let mut rows: Vec<TableRow> = grouped
+    let rows: Vec<TableRow> = grouped
         .iter()
         .map(|(k, v)| {
             v.iter()
                 .fold(TableRow::new(k), |acc, r| acc.combine(r.clone()).unwrap())
         })
         .collect();
-    rows.sort_by(|a, b| a.cmp(&b));
     Ok(Table { rows })
 }
 

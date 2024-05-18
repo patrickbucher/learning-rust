@@ -25,5 +25,5 @@ fn main() {
     };
 
     let table = compute_table(Path::new(&dir), day).unwrap();
-    table.rows.iter().for_each(|r| println!("{:?}", r));
+    println!("{}", table);
 }
