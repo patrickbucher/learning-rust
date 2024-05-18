@@ -6,7 +6,11 @@ use std::collections::{hash_map::Entry, HashMap};
 use std::path::Path;
 use table_row::TableRow;
 
-pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Box<Vec<String>>, ()> {
+pub struct Table {
+    pub rows: Vec<TableRow>,
+}
+
+pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, ()> {
     let mut lines: Vec<String> = Vec::new();
     if let Ok(files) = list_relevant_files(dir, day) {
         for p in files {
@@ -26,13 +30,14 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Box<Vec<String>>,
         }
     }
     let grouped = group_by_team(single_rows);
-    for (k, v) in grouped {
-        println!("{k}:");
-        for row in v {
-            println!("\t{:?}", row);
-        }
-    }
-    Ok(Box::new(Vec::new()))
+    let rows: Vec<TableRow> = grouped
+        .iter()
+        .map(|(k, v)| {
+            v.iter()
+                .fold(TableRow::new(&k), |acc, r| acc.combine(r.clone()).unwrap())
+        })
+        .collect();
+    Ok(Table { rows })
 }
 
 fn group_by_team(rows: Vec<TableRow>) -> HashMap<String, Vec<TableRow>> {
