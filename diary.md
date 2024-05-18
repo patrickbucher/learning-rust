@@ -6,6 +6,15 @@ to my custom `cmp` implementation. I need to do some research on this topic. (I
 figured out how to get it to work in the mean time, but I still don't unterstand
 the two concepts of partial and full order.)
 
+Later, I tried out `flamegraph` to profile the `soccer-table` binary. As I
+suspected, re-compiling a regular expression for every file name and contained
+line was the bottle neck. I got rid of the `TryFrom` implementation from
+`String` to `MatchResult` in order to write a function, for which I can provide
+the `Regex` as an argument. This improved performance massively; from ~50ms to
+~8ms. Profiling with `flamegraph` is so easy that it's practical to do on a
+regular basis. The whole Rust ecosystem just feels _right_ to me. I also have
+the impression that I learn something new every day with Rust.
+
 # Day 54 (2024-05-17)
 
 I managed to get the parsing code for the soccer table working, but the code
