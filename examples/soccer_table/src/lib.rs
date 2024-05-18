@@ -37,7 +37,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, ()> {
                 .fold(TableRow::new(k), |acc, r| acc.combine(r.clone()).unwrap())
         })
         .collect();
-    rows.sort();
+    rows.sort_by(|a, b| a.cmp(&b));
     Ok(Table { rows })
 }
 

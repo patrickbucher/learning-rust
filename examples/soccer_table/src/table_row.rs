@@ -16,11 +16,10 @@ pub struct TableRow {
 
 impl Ord for TableRow {
     fn cmp(&self, other: &Self) -> Ordering {
-        println!("~ le sort");
-        let by_points = self.points.cmp(&other.points);
-        let by_goals_diff = self.goals_diff.cmp(&other.goals_diff);
-        let by_wins = self.wins.cmp(&other.wins);
-        let by_name = self.team.cmp(&other.team).reverse();
+        let by_points = self.points.cmp(&other.points).reverse();
+        let by_goals_diff = self.goals_diff.cmp(&other.goals_diff).reverse();
+        let by_wins = self.wins.cmp(&other.wins).reverse();
+        let by_name = self.team.cmp(&other.team);
         by_points.then(by_goals_diff).then(by_wins).then(by_name)
     }
 }
@@ -283,27 +282,27 @@ mod tests {
     }
 
     #[test]
-    fn sort_rows_by_points() {
+    fn cmp_rows_by_points() {
         let mut a = TableRow::new("A");
         let mut b = TableRow::new("B");
         a.points = 3;
         b.points = 5;
-        assert_eq!(a.cmp(&b), Ordering::Less);
+        assert_eq!(a.cmp(&b), Ordering::Greater); // NOTE: reverse sort!
     }
 
     #[test]
-    fn sort_rows_by_goals_diff() {
+    fn cmp_rows_by_goals_diff() {
         let mut a = TableRow::new("A");
         let mut b = TableRow::new("B");
         a.points = 5;
         b.points = 5;
         a.goals_diff = 5;
         b.goals_diff = 1;
-        assert_eq!(a.cmp(&b), Ordering::Greater);
+        assert_eq!(a.cmp(&b), Ordering::Less); // NOTE: reverse sort!
     }
 
     #[test]
-    fn sort_rows_by_wins() {
+    fn cmp_rows_by_wins() {
         let mut a = TableRow::new("A");
         let mut b = TableRow::new("B");
         a.points = 5;
@@ -312,11 +311,11 @@ mod tests {
         b.goals_diff = 0;
         a.wins = 0;
         b.wins = 1;
-        assert_eq!(a.cmp(&b), Ordering::Less);
+        assert_eq!(a.cmp(&b), Ordering::Greater); // NOTE: reverse sort!
     }
 
     #[test]
-    fn sort_rows_by_name() {
+    fn cmp_rows_by_name() {
         let mut a = TableRow::new("A");
         let mut b = TableRow::new("B");
         a.points = 5;
@@ -325,6 +324,38 @@ mod tests {
         b.goals_diff = 0;
         a.wins = 1;
         b.wins = 1;
-        assert_eq!(a.cmp(&b), Ordering::Greater);
+        assert_eq!(a.cmp(&b), Ordering::Less);
+    }
+
+    #[test]
+    fn sort_rows() {
+        let mut a = TableRow::new("A");
+        let mut b = TableRow::new("B");
+        let mut c = TableRow::new("C");
+        let mut d = TableRow::new("D");
+        let mut e = TableRow::new("E");
+
+        a.points = 50;
+        b.points = 40;
+        c.points = 40;
+        d.points = 40;
+        e.points = 40;
+
+        b.goals_diff = 20;
+        c.goals_diff = 10;
+        d.goals_diff = 10;
+        e.goals_diff = 10;
+
+        c.wins = 8;
+        d.wins = 7;
+        e.wins = 7;
+
+        let mut rows = vec![d, c, e, b, a];
+        rows.sort_by(|a, b| a.cmp(&b));
+        assert_eq!(rows.get(0).unwrap().team, "A");
+        assert_eq!(rows.get(1).unwrap().team, "B");
+        assert_eq!(rows.get(2).unwrap().team, "C");
+        assert_eq!(rows.get(3).unwrap().team, "D");
+        assert_eq!(rows.get(4).unwrap().team, "E");
     }
 }
