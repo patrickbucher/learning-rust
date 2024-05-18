@@ -13,10 +13,16 @@ pub struct Table {
 }
 
 impl Table {
-    pub fn sorted(&self) -> Vec<TableRow> {
+    pub fn ranked(&self) -> Vec<TableRow> {
         let mut rows = self.rows.clone();
         rows.sort_by(|a, b| a.cmp(&b));
-        rows.iter_mut().enumerate().map(|(i, r)| {r.rank = (i as u8) +1; r.clone() }).collect()
+        rows.iter_mut()
+            .enumerate()
+            .map(|(i, r)| {
+                r.rank = (i as u8) + 1;
+                r.clone()
+            })
+            .collect()
     }
 }
 
@@ -31,7 +37,7 @@ impl Display for Table {
             .collect::<String>();
         f.write_str(&format!("{}\n", &title))?;
         f.write_fmt(format_args!("{}\n", separator))?;
-        let rows = self.sorted();
+        let rows = self.ranked();
         for r in rows {
             f.write_fmt(format_args!(
                 "{:>3} {:30} {:>3} {:>3} {:>3} {:>3} {:>3} {:>3} {:>3}\n",
@@ -113,5 +119,17 @@ mod tests {
         assert_eq!(grouped.get("A").unwrap().len(), 3);
         assert_eq!(grouped.get("B").unwrap().len(), 2);
         assert_eq!(grouped.get("C").unwrap().len(), 1);
+    }
+
+    #[test]
+    fn test_ranking() {
+        let names = vec!["A", "B", "C", "D", "E"];
+        let table = Table {
+            rows: names.iter().map(|n| TableRow::new(n)).collect(),
+        };
+        let ranked = table.ranked();
+        for i in 0..ranked.len() {
+            assert_eq!(ranked.get(i).unwrap().rank as usize, i + 1);
+        }
     }
 }
