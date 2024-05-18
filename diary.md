@@ -1,3 +1,9 @@
+# Day 55 (2024-05-18)
+
+I finished the soccer table implementation today. I struggled with `Ord` and
+`PartialOrd`, and therefore needed to resort to `sort_by` with an explicit call
+to my custom `cmp` implementation. I need to do some research on this topic.
+
 # Day 54 (2024-05-17)
 
 I managed to get the parsing code for the soccer table working, but the code
