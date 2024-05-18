@@ -2,7 +2,9 @@
 
 I finished the soccer table implementation today. I struggled with `Ord` and
 `PartialOrd`, and therefore needed to resort to `sort_by` with an explicit call
-to my custom `cmp` implementation. I need to do some research on this topic.
+to my custom `cmp` implementation. I need to do some research on this topic. (I
+figured out how to get it to work in the mean time, but I still don't unterstand
+the two concepts of partial and full order.)
 
 # Day 54 (2024-05-17)
 
