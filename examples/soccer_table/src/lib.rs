@@ -14,7 +14,7 @@ pub struct Table {
 impl Table {
     pub fn ranked(&self) -> Vec<TableRow> {
         let mut rows = self.rows.clone();
-        rows.sort_by(|a, b| a.cmp(b));
+        rows.sort();
         rows.iter_mut()
             .enumerate()
             .map(|(i, r)| {

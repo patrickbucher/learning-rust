@@ -1,7 +1,7 @@
 use crate::parsing::MatchResult;
 use std::cmp::{Ord, Ordering};
 
-#[derive(Debug, PartialOrd, PartialEq, Eq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct TableRow {
     pub rank: u8,
     pub team: String,
@@ -14,13 +14,19 @@ pub struct TableRow {
     pub goals_diff: i8,
 }
 
-impl Ord for TableRow {
-    fn cmp(&self, other: &Self) -> Ordering {
+impl PartialOrd for TableRow {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         let by_points = self.points.cmp(&other.points).reverse();
         let by_goals_diff = self.goals_diff.cmp(&other.goals_diff).reverse();
         let by_wins = self.wins.cmp(&other.wins).reverse();
         let by_name = self.team.cmp(&other.team);
-        by_points.then(by_goals_diff).then(by_wins).then(by_name)
+        Some(by_points.then(by_goals_diff).then(by_wins).then(by_name))
+    }
+}
+
+impl Ord for TableRow {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.partial_cmp(other).unwrap()
     }
 }
 
@@ -351,7 +357,7 @@ mod tests {
         e.wins = 7;
 
         let mut rows = vec![d, c, e, b, a];
-        rows.sort_by(|a, b| a.cmp(&b));
+        rows.sort();
         assert_eq!(rows.get(0).unwrap().team, "A");
         assert_eq!(rows.get(1).unwrap().team, "B");
         assert_eq!(rows.get(2).unwrap().team, "C");
