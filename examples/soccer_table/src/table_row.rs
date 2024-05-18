@@ -15,6 +15,20 @@ pub struct TableRow {
 }
 
 impl TableRow {
+    pub fn new(name: &str) -> TableRow {
+        TableRow {
+            rank: 0,
+            team: String::from(name),
+            points: 0,
+            wins: 0,
+            defeats: 0,
+            ties: 0,
+            goals_scored: 0,
+            goals_conceded: 0,
+            goals_diff: 0,
+        }
+    }
+
     pub fn from(result: MatchResult) -> (Self, Self) {
         let mut home = TableRow {
             rank: 0,
