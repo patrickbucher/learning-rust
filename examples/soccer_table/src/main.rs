@@ -24,6 +24,8 @@ fn main() {
         None => None,
     };
 
-    let table = compute_table(Path::new(&dir), day).unwrap();
-    println!("{}", table);
+    match compute_table(Path::new(&dir), day) {
+        Ok(table) => println!("{}", table),
+        Err(err) => eprintln!("{}", err),
+    }
 }

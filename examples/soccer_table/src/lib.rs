@@ -53,34 +53,53 @@ impl Display for Table {
     }
 }
 
-pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, ()> {
+pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, String> {
     let mut lines: Vec<String> = Vec::new();
     if let Ok(files) = list_relevant_files(dir, day) {
         for p in files {
             lines.append(&mut read_lines(&p))
         }
     }
+
     let mut single_rows: Vec<TableRow> = Vec::new();
     for line in lines {
-        let r: Result<MatchResult, _> = line.try_into();
+        let r: Result<MatchResult, _> = line.clone().try_into();
         match r {
             Ok(m) => {
                 let (home, away) = TableRow::from(m);
                 single_rows.push(home);
                 single_rows.push(away);
             }
-            Err(e) => eprintln!("{}", e),
+            Err(e) => {
+                return Err(format!("parsing '{}' as MatchResult: {}", line, e));
+            }
         }
     }
+
     let grouped = group_by_team(single_rows);
-    let rows: Vec<TableRow> = grouped
+    let res: Vec<Result<TableRow, String>> = grouped
         .iter()
         .map(|(k, v)| {
-            v.iter()
-                .fold(TableRow::new(k), |acc, r| acc.combine(r.clone()).unwrap())
+            v.iter().fold(Ok(TableRow::new(k)), |acc, r| match acc {
+                Ok(acc) => acc.combine(r.clone()),
+                Err(err) => Err(err),
+            })
         })
         .collect();
-    Ok(Table { rows })
+
+    let mut rows: Vec<TableRow> = Vec::new();
+    let mut errs: Vec<String> = Vec::new();
+    for r in res {
+        match r {
+            Ok(row) => rows.push(row),
+            Err(err) => errs.push(err),
+        }
+    }
+    if errs.is_empty() {
+        Ok(Table { rows })
+    } else {
+        Err(format!("combining results: {}", errs.join(", ")))
+    }
 }
 
 fn group_by_team(rows: Vec<TableRow>) -> HashMap<String, Vec<TableRow>> {
