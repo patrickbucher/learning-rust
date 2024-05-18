@@ -34,7 +34,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, ()> {
         .iter()
         .map(|(k, v)| {
             v.iter()
-                .fold(TableRow::new(&k), |acc, r| acc.combine(r.clone()).unwrap())
+                .fold(TableRow::new(k), |acc, r| acc.combine(r.clone()).unwrap())
         })
         .collect();
     Ok(Table { rows })
