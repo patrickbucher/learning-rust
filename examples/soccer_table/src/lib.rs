@@ -30,13 +30,14 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, ()> {
         }
     }
     let grouped = group_by_team(single_rows);
-    let rows: Vec<TableRow> = grouped
+    let mut rows: Vec<TableRow> = grouped
         .iter()
         .map(|(k, v)| {
             v.iter()
                 .fold(TableRow::new(k), |acc, r| acc.combine(r.clone()).unwrap())
         })
         .collect();
+    rows.sort();
     Ok(Table { rows })
 }
 

@@ -1,7 +1,7 @@
 use crate::parsing::MatchResult;
-use std::cmp::Ordering;
+use std::cmp::{Ord, Ordering};
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialOrd, PartialEq, Eq, Clone)]
 pub struct TableRow {
     pub rank: u8,
     pub team: String,
@@ -12,6 +12,17 @@ pub struct TableRow {
     pub goals_scored: u8,
     pub goals_conceded: u8,
     pub goals_diff: i8,
+}
+
+impl Ord for TableRow {
+    fn cmp(&self, other: &Self) -> Ordering {
+        println!("~ le sort");
+        let by_points = self.points.cmp(&other.points);
+        let by_goals_diff = self.goals_diff.cmp(&other.goals_diff);
+        let by_wins = self.wins.cmp(&other.wins);
+        let by_name = self.team.cmp(&other.team).reverse();
+        by_points.then(by_goals_diff).then(by_wins).then(by_name)
+    }
 }
 
 impl TableRow {
@@ -269,5 +280,51 @@ mod tests {
         };
         let actual = team_a_first.combine(team_a_second);
         assert_eq!(actual, Ok(expected));
+    }
+
+    #[test]
+    fn sort_rows_by_points() {
+        let mut a = TableRow::new("A");
+        let mut b = TableRow::new("B");
+        a.points = 3;
+        b.points = 5;
+        assert_eq!(a.cmp(&b), Ordering::Less);
+    }
+
+    #[test]
+    fn sort_rows_by_goals_diff() {
+        let mut a = TableRow::new("A");
+        let mut b = TableRow::new("B");
+        a.points = 5;
+        b.points = 5;
+        a.goals_diff = 5;
+        b.goals_diff = 1;
+        assert_eq!(a.cmp(&b), Ordering::Greater);
+    }
+
+    #[test]
+    fn sort_rows_by_wins() {
+        let mut a = TableRow::new("A");
+        let mut b = TableRow::new("B");
+        a.points = 5;
+        b.points = 5;
+        a.goals_diff = 0;
+        b.goals_diff = 0;
+        a.wins = 0;
+        b.wins = 1;
+        assert_eq!(a.cmp(&b), Ordering::Less);
+    }
+
+    #[test]
+    fn sort_rows_by_name() {
+        let mut a = TableRow::new("A");
+        let mut b = TableRow::new("B");
+        a.points = 5;
+        b.points = 5;
+        a.goals_diff = 0;
+        b.goals_diff = 0;
+        a.wins = 1;
+        b.wins = 1;
+        assert_eq!(a.cmp(&b), Ordering::Greater);
     }
 }
