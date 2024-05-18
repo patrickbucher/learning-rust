@@ -80,10 +80,8 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, String> {
     let res: Vec<Result<TableRow, String>> = grouped
         .iter()
         .map(|(k, v)| {
-            v.iter().fold(Ok(TableRow::new(k)), |acc, r| match acc {
-                Ok(acc) => acc.combine(r.clone()),
-                Err(err) => Err(err),
-            })
+            v.iter()
+                .try_fold(TableRow::new(k), |acc, r| acc.combine(r.clone()))
         })
         .collect();
 

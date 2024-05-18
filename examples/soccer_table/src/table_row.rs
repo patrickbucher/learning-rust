@@ -16,17 +16,17 @@ pub struct TableRow {
 
 impl PartialOrd for TableRow {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        let by_points = self.points.cmp(&other.points).reverse();
-        let by_goals_diff = self.goals_diff.cmp(&other.goals_diff).reverse();
-        let by_wins = self.wins.cmp(&other.wins).reverse();
-        let by_name = self.team.cmp(&other.team);
-        Some(by_points.then(by_goals_diff).then(by_wins).then(by_name))
+        Some(self.cmp(other))
     }
 }
 
 impl Ord for TableRow {
     fn cmp(&self, other: &Self) -> Ordering {
-        self.partial_cmp(other).unwrap()
+        let by_points = self.points.cmp(&other.points).reverse();
+        let by_goals_diff = self.goals_diff.cmp(&other.goals_diff).reverse();
+        let by_wins = self.wins.cmp(&other.wins).reverse();
+        let by_name = self.team.cmp(&other.team);
+        by_points.then(by_goals_diff).then(by_wins).then(by_name)
     }
 }
 
