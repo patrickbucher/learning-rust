@@ -11,40 +11,41 @@ pub struct MatchResult {
     pub away_goals: u8,
 }
 
-impl TryFrom<String> for MatchResult {
-    type Error = String;
-
-    fn try_from(value: String) -> Result<Self, Self::Error> {
+impl MatchResult {
+    pub fn parse_all(lines: Vec<String>) -> Result<Vec<Result<MatchResult, String>>, String> {
         let pattern = "^(.+) ([0-9]+):([0-9]+) (.+)$";
-        let err = format!("'{value}' does not match '{pattern}'");
         match Regex::new(pattern) {
-            Ok(p) => {
-                let caps = p.captures(&value).ok_or(err.clone())?;
-                let home_team = caps.get(1).ok_or("missing home_team")?.as_str();
-                let home_goals = caps.get(2).ok_or("missing home_goals")?.as_str();
-                let away_goals = caps.get(3).ok_or("missing away_goals")?.as_str();
-                let away_team = caps.get(4).ok_or("missing away_team")?.as_str();
-                match (home_goals.parse::<u8>(), away_goals.parse::<u8>()) {
-                    (Ok(home_goals), Ok(away_goals)) => Ok(MatchResult {
-                        home_team: home_team.into(),
-                        away_team: away_team.into(),
-                        home_goals,
-                        away_goals,
-                    }),
-                    _ => Err(err),
-                }
-            }
-            Err(e) => Err(format!("parse regex '{pattern}': {e}")),
+            Ok(p) => Ok(lines.iter().map(|l| Self::parse(l.into(), &p)).collect()),
+            Err(err) => Err(format!("compile regex '{}': {}", pattern, err)),
+        }
+    }
+
+    fn parse(line: String, pattern: &Regex) -> Result<MatchResult, String> {
+        let err = format!("'{line}' does not match '{pattern}'");
+        let caps = pattern.captures(&line).ok_or(err.clone())?;
+        let home_team = caps.get(1).ok_or("missing home_team")?.as_str();
+        let home_goals = caps.get(2).ok_or("missing home_goals")?.as_str();
+        let away_goals = caps.get(3).ok_or("missing away_goals")?.as_str();
+        let away_team = caps.get(4).ok_or("missing away_team")?.as_str();
+        match (home_goals.parse::<u8>(), away_goals.parse::<u8>()) {
+            (Ok(home_goals), Ok(away_goals)) => Ok(MatchResult {
+                home_team: home_team.into(),
+                away_team: away_team.into(),
+                home_goals,
+                away_goals,
+            }),
+            _ => Err(err),
         }
     }
 }
 
 pub fn list_relevant_files(dir: &Path, day: Option<usize>) -> Result<Vec<PathBuf>, ()> {
+    let pattern = Regex::new("([0-9]+).txt$").or(Err(()))?;
     match list_files(dir) {
         Ok(files) => {
             let files_to_days: HashMap<_, _> = files
                 .iter()
-                .map(|f| (f, extract_day(f)))
+                .map(|f| (f, extract_day(f, &pattern)))
                 .map(|(p, o)| (p, o.unwrap_or(0)))
                 .filter(|(_, d)| *d != 0)
                 .filter(|(_, d)| day.is_none() || *d <= day.unwrap_or(usize::MAX))
@@ -78,8 +79,7 @@ fn list_files(dir: &Path) -> Result<Vec<PathBuf>, ()> {
     Ok(files)
 }
 
-fn extract_day(file: &Path) -> Option<usize> {
-    let pattern = Regex::new("([0-9]+).txt$").ok()?;
+fn extract_day(file: &Path, pattern: &Regex) -> Option<usize> {
     let file_name = file.to_str().unwrap_or("");
     pattern
         .captures(file_name)

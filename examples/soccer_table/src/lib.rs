@@ -62,17 +62,15 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, String> {
     }
 
     let mut single_rows: Vec<TableRow> = Vec::new();
-    for line in lines {
-        let r: Result<MatchResult, _> = line.clone().try_into();
-        match r {
-            Ok(m) => {
-                let (home, away) = TableRow::from(m);
+    let results = MatchResult::parse_all(lines)?;
+    for result in results {
+        match result {
+            Ok(r) => {
+                let (home, away) = TableRow::from(r);
                 single_rows.push(home);
                 single_rows.push(away);
             }
-            Err(e) => {
-                return Err(format!("parsing '{}' as MatchResult: {}", line, e));
-            }
+            Err(e) => return Err(e),
         }
     }
 
