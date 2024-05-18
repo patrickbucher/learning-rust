@@ -24,5 +24,6 @@ fn main() {
         None => None,
     };
 
-    let _table = compute_table(Path::new(&dir), day);
+    let table = compute_table(Path::new(&dir), day).unwrap();
+    table.rows.iter().for_each(|r| println!("{:?}", r));
 }
