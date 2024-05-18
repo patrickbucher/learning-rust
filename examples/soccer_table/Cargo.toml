@@ -1,5 +1,7 @@
 [package]
 name = "soccer_table"
+description = "compute soccer tables from plain text match results"
+license = "MIT"
 version = "0.1.0"
 edition = "2021"
 
