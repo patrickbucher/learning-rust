@@ -1,3 +1,7 @@
+# Day 56 (2024-05-19)
+
+I worked through three more _Exercises for Programmers_.
+
 # Day 55 (2024-05-18)
 
 I finished the soccer table implementation today. I struggled with `Ord` and
