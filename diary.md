@@ -1,3 +1,9 @@
+# Day 57 (2024-05-20)
+
+I started reading chapter 4 in the RSSA book. I managed to query the PostgreSQL
+database, but needed to resolve a privilege issue. (PostgreSQL >=15 is more
+restrictive, it turned out.)
+
 # Day 56 (2024-05-19)
 
 I worked through three more _Exercises for Programmers_.
