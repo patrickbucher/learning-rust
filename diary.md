@@ -1,3 +1,8 @@
+# Day 58 (2024-05-21)
+
+I continued reading chapter 4 in the RSSA book and am working on the second
+iteration of the data base example there.
+
 # Day 57 (2024-05-20)
 
 I started reading chapter 4 in the RSSA book. I managed to query the PostgreSQL
