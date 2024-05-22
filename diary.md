@@ -2,6 +2,9 @@
 
 I finished working through chapter 4 in the RSSA book.
 
+Today, my copy of _Effective Rust_ arrived. I read the first two items, which
+are a good summary on the type system.
+
 # Day 58 (2024-05-21)
 
 I continued reading chapter 4 in the RSSA book and am working on the second
