@@ -1,3 +1,7 @@
+# Day 59 (2024-05-22)
+
+I finished working through chapter 4 in the RSSA book.
+
 # Day 58 (2024-05-21)
 
 I continued reading chapter 4 in the RSSA book and am working on the second
