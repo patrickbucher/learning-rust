@@ -9,6 +9,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let path = args.next().ok_or("no file argument")?;
     let file = File::open(path)?;
     let mut reader = Reader::from_reader(file);
+    // TODO: how to get column headers?
     for result in reader.records() {
         match result {
             Ok(record) => println!("record found: {:?}", record),
