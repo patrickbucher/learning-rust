@@ -1,3 +1,9 @@
+# Day 60 (2024-05-23)
+
+I started a small utility called `timetable`, which is supposed to convert CSV
+files to markdown timetables. I plan to use this tool in production to report my
+hours conveniently for customer projects.
+
 # Day 59 (2024-05-22)
 
 I finished working through chapter 4 in the RSSA book.
