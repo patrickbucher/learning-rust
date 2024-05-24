@@ -1,3 +1,7 @@
+# Day 61 (2024-05-24)
+
+I finished the parsing code for `timetable`; now begins the real work.
+
 # Day 60 (2024-05-23)
 
 I started a small utility called `timetable`, which is supposed to convert CSV
