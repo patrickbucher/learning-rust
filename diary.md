@@ -1,3 +1,12 @@
+# Day 62 (2024-05-25)
+
+I worked through chapter 5 in the RSSA book. I learned a lot about error
+handling, but I'm getting mixed feelings about the book. It uses different
+versions of the Actix in every chapter, and also different conventions for
+dealing with path variables. The code isn't formatted consistently and looks a
+bit sloppy at times. I'll finish the book and then look forward to _Rust Web
+Development_.
+
 # Day 61 (2024-05-24)
 
 I finished the parsing code for `timetable`; now begins the real work.
