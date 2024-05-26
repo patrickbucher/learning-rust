@@ -22,15 +22,19 @@ impl MatchResult {
 
     fn parse(line: String, pattern: &Regex) -> Result<MatchResult, String> {
         let err = format!("'{line}' does not match '{pattern}'");
-        let caps = pattern.captures(&line).ok_or(err.clone())?;
-        let home_team = caps.get(1).ok_or("missing home_team")?.as_str();
-        let home_goals = caps.get(2).ok_or("missing home_goals")?.as_str();
-        let away_goals = caps.get(3).ok_or("missing away_goals")?.as_str();
-        let away_team = caps.get(4).ok_or("missing away_team")?.as_str();
+        let caps: Vec<&str> = pattern
+            .captures_iter(&line)
+            .map(|c| c.extract::<4>())
+            .flat_map(|(_, matches)| matches.to_vec())
+            .collect();
+        let home_team = caps.get(0).ok_or("missing home_team")?;
+        let home_goals = caps.get(1).ok_or("missing home_goals")?;
+        let away_goals = caps.get(2).ok_or("missing away_goals")?;
+        let away_team = caps.get(3).ok_or("missing away_team")?;
         match (home_goals.parse::<u8>(), away_goals.parse::<u8>()) {
             (Ok(home_goals), Ok(away_goals)) => Ok(MatchResult {
-                home_team: home_team.into(),
-                away_team: away_team.into(),
+                home_team: home_team.to_string(),
+                away_team: away_team.to_string(),
                 home_goals,
                 away_goals,
             }),
