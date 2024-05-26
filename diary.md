@@ -1,3 +1,12 @@
+# Day 63 (2024-05-26)
+
+I first wanted to work with the RSSA book, but then decided to look into
+async/await. Preparing an example for that, I re-wrote some regex code for my
+soccer-table example, which I then partially incorporated into that crate. I
+noticed that the error handling works with `String` as an error type, which I
+probably should refactor to use proper error handling with types implementing
+the `Error` trait.
+
 # Day 62 (2024-05-25)
 
 I worked through chapter 5 in the RSSA book. I learned a lot about error
