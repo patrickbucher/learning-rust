@@ -1,8 +1,7 @@
+use soccer_table::compute_table;
 use std::env;
 use std::path::Path;
 use std::process;
-
-use soccer_table::compute_table;
 
 fn main() {
     let mut args = env::args();
