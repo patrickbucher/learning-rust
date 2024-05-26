@@ -137,7 +137,7 @@ mod tests {
     use std::fs;
 
     #[test]
-    fn extract_days_from_files() {
+    fn must_list_relevant_files() {
         let relevant_day = 50;
         let total_days = 99;
 
@@ -149,20 +149,26 @@ mod tests {
         }
 
         fs::create_dir(path).unwrap();
-        let mut expected: Vec<PathBuf> = Vec::new();
+        let mut relevant_days: Vec<PathBuf> = Vec::new();
+        let mut all_days: Vec<PathBuf> = Vec::new();
         for i in 1..=total_days {
             let name = format!("{i:02}.txt");
             let mut path_buf = PathBuf::from(path);
             path_buf.push(name);
             fs::File::create_new(path_buf.as_path()).unwrap();
             if i <= relevant_day {
-                expected.push(path_buf);
+                relevant_days.push(path_buf.clone());
             }
+            all_days.push(path_buf);
         }
 
         let mut actual = list_relevant_files(path, Some(relevant_day)).unwrap();
         actual.sort();
-        assert_eq!(actual, expected);
+        assert_eq!(actual, relevant_days);
+
+        let mut actual = list_relevant_files(path, None).unwrap();
+        actual.sort();
+        assert_eq!(actual, all_days);
     }
 
     #[test]
