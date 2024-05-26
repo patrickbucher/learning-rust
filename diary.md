@@ -7,6 +7,10 @@ noticed that the error handling works with `String` as an error type, which I
 probably should refactor to use proper error handling with types implementing
 the `Error` trait.
 
+I refactored the soccer-table example and made some good progress with both
+error handling and iterator processing (e.g. with using `filter_map` and
+`flat_map` in appropriate cases).
+
 # Day 62 (2024-05-25)
 
 I worked through chapter 5 in the RSSA book. I learned a lot about error
