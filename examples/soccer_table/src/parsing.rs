@@ -4,9 +4,10 @@ use std::error::Error;
 use std::fmt;
 use std::fmt::{Display, Formatter};
 use std::fs;
+use std::num::ParseIntError;
 use std::path::{Path, PathBuf};
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct MatchResult {
     pub home_team: String,
     pub away_team: String,
@@ -14,10 +15,11 @@ pub struct MatchResult {
     pub away_goals: u8,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub enum ParseError {
-    RegexMismatch,
-    NumberParsing,
+    RegexSyntax { pat: String, err: regex::Error },
+    RegexMismatch { pat: String, val: String },
+    NumberParsing { val: String, err: ParseIntError },
 }
 
 impl Error for ParseError {}
@@ -25,8 +27,9 @@ impl Error for ParseError {}
 impl Display for ParseError {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match self {
-            ParseError::RegexMismatch => write!(f, "regex mismatch"),
-            ParseError::NumberParsing => write!(f, "number parsing"),
+            ParseError::RegexSyntax { pat: p, err: e } => write!(f, "invalid regex {p}: {e}"),
+            ParseError::RegexMismatch { pat: p, val: s } => write!(f, "{s} did not match {p}"),
+            ParseError::NumberParsing { val: v, err: e } => write!(f, "parse {v}: {e}"),
         }
     }
 }
@@ -38,7 +41,10 @@ impl MatchResult {
         let pattern = "^(.+) ([0-9]+):([0-9]+) (.+)$";
         match Regex::new(pattern) {
             Ok(p) => Ok(lines.iter().map(|l| Self::parse(l.into(), &p)).collect()),
-            Err(_) => Err(ParseError::RegexMismatch),
+            Err(e) => Err(ParseError::RegexSyntax {
+                pat: pattern.into(),
+                err: e,
+            }),
         }
     }
 
@@ -49,16 +55,30 @@ impl MatchResult {
             .flat_map(|(_, matches)| matches)
             .collect::<Vec<&str>>()
             .try_into()
-            .or(Err(ParseError::RegexMismatch))?;
-        match (hg.parse::<u8>(), ag.parse::<u8>()) {
-            (Ok(home_goals), Ok(away_goals)) => Ok(MatchResult {
-                home_team: ht.to_string(),
-                away_team: at.to_string(),
-                home_goals,
-                away_goals,
-            }),
-            _ => Err(ParseError::NumberParsing),
-        }
+            .or(Err(ParseError::RegexMismatch {
+                pat: pattern.as_str().into(),
+                val: line.clone(),
+            }))?;
+        let home_team = ht.to_string();
+        let away_team = at.to_string();
+        let home_goals = hg.parse::<u8>().or_else(|e| {
+            Err(ParseError::NumberParsing {
+                val: hg.into(),
+                err: e,
+            })
+        })?;
+        let away_goals = ag.parse::<u8>().or_else(|e| {
+            Err(ParseError::NumberParsing {
+                val: ag.into(),
+                err: e,
+            })
+        })?;
+        Ok(MatchResult {
+            home_team,
+            away_team,
+            home_goals,
+            away_goals,
+        })
     }
 }
 
@@ -123,7 +143,9 @@ mod tests {
             home_goals: 3,
             away_goals: 2,
         };
-        let actual: MatchResult = raw.try_into().unwrap();
-        assert_eq!(actual, expected);
+        let parsed = MatchResult::parse_all(vec![raw]).unwrap();
+        let result = parsed.get(0).unwrap();
+        let actual = result.as_ref().unwrap();
+        assert_eq!(*actual, expected);
     }
 }

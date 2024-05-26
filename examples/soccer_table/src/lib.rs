@@ -1,7 +1,7 @@
 mod parsing;
 mod table_row;
 
-use parsing::{list_relevant_files, read_lines, MatchResult};
+use parsing::{list_relevant_files, read_lines, MatchResult, ParseError};
 use std::collections::{hash_map::Entry, HashMap};
 use std::fmt::{Display, Error, Formatter};
 use std::path::Path;
@@ -53,7 +53,21 @@ impl Display for Table {
     }
 }
 
-pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, String> {
+pub enum Failure {
+    Parsing(String),
+    Other,
+}
+
+impl Display for Failure {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        match self {
+            Failure::Parsing(s) => write!(f, "{s}"),
+            Failure::Other => write!(f, "other failure"),
+        }
+    }
+}
+
+pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, Failure> {
     let mut lines: Vec<String> = Vec::new();
     if let Ok(files) = list_relevant_files(dir, day) {
         for p in files {
@@ -61,18 +75,25 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, String> {
         }
     }
 
-    let mut single_rows: Vec<TableRow> = Vec::new();
-    let results = MatchResult::parse_all(lines).or(Err("failed".to_string()))?; // FIXME
-    for result in results {
-        match result {
-            Ok(r) => {
-                let (home, away) = TableRow::from(r);
-                single_rows.push(home);
-                single_rows.push(away);
-            }
-            Err(e) => eprintln!("{e}"), // FIXME
-        }
+    let result: Vec<Result<MatchResult, ParseError>> =
+        MatchResult::parse_all(lines).or_else(|e| Err(Failure::Parsing(format!("{e}"))))?;
+    let (results, errs): (Vec<_>, Vec<_>) = result.iter().partition(|e| e.is_ok());
+    if !errs.is_empty() {
+        let msg = errs
+            .into_iter()
+            .map(|e| e.as_ref().unwrap_err())
+            .map(|e| format!("{}", e))
+            .collect::<Vec<_>>()
+            .join(", ");
+        return Err(Failure::Parsing(msg));
     }
+    let single_rows: Vec<TableRow> = results
+        .into_iter()
+        .map(|r| r.as_ref().unwrap())
+        .map(|r| TableRow::from(r.clone()))
+        .map(|(a, b)| vec![a, b])
+        .flatten()
+        .collect();
 
     let grouped = group_by_team(single_rows);
     let res: Vec<Result<TableRow, String>> = grouped
@@ -94,7 +115,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, String> {
     if errs.is_empty() {
         Ok(Table { rows })
     } else {
-        Err("failed".into()) // FIXME
+        Err(Failure::Other)
     }
 }
 
