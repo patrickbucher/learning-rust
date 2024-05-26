@@ -40,10 +40,7 @@ impl MatchResult {
     ) -> Result<Vec<Result<MatchResult, ParseError>>, ParseError> {
         let pattern = "^(.+) ([0-9]+):([0-9]+) (.+)$";
         match Regex::new(pattern) {
-            Ok(p) => Ok(lines
-                .iter()
-                .map(|l| Self::parse(l.into(), &p))
-                .collect()),
+            Ok(p) => Ok(lines.iter().map(|l| Self::parse(l.into(), &p)).collect()),
             Err(e) => Err(ParseError::RegexSyntax {
                 pat: pattern.into(),
                 err: e,
@@ -89,6 +86,7 @@ pub fn list_relevant_files(dir: &Path, day: Option<usize>) -> Result<Vec<PathBuf
     let pattern = Regex::new("([0-9]+).txt$").or(Err(()))?;
     match list_files(dir) {
         Ok(files) => {
+            // TODO: solution with zip?
             let files_to_days: HashMap<_, _> = files
                 .iter()
                 .map(|f| (f, extract_day(f, &pattern)))
@@ -136,6 +134,37 @@ fn extract_day(file: &Path, pattern: &Regex) -> Option<usize> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::env;
+    use std::fs;
+
+    #[test]
+    fn extract_days_from_files() {
+        let relevant_day = 50;
+        let total_days = 99;
+
+        let mut test_dir = PathBuf::from(env::temp_dir());
+        test_dir.push("soccer-table-test");
+        let path = test_dir.as_path();
+        if path.exists() {
+            fs::remove_dir_all(path).unwrap();
+        }
+
+        fs::create_dir(path).unwrap();
+        let mut expected: Vec<PathBuf> = Vec::new();
+        for i in 1..=total_days {
+            let name = format!("{i:02}.txt");
+            let mut path_buf = PathBuf::from(path);
+            path_buf.push(name);
+            fs::File::create_new(path_buf.as_path()).unwrap();
+            if i <= relevant_day {
+                expected.push(path_buf);
+            }
+        }
+
+        let mut actual = list_relevant_files(path, Some(relevant_day)).unwrap();
+        actual.sort();
+        assert_eq!(actual, expected);
+    }
 
     #[test]
     fn must_parse_result() {
