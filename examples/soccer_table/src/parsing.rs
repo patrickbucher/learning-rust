@@ -1,5 +1,8 @@
 use regex::Regex;
 use std::collections::HashMap;
+use std::error::Error;
+use std::fmt;
+use std::fmt::{Display, Formatter};
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -11,34 +14,50 @@ pub struct MatchResult {
     pub away_goals: u8,
 }
 
+#[derive(Debug)]
+pub enum ParseError {
+    RegexMismatch,
+    NumberParsing,
+}
+
+impl Error for ParseError {}
+
+impl Display for ParseError {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        match self {
+            ParseError::RegexMismatch => write!(f, "regex mismatch"),
+            ParseError::NumberParsing => write!(f, "number parsing"),
+        }
+    }
+}
+
 impl MatchResult {
-    pub fn parse_all(lines: Vec<String>) -> Result<Vec<Result<MatchResult, String>>, String> {
+    pub fn parse_all(
+        lines: Vec<String>,
+    ) -> Result<Vec<Result<MatchResult, ParseError>>, ParseError> {
         let pattern = "^(.+) ([0-9]+):([0-9]+) (.+)$";
         match Regex::new(pattern) {
             Ok(p) => Ok(lines.iter().map(|l| Self::parse(l.into(), &p)).collect()),
-            Err(err) => Err(format!("compile regex '{}': {}", pattern, err)),
+            Err(_) => Err(ParseError::RegexMismatch),
         }
     }
 
-    fn parse(line: String, pattern: &Regex) -> Result<MatchResult, String> {
-        let err = format!("'{line}' does not match '{pattern}'");
-        let caps: Vec<&str> = pattern
+    fn parse(line: String, pattern: &Regex) -> Result<MatchResult, ParseError> {
+        let [ht, hg, ag, at] = pattern
             .captures_iter(&line)
             .map(|c| c.extract::<4>())
-            .flat_map(|(_, matches)| matches.to_vec())
-            .collect();
-        let home_team = caps.get(0).ok_or("missing home_team")?;
-        let home_goals = caps.get(1).ok_or("missing home_goals")?;
-        let away_goals = caps.get(2).ok_or("missing away_goals")?;
-        let away_team = caps.get(3).ok_or("missing away_team")?;
-        match (home_goals.parse::<u8>(), away_goals.parse::<u8>()) {
+            .flat_map(|(_, matches)| matches)
+            .collect::<Vec<&str>>()
+            .try_into()
+            .or(Err(ParseError::RegexMismatch))?;
+        match (hg.parse::<u8>(), ag.parse::<u8>()) {
             (Ok(home_goals), Ok(away_goals)) => Ok(MatchResult {
-                home_team: home_team.to_string(),
-                away_team: away_team.to_string(),
+                home_team: ht.to_string(),
+                away_team: at.to_string(),
                 home_goals,
                 away_goals,
             }),
-            _ => Err(err),
+            _ => Err(ParseError::NumberParsing),
         }
     }
 }

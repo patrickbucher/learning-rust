@@ -62,7 +62,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, String> {
     }
 
     let mut single_rows: Vec<TableRow> = Vec::new();
-    let results = MatchResult::parse_all(lines)?;
+    let results = MatchResult::parse_all(lines).or(Err("failed".to_string()))?; // FIXME
     for result in results {
         match result {
             Ok(r) => {
@@ -70,7 +70,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, String> {
                 single_rows.push(home);
                 single_rows.push(away);
             }
-            Err(e) => return Err(e),
+            Err(e) => eprintln!("{e}"), // FIXME
         }
     }
 
@@ -94,7 +94,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, String> {
     if errs.is_empty() {
         Ok(Table { rows })
     } else {
-        Err(format!("combining results: {}", errs.join(", ")))
+        Err("failed".into()) // FIXME
     }
 }
 
