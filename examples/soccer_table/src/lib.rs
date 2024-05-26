@@ -76,7 +76,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, Failure> {
     }
 
     let result: Vec<Result<MatchResult, ParseError>> =
-        MatchResult::parse_all(lines).or_else(|e| Err(Failure::Parsing(format!("{e}"))))?;
+        MatchResult::parse_all(lines).map_err(|e| Failure::Parsing(format!("{e}")))?;
     let (results, errs): (Vec<_>, Vec<_>) = result.iter().partition(|e| e.is_ok());
     if !errs.is_empty() {
         let msg = errs
@@ -91,8 +91,7 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, Failure> {
         .into_iter()
         .map(|r| r.as_ref().unwrap())
         .map(|r| TableRow::from(r.clone()))
-        .map(|(a, b)| vec![a, b])
-        .flatten()
+        .flat_map(|(a, b)| vec![a, b])
         .collect();
 
     let grouped = group_by_team(single_rows);

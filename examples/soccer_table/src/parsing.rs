@@ -61,17 +61,13 @@ impl MatchResult {
             }))?;
         let home_team = ht.to_string();
         let away_team = at.to_string();
-        let home_goals = hg.parse::<u8>().or_else(|e| {
-            Err(ParseError::NumberParsing {
-                val: hg.into(),
-                err: e,
-            })
+        let home_goals = hg.parse::<u8>().map_err(|e| ParseError::NumberParsing {
+            val: hg.into(),
+            err: e,
         })?;
-        let away_goals = ag.parse::<u8>().or_else(|e| {
-            Err(ParseError::NumberParsing {
-                val: ag.into(),
-                err: e,
-            })
+        let away_goals = ag.parse::<u8>().map_err(|e| ParseError::NumberParsing {
+            val: ag.into(),
+            err: e,
         })?;
         Ok(MatchResult {
             home_team,
