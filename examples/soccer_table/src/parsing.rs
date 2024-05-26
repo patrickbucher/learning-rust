@@ -40,7 +40,10 @@ impl MatchResult {
     ) -> Result<Vec<Result<MatchResult, ParseError>>, ParseError> {
         let pattern = "^(.+) ([0-9]+):([0-9]+) (.+)$";
         match Regex::new(pattern) {
-            Ok(p) => Ok(lines.iter().map(|l| Self::parse(l.into(), &p)).collect()),
+            Ok(p) => Ok(lines
+                .iter()
+                .map(|l| Self::parse(l.into(), &p))
+                .collect()),
             Err(e) => Err(ParseError::RegexSyntax {
                 pat: pattern.into(),
                 err: e,
