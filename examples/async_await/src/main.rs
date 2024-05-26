@@ -4,18 +4,15 @@ use std::num::ParseIntError;
 use std::{fmt, fmt::Display};
 
 fn main() {
-    let results = [
+    let results = vec![
         "FC Barcelona 2:3 Real Madrid",
         "Manchaster United 2:1 Arsenal London",
         "Bayer Leverkusen 1:0 Bayern München",
     ];
-    let pattern = Regex::new("^(.+) ([0-9]+):([0-9]+) (.+)$").expect("compiling pattern");
-    let results: Vec<_> = results
-        .iter()
-        .filter_map(|r| parse(r, &pattern).ok())
-        .collect();
+    let pattern = Regex::new("^(.+) ([0-9]+):([0-9]+) (.+)$").expect("invalid regex");
+    let results = results.iter().filter_map(|r| parse(r, &pattern).ok());
     for result in results {
-        println!("{:?}", result)
+        println!("{}", result);
     }
 }
 
