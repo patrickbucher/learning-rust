@@ -1,5 +1,4 @@
 use regex::Regex;
-use std::collections::HashMap;
 use std::error::Error;
 use std::fmt;
 use std::fmt::{Display, Formatter};
@@ -81,16 +80,20 @@ impl MatchResult {
 pub fn list_relevant_files(dir: &Path, day: Option<usize>) -> Result<Vec<PathBuf>, ()> {
     let pattern = Regex::new("([0-9]+).txt$").or(Err(()))?;
     match list_files(dir) {
-        Ok(files) => {
-            // TODO: solution with zip?
-            let files_to_days: HashMap<_, _> = files
-                .iter()
-                .map(|f| (f, extract_day(f, &pattern)))
-                .map(|(p, o)| (p, o.unwrap_or(0)))
-                .filter(|(_, d)| *d != 0)
-                .filter(|(_, d)| day.is_none() || *d <= day.unwrap_or(usize::MAX))
-                .collect();
-            Ok(files_to_days.keys().map(PathBuf::from).collect())
+        Ok(mut files) => {
+            files.sort();
+            match day {
+                Some(day) => {
+                    let days: Vec<usize> = files
+                        .iter()
+                        .map(|f| extract_day(f, &pattern))
+                        .map(|o| o.unwrap_or(usize::MAX))
+                        .filter(|d| *d <= day)
+                        .collect();
+                    Ok(files.iter().take(days.len()).map(PathBuf::from).collect())
+                }
+                None => Ok(files),
+            }
         }
         Err(()) => Err(()),
     }
