@@ -88,7 +88,7 @@ pub fn list_relevant_files(dir: &Path, day: Option<usize>) -> Result<Vec<PathBuf
                         .iter()
                         .map(|f| extract_day(f, &pattern))
                         .map(|o| o.unwrap_or(usize::MAX))
-                        .filter(|d| *d <= day)
+                        .take_while(|d| *d <= day)
                         .collect();
                     Ok(files.iter().take(days.len()).map(PathBuf::from).collect())
                 }
