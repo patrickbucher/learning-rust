@@ -1,3 +1,8 @@
+# Day 64 (2024-05-27)
+
+I started reading chapter 6 in the RSSA book and did the refactoring steps in
+preparation for the upcoming improvements of said chapter.
+
 # Day 63 (2024-05-26)
 
 I first wanted to work with the RSSA book, but then decided to look into
