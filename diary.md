@@ -1,3 +1,10 @@
+# Day 65 (2024-05-28)
+
+I planned to work through chapter 6.2 in the RSSA book, but after a bad night
+and an early appointment, I wasn't  able to even get started. Instead, I
+investigated an [issue](https://stackoverflow.com/q/78542978/6763074) I ran into
+the other day, which helped me gain some clarity.
+
 # Day 64 (2024-05-27)
 
 I started reading chapter 6 in the RSSA book and did the refactoring steps in
