@@ -1,6 +1,7 @@
 mod parsing;
 mod table_row;
 
+use itertools::Itertools;
 use parsing::{list_relevant_files, read_lines, MatchResult, ParseError};
 use std::collections::{hash_map::Entry, HashMap};
 use std::fmt::{Display, Error, Formatter};
@@ -77,19 +78,17 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, Failure> {
 
     let result: Vec<Result<MatchResult, ParseError>> =
         MatchResult::parse_all(lines).map_err(|e| Failure::Parsing(format!("{e}")))?;
-    let (results, errs): (Vec<_>, Vec<_>) = result.iter().partition(|e| e.is_ok());
+    let (results, errs): (Vec<_>, Vec<_>) = result.into_iter().partition_result();
     if !errs.is_empty() {
         let msg = errs
-            .into_iter()
-            .map(|e| e.as_ref().unwrap_err())
+            .iter()
             .map(|e| format!("{}", e))
             .collect::<Vec<_>>()
             .join(", ");
         return Err(Failure::Parsing(msg));
     }
     let single_rows: Vec<TableRow> = results
-        .into_iter()
-        .map(|r| r.as_ref().unwrap())
+        .iter()
         .map(|r| TableRow::from(r.clone()))
         .flat_map(|(a, b)| vec![a, b])
         .collect();
