@@ -56,14 +56,14 @@ impl Display for Table {
 
 pub enum Failure {
     Parsing(String),
-    Other,
+    Other(String),
 }
 
 impl Display for Failure {
     fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
         match self {
             Failure::Parsing(s) => write!(f, "{s}"),
-            Failure::Other => write!(f, "other failure"),
+            Failure::Other(s) => write!(f, "{s}"),
         }
     }
 }
@@ -110,10 +110,9 @@ pub fn compute_table(dir: &Path, day: Option<usize>) -> Result<Table, Failure> {
             Err(err) => errs.push(err),
         }
     }
-    if errs.is_empty() {
-        Ok(Table { rows })
-    } else {
-        Err(Failure::Other)
+    match errs.is_empty() {
+        true => Ok(Table { rows }),
+        false => Err(Failure::Other(errs.join(", "))),
     }
 }
 
