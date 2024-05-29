@@ -1,9 +1,19 @@
+# Day 66 (2024-05-29)
+
 # Day 65 (2024-05-28)
 
 I planned to work through chapter 6.2 in the RSSA book, but after a bad night
 and an early appointment, I wasn't  able to even get started. Instead, I
 investigated an [issue](https://stackoverflow.com/q/78542978/6763074) I ran into
 the other day, which helped me gain some clarity.
+
+In the evening, I registered two crates, just to make sure the names won't be
+taken. The first is `csvtool`, which will be a tool to deal with time sheets in
+CSV format. The second is `peasant`, which will consist of two binaries:
+`harvest` to collect JSON logs from nginx and system metricts such as CPU and
+memory usage to be stored in a Redis time series; and `granary` to archive the
+logs of multiple servers centrally. The goal is to develop a minimalistic
+logging/monitoring stack for my own use.
 
 # Day 64 (2024-05-27)
 
