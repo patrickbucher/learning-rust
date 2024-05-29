@@ -1,5 +1,9 @@
 # Day 66 (2024-05-29)
 
+I started building the boilerplate for `csvtool`. I took over the parsing code
+from this repository and deviced some dispatch mechanism to deal with different
+commands/tasks.
+
 # Day 65 (2024-05-28)
 
 I planned to work through chapter 6.2 in the RSSA book, but after a bad night
