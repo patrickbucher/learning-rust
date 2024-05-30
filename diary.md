@@ -1,3 +1,11 @@
+# Day 67 (2024-05-30)
+
+I refactored the parsing code for `csvtool`, which provides a struct containing
+the regex pattern, which then can be re-used for multiple parsing operations. (I
+recently profiled the code for a similar issue in the soccer-table example, and
+compiling regexes is really something you wouldn't want to do within an
+iteration.)
+
 # Day 66 (2024-05-29)
 
 I started building the boilerplate for `csvtool`. I took over the parsing code
