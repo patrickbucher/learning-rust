@@ -2,7 +2,8 @@
 
 I started building the boilerplate for `csvtool`. I took over the parsing code
 from this repository and deviced some dispatch mechanism to deal with different
-commands/tasks.
+commands/tasks. I also implemented the function to sum up a duration column of
+the format `hh:mm`, but wasn't able yet to extend the CSV output by that column.
 
 # Day 65 (2024-05-28)
 
