@@ -1,3 +1,12 @@
+# Day 68 (2024-05-31)
+
+After a bad night, I only got to Rust programming in the evening after having
+caught up on sleep. I worked on my `csvtool` and added a sum row to the parsed
+data structure. The tricky part is now to mangle this vector of hash maps back
+into a CSV data structure. I need to re-consider the entire idea of parsing,
+maybe I should process the CSV file on-the-fly using a reader/writer pair
+instead.
+
 # Day 67 (2024-05-30)
 
 I refactored the parsing code for `csvtool`, which provides a struct containing
