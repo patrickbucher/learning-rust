@@ -1,3 +1,17 @@
+# Day 69 (2024-06-01)
+
+As announced yesterday, I started the major refactoring on my `csvtool`. I also
+included a command to `rewrite` a CSV file, which serves as a kind of template
+for the re-implemented `sum-duration` functionality. I wonder if there will be a
+possibility to merge the two functionalities by passing some additional closures
+to it, but first I have to finish the refactoring, until I have a working
+version for my own productive company use.
+
+I also tried out some Vim integration for Rust, but at this point it doesn't
+seem to be worth the hassle. I'd rather deeply get to know the APIs on my own
+the hard way instead of messing around with half a dozen tools that just require
+setup, documentation, and maintenance.
+
 # Day 68 (2024-05-31)
 
 After a bad night, I only got to Rust programming in the evening after having
