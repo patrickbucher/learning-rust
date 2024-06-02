@@ -11,6 +11,39 @@ Concerning the `csvtool`: I finished the `sum-duration` command for now, but
 there is a lot to do in terms of testing and documentation. But at least I can
 use the tool in production now.
 
+On the planning front, I created a overview of my [ongoing Rust
+activities](activities.md). This is a good go-to document when I don't know what
+to do next. It also helps me to plan the next steps. Working on projects is
+something I can always do. The same is true for my notes, e.g. on [error
+handling](error-handling.md).
+
+But for deliberate practice into new territories, I have to plan which books to
+work through. _Effective Rust_ is perfectly to read along my other activities.
+_Exercises for Programmers_ is something to finish off, and so is the RSSA book.
+My current hunch is to finish both the RSSA book and _Exercises for Programmers_
+in June, the latter of which requires me to do one exercise a day. Finishing
+these two books would also mark the end of my initially planned three month
+period with Rust.
+
+The question is: Shall I continue with Rust, or pick up Haskell again or some
+other topic? Usually, picking up a fresh topic after a three month period seems
+very attractive to me. Not this time: Having worked with Rust every day for 70
+days now, Rust just feels _right_. I write slowly, and I write a lot of code.
+Even though this contradicts my ideal of easy to write concise code, I'm feeling
+very good about working with Rust. It never will compete against Ruby on Rails
+or Laravel when it comes to writing web applications very quickly. But another
+of my ideals is _going right_ instaed of _going fast_. And unlike Haskell,
+nobody can claim that Rust is an ivory tower language, for it has been both
+adopted by the Windows and the Linux kernel, which makes it running most of the
+world.
+
+I'd like to revisit my experiment of the last summer to learn Algorithms. But
+this time, I pick only Rust as my language, and I consider learning some
+algorithms in a special field, such as the ones presented in _Algorithms for
+Decision Making_. But the CLRS book might also be good to revisit with my
+upgraded Rust skills. I need to look at both, and maybe even into _Artificial
+Intelligence_, which sits right next to the CLRS book in my shelf.
+
 # Day 69 (2024-06-01)
 
 As announced yesterday, I started the major refactoring on my `csvtool`. I also
