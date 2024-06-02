@@ -42,7 +42,10 @@ this time, I pick only Rust as my language, and I consider learning some
 algorithms in a special field, such as the ones presented in _Algorithms for
 Decision Making_. But the CLRS book might also be good to revisit with my
 upgraded Rust skills. I need to look at both, and maybe even into _Artificial
-Intelligence_, which sits right next to the CLRS book in my shelf.
+Intelligence_, which sits right next to the CLRS book in my shelf. There are
+also alternatives such as _Grokking Algorithms_ and _A Common-Sense Guide to
+Data Structures and Algorithms_, which would both be a good stepping stone for a
+more serious project.
 
 # Day 69 (2024-06-01)
 
