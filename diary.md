@@ -7,6 +7,10 @@ create my own [Q&A collection](error-handling.md) with code examples and a
 Publishing a version of it on my personal website might be useful for myself and
 others, too.
 
+Concerning the `csvtool`: I finished the `sum-duration` command for now, but
+there is a lot to do in terms of testing and documentation. But at least I can
+use the tool in production now.
+
 # Day 69 (2024-06-01)
 
 As announced yesterday, I started the major refactoring on my `csvtool`. I also
