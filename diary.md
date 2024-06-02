@@ -1,3 +1,12 @@
+# Day 70 (2024-06-02)
+
+I started reading in _Effective Rust_ again; chapter 3 on `Result`/`Option`
+transforms, that is. The chapter is relatively short, but motivated me to do
+create my own [Q&A collection](error-handling.md) with code examples and a
+[diagram](error-handling.png). I'll extend this collection to my own use.
+Publishing a version of it on my personal website might be useful for myself and
+others, too.
+
 # Day 69 (2024-06-01)
 
 As announced yesterday, I started the major refactoring on my `csvtool`. I also

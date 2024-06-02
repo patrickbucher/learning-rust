@@ -1,0 +1,14 @@
+digraph ErrorHandling {
+    rankdir=LR;
+    graph [dpi=150];
+	node [fontname="Fantasque Sans Mono"];
+    edge [fontname="Fantasque Sans Mono", padding=32];
+    
+    result_te [label="Result<T, E>"];
+    result_tf [label="Result<T, F>"];
+    ref_to_option [label="&Option<T>"];
+    option_to_ref [label="Option<&T>"];
+
+    result_te -> result_tf [label="map_err"];
+    ref_to_option -> option_to_ref [label="as_ref"]
+}
