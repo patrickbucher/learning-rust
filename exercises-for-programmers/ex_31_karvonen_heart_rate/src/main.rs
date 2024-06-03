@@ -3,14 +3,14 @@ use akshually::io::prompt_line;
 fn main() {
     let age: usize = prompt_line("Age: ").expect("no age entered");
     let resting_pulse: usize = prompt_line("Resting Pulse: ").expect("no resting pulse entered");
-    println!("Intensity | Rate   ");
+    println!("{:>8} | {:>7}", "Intensity", "Rate");
     println!("-------------------");
     for i in 55..=95 {
         if i % 5 != 0 {
             continue;
         }
         let target = compute_target_heart_rate(age, resting_pulse, i);
-        println!("{i:2}%       | {target:3} bpm")
+        println!("{i:>8}% | {target:>3} bpm")
     }
 }
 
