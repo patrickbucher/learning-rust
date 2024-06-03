@@ -2,7 +2,7 @@
 
 # Q&A
 
-## Incompatible Error Types
+## Incompatible Error Types: `map_err()`
 
 - Q: My function returns `Result<T, E>`, but my error type is `F`.
 - A: Use the `map_err()` method on the result.
@@ -29,7 +29,7 @@ fn open_read(path: &str) -> Result<File, Failure> {
 }
 ```
 
-## Option of a Reference, Reference to an Option
+## Option of a Reference, Reference to an Option: `as_ref()`
 
 - Q: My function expects an `Option<&T>`, but I have an `&Option<T>`.
 - A: Use the `as_ref()` method on the option.
@@ -49,3 +49,7 @@ fn output(value: String, surround: Option<&char>) {
     }
 }
 ```
+
+## Unwrap an Option Using a Fallback Value: `unwrap_or()`
+
+TODO: `unwrap_or()`
