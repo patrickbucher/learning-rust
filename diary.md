@@ -1,3 +1,7 @@
+# Day 71 (2024-06-03)
+
+I worked through exercise 31 from _Exercises for Programmers_.
+
 # Day 70 (2024-06-02)
 
 I started reading in _Effective Rust_ again; chapter 3 on `Result`/`Option`
