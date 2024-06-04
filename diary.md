@@ -2,6 +2,10 @@
 
 I worked through exercise 31 from _Exercises for Programmers_.
 
+In the evening, I started to refactor `csvtool` in order to provide a common
+interface to `rewrite` and `sum-duration` using some kind of hooks, but I first
+need to figure out how to work with closures vs. function pointers.
+
 # Day 70 (2024-06-02)
 
 I started reading in _Effective Rust_ again; chapter 3 on `Result`/`Option`
