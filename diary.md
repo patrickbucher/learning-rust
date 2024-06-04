@@ -1,3 +1,7 @@
+# Day 72 (2024-06-04)
+
+I worked through exercise 32.
+
 # Day 71 (2024-06-03)
 
 I worked through exercise 31 from _Exercises for Programmers_.
