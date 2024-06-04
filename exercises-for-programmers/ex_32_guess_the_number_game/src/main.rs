@@ -50,7 +50,7 @@ fn play(number: usize) {
                     match n_guesses {
                         1 => println!("You're a mind reader!"),
                         2..=4 => println!("Most impressive."),
-                        5..=6 => println!("You can do better than that."),
+                        5 | 6 => println!("You can do better than that."),
                         7.. => println!("Better luck next time."),
                         _ => (),
                     }
