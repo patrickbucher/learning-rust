@@ -1,3 +1,7 @@
+# Day 73 (2024-06-05)
+
+I worked through exercise 33.
+
 # Day 72 (2024-06-04)
 
 I worked through exercise 32.
