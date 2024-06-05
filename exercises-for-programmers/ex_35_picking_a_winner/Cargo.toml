@@ -1,0 +1,8 @@
+[package]
+name = "ex_35_picking_a_winner"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+akshually = "0.2.3"
+rand = "0.8.5"
