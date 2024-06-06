@@ -1,3 +1,8 @@
+# Day 74 (2024-06-06)
+
+I worked through exercise 36. Unfortunately, the example standard deviation in
+the text is wrong.
+
 # Day 73 (2024-06-05)
 
 I worked through exercise 33, 34, and 35.
