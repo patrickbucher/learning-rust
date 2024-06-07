@@ -1,3 +1,7 @@
+# Day 75 (2024-06-07)
+
+I worked through exercise 37.
+
 # Day 74 (2024-06-06)
 
 I worked through exercise 36. Unfortunately, the example standard deviation in
