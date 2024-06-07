@@ -14,4 +14,5 @@ digraph ErrorHandling {
     result_te -> result_tf [label="map_err"];
     ref_to_option -> option_to_ref [label="as_ref"]
     option_t -> t [label="unwrap_or"];
+    result_te -> t [label="unwrap_or"];
 }
