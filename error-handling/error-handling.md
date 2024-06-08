@@ -88,7 +88,7 @@ Output:
 The sum of ["123", "abc", "17", "", "1"] is 141.
 ```
 
-## Partitioning a Collection of Results: `partition_result()` Itertools
+## Partitioning a Collection of Results: `partition_result()` from Itertools
 
 - Q: How can I partition the `T` and `E` values into two collections:
 - A: Use `partition_result()` provided by [itertools](https://crates.io/crates/itertools).
