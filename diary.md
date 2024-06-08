@@ -1,6 +1,10 @@
+# Day 76 (2024-06-08)
+
+I worked through exercise 39.
+
 # Day 75 (2024-06-07)
 
-I worked through exercise 37.
+I worked through exercises 37 and 38.
 
 # Day 74 (2024-06-06)
 
