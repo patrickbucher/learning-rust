@@ -1,6 +1,4 @@
-# Error Handling
-
-# Q&A
+# Error Handling Q&A
 
 ## Incompatible Error Types: `map_err()`
 
