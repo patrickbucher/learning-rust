@@ -3,7 +3,7 @@
 - Reading _Effective Rust_
     - state: item 3/35
 - Working through [_Exercises for Programmers_](exercises-for-programmers)
-    - state: exercise 30/57
+    - state: exercise 39/57
 - Working through [_Rust Servers, Services, and
   Apps_](https://github.com/patrickbucher/rssa)
     - state: chapter 6/12
@@ -18,4 +18,5 @@
 - Working on [rowcalc](https://github.com/patrickbucher/rowcalc)
     - state: computed split times, but breaks aren't considered
 - Working on error handling
-    - state: started [Q&A](error-handling.md) and [overview](error-handling.png)
+    - state: started [Q&A](error-handling/error-handling.md) and
+      [overview](error-handling/error-handling.png)
