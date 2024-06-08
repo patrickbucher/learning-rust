@@ -7,6 +7,9 @@ ses two closures to 1) extract a particular column value of each row, and 2) sum
 up the durations for the additional total row. I still don't understand
 everything, and the code lacks proper error handling, but it's a progress.
 
+Later, I wrote a little program to compare Formula 1 tyre strategies. I had the
+idea for school, but first wanted to implement it in Rust as a proof of concept.
+
 # Day 75 (2024-06-07)
 
 I worked through exercises 37 and 38.
