@@ -1,5 +1,22 @@
 # Learning Rust
 
+every day
+
+## Artifacts
+
+- [activities.md](activities.md): ongoing learning activities
+- [diary.md](diary.md): daily log of learning activities
+- [error-handling](error-handling/): Q&A and overview about error handling
+- [examples](examples/): programming examples (from _The Book_ and own examples)
+- [exercises-for-programmers](exercises-for-programmers/): exercises from
+  [Exercises for Programmers](https://pragprog.com/titles/bhwb/exercises-for-programmers/)
+- [grokking-algorithms](grokking-algorithms/): examples for [Grokking
+  Algorithms](https://www.manning.com/books/grokking-algorithms), currently on
+  hold
+- [notes](notes/): notes on various topics
+
+## Initial Idea
+
 Adapted from [How to Learn Rust](https://www.youtube.com/watch?v=2hXNd6x9sZs)
 
 1. Read a chapter of [The Rust Programming Language (2nd
