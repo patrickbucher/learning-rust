@@ -69,3 +69,28 @@ fn main() {
     println!("The sum of {:?} is {sum}.", inputs);
 }
 ```
+
+## Partitioning a Collection of Results: `partition_result()` Itertools
+
+- Q: How can I partition the `T` and `E` values into two collections:
+- A: Use `partition_result()` provided by [itertools](https://crates.io/crates/itertools).
+
+Setup:
+
+```bash
+cargo add itertools
+```
+
+Example:
+
+```rust
+use itertools::Itertools;
+
+fn main() {
+    let inputs = ["123", "abc", "17", "", "1"];
+    let (numbers, errors): (Vec<usize>, Vec<_>) =
+        inputs.iter().map(|s| s.parse::<usize>()).partition_result();
+    println!("numbers: {:?}", numbers);
+    println!("errors: {:?}", errors);
+}
+```
