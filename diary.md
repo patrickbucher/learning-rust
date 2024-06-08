@@ -2,6 +2,11 @@
 
 I worked through exercise 39.
 
+I also managed to refactor the `sum-duration` command of `csvtool`, which now u
+ses two closures to 1) extract a particular column value of each row, and 2) sum
+up the durations for the additional total row. I still don't understand
+everything, and the code lacks proper error handling, but it's a progress.
+
 # Day 75 (2024-06-07)
 
 I worked through exercises 37 and 38.
