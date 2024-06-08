@@ -40,7 +40,7 @@ fn main() {
         lap_deg_percentage: 1.25,
     };
     let hard = Tyre {
-        description: "Medium",
+        description: "Hard",
         lap_time_factor: 1.02,
         lap_deg_percentage: 1.0,
     };
@@ -113,6 +113,7 @@ fn calculate_race_time(track: &Track, strategy: &Strategy) -> Option<Duration> {
     }
     let mut race_time = Duration::new(0, 0);
     for stint in &strategy.stints {
+        // TODO: only add between stints, not for each stint
         race_time = race_time.saturating_add(track.pit_stop_delta_time);
         let base_lap_time = track.base_lap_time.mul_f32(stint.tyre.lap_time_factor);
         for lap in 0..stint.laps {
