@@ -14,9 +14,11 @@ use std::error::Error;
 use std::fs::File;
 
 fn main() {
-    let _handle = open_read("/etc/passwd");
+    let handle = open_read("/etc/passwd");
+    println!("{:?}", handle);
 }
 
+#[derive(Debug)]
 struct Failure {
     cause: String,
 }
@@ -27,6 +29,12 @@ fn open_read(path: &str) -> Result<File, Failure> {
     })?;
     Ok(file)
 }
+```
+
+Output:
+
+```text
+Ok(File { fd: 3, path: "/etc/passwd", read: true, write: false })
 ```
 
 ## Option of a Reference, Reference to an Option: `as_ref()`
@@ -50,6 +58,12 @@ fn output(value: String, surround: Option<&char>) {
 }
 ```
 
+Output:
+
+```text
+|hello|
+```
+
 ## Unwrap an Option or a Result Using a Fallback Value: `unwrap_or()`
 
 - Q: How can I process a collection of `Option<T>` or `Result<T, E>`, when I
@@ -68,6 +82,12 @@ fn main() {
         .sum();
     println!("The sum of {:?} is {sum}.", inputs);
 }
+```
+
+Output:
+
+```text
+The sum of ["123", "abc", "17", "", "1"] is 141.
 ```
 
 ## Partitioning a Collection of Results: `partition_result()` Itertools
@@ -93,4 +113,11 @@ fn main() {
     println!("numbers: {:?}", numbers);
     println!("errors: {:?}", errors);
 }
+```
+
+Output:
+
+```text
+numbers: [123, 17, 1]
+errors: [ParseIntError { kind: InvalidDigit }, ParseIntError { kind: Empty }]
 ```
