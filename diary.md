@@ -1,7 +1,10 @@
 # Day 78 (2024-06-10)
 
 I worked through exercises 41, 42, 43, 44, 45, and 46 on file handling; and on
-exercise 47 on API access.
+exercise 47 on API access. I think it's the best to finish one book at a time;
+first _Exercises for Programmers_ and then the RSSA book. Afterwards, I'd like
+to get into algorithms again using Rust, probably starting with _Grokking
+Algorithms_ or with _A Common-Sense Guide to Data Structures and Algorithms_.
 
 # Day 77 (2024-06-09)
 
