@@ -1,0 +1,6 @@
+[package]
+name = "ex_41_name_sorter"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
