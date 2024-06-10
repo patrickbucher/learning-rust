@@ -1,3 +1,7 @@
+# Day 78 (2024-06-10)
+
+I worked through exercise 41.
+
 # Day 77 (2024-06-09)
 
 I only managed to do some programming in the evening: exercise 40.
