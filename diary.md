@@ -1,6 +1,6 @@
 # Day 78 (2024-06-10)
 
-I worked through exercises 41, 42, 43, and 44.
+I worked through exercises 41, 42, 43, 44, 45, and 46.
 
 # Day 77 (2024-06-09)
 
