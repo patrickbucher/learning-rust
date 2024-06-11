@@ -1,3 +1,8 @@
+# Day 79 (2024-06-11)
+
+I worked through exercise 48, which took a while to test, because the API key
+was only accepted roughly 15 minutes after registration.
+
 # Day 78 (2024-06-10)
 
 I worked through exercises 41, 42, 43, 44, 45, and 46 on file handling; and on
