@@ -1,0 +1,6 @@
+[package]
+name = "ex_50_movie_recommendations"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
