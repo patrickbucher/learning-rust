@@ -3,6 +3,14 @@
 I worked through exercise 48, which took a while to test, because the API key
 was only accepted roughly 15 minutes after registration.
 
+Exercise 49 I only managed to finished in the evening. I didn't care about
+proper error handling, but it's more important to deal with HTTP requests and
+JSON deserialization in those exercises.
+
+For exercise 50, I already found an alternative API to be used, because the
+proposed API from Rotten Tomatoes is no longer freely available for educational
+purposes.
+
 # Day 78 (2024-06-10)
 
 I worked through exercises 41, 42, 43, 44, 45, and 46 on file handling; and on
