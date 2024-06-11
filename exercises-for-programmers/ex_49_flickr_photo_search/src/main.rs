@@ -12,8 +12,6 @@ struct Payload {
 
 #[derive(Deserialize, Debug)]
 struct Item {
-    title: String,
-    link: String,
     media: Media,
 }
 
@@ -55,6 +53,7 @@ fn main() {
     let mut html = String::from("<!DOCTYPE html><head><title>");
     html.push_str(&payload.title);
     html.push_str("</title></head><body>");
+    html.push_str(&format!("<h1>{}</h1>", &payload.title));
     for (i, url) in images {
         let mut target = base_dir.clone();
         let relative_name = format!("{i}.jpg");
