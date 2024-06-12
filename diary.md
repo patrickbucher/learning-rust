@@ -1,3 +1,8 @@
+# Day 80 (2024-06-12)
+
+I worked through exercise 50, for which I figured out how to map fields with an
+arbitrary names with serde.
+
 # Day 79 (2024-06-11)
 
 I worked through exercise 48, which took a while to test, because the API key
