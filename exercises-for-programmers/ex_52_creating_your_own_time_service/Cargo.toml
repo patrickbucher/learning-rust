@@ -1,0 +1,17 @@
+[package]
+name = "ex_52_creating_your_own_time_service"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "server"
+
+[[bin]]
+name = "client"
+
+[dependencies]
+actix-rt = "2.10.0"
+actix-web = "4.7.0"
+chrono = "0.4.38"
+reqwest = { version = "0.12.4", features = ["blocking"] }
+serde = { version = "1.0.203", features = ["derive"] }
