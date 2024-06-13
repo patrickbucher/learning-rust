@@ -1,7 +1,10 @@
 # Day 81 (2024-06-13)
 
 I worked through exercise 51, for which I used quite a couple of libraries:
-dotenv, serde, reqwest.
+dotenv, serde, reqwest. For exercise 52, I used the actix framework. This
+concludes the penultimate section of _Exercises for Programmers_. There are five
+more exercises, which are supposedly quite big. I'd like to go through them this
+week, so that I can finish the RSSA book in the second half of June.
 
 # Day 80 (2024-06-12)
 
