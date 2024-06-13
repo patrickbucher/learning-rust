@@ -1,7 +1,15 @@
+# Day 81 (2024-06-13)
+
+I worked through exercise 51, for which I used quite a couple of libraries:
+dotenv, serde, reqwest.
+
 # Day 80 (2024-06-12)
 
 I worked through exercise 50, for which I figured out how to map fields with an
 arbitrary names with serde.
+
+Later, it took me some time to figure out how to deal with Firebase for exercise
+51, for which I am supposed to use the REST API instead of the Firebase API.
 
 # Day 79 (2024-06-11)
 
