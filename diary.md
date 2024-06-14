@@ -5,6 +5,8 @@ contradicting constraints. Getting acquainted with a Redis library for Rust is
 the first step for my little monitoring tool called peasant, which I'd like to
 develop this year.
 
+I only managed to work through exercise 53 late in the evening.
+
 # Day 81 (2024-06-13)
 
 I worked through exercise 51, for which I used quite a couple of libraries:
