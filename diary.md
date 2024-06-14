@@ -1,3 +1,10 @@
+# Day 82 (2024-06-14)
+
+I glanced at exercises 53-57 and decided to use Redis for _all_ of them, besides
+contradicting constraints. Getting acquainted with a Redis library for Rust is
+the first step for my little monitoring tool called peasant, which I'd like to
+develop this year.
+
 # Day 81 (2024-06-13)
 
 I worked through exercise 51, for which I used quite a couple of libraries:
