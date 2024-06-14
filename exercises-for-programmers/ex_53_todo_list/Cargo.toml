@@ -1,0 +1,8 @@
+[package]
+name = "ex_53_todo_list"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+akshually = "0.2.3"
+redis = "0.25.4"
