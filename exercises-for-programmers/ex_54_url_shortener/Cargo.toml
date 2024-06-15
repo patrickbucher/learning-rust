@@ -1,0 +1,11 @@
+[package]
+name = "ex_54_url_shortener"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-files = "0.6.6"
+actix-rt = "2.10.0"
+actix-web = "4.7.0"
+redis = "0.25.4"
+serde = { version = "1.0.203", features = ["derive"] }
