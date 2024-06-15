@@ -1,3 +1,9 @@
+# Day 83 (2024-06-15)
+
+I worked on exercise 54, which is an URL shortener. I got it to work using actix
+with Redis as a storage backend, however, I still need to implement the
+statistics function.
+
 # Day 82 (2024-06-14)
 
 I glanced at exercises 53-57 and decided to use Redis for _all_ of them, besides
