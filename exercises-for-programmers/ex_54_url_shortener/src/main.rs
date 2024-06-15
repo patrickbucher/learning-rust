@@ -2,6 +2,7 @@ use actix_files::NamedFile;
 use actix_web::{web, App, HttpResponse, HttpServer, Responder, Result};
 use md5;
 use redis;
+use reqwest;
 use serde::Deserialize;
 use std::io;
 use std::path::PathBuf;
@@ -22,8 +23,20 @@ fn routes(cfg: &mut web::ServiceConfig) {
     cfg.route("/", web::get().to(index));
     cfg.route("/url", web::post().to(post_url));
     cfg.route("/short/{digest}", web::get().to(get_short));
-    cfg.route("/canary", web::get().to(canary));
-    // TODO: introduce statistics page
+    cfg.route("/stats/{digest}", web::get().to(get_stats));
+}
+
+async fn get_stats(app_state: web::Data<AppState>, path: web::Path<String>) -> impl Responder {
+    let mut con = app_state.client.get_connection().unwrap();
+    let url_key = format!("url.{path}");
+    let count_key = format!("url.{path}.hits");
+    let url = redis::cmd("get").arg(&url_key).query::<String>(&mut con);
+    let count = redis::cmd("get").arg(&count_key).query::<usize>(&mut con);
+    match (url, count) {
+        (Ok(url), Ok(count)) => HttpResponse::Ok().body(format!("{path:20}{url:60}{count:10}")),
+        _ => HttpResponse::InternalServerError()
+            .body(format!("failed to fetch stats page for {path}")),
+    }
 }
 
 async fn get_short(app_state: web::Data<AppState>, path: web::Path<String>) -> impl Responder {
@@ -31,7 +44,12 @@ async fn get_short(app_state: web::Data<AppState>, path: web::Path<String>) -> i
     let mut con = app_state.client.get_connection().unwrap();
     match redis::cmd("get").arg(&key).query::<String>(&mut con) {
         Ok(url) => {
-            // TODO: increase counter within redis
+            let hit_key = format!("url.{path}.hits");
+            match redis::cmd("incr").arg(&hit_key).query::<usize>(&mut con) {
+                Ok(x) => eprintln!("incremented {hit_key} to {x}"),
+                Err(err) => eprintln!("incr {hit_key}: {err}"),
+            }
+            eprintln!("redirect {path} to {url}");
             HttpResponse::PermanentRedirect()
                 .append_header(("Location", url))
                 .finish()
@@ -44,7 +62,9 @@ async fn post_url(
     app_state: web::Data<AppState>,
     web::Form(form): web::Form<UrlForm>,
 ) -> impl Responder {
-    // TODO: validate URL using get request
+    if let Err(err) = reqwest::get(&form.url).await {
+        return HttpResponse::BadRequest().body(format!("get {}: {err}", &form.url));
+    }
     let digest = md5::compute(&form.url);
     let digest = format!("{:x}", digest);
     let digest = &digest[0..6];
@@ -62,10 +82,6 @@ async fn post_url(
 async fn index() -> Result<NamedFile> {
     let path: PathBuf = "./index.html".parse().unwrap();
     Ok(NamedFile::open(path)?)
-}
-
-async fn canary() -> impl Responder {
-    format!("up and running")
 }
 
 #[actix_rt::main]
