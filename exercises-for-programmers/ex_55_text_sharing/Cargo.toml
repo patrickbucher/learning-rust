@@ -1,0 +1,12 @@
+[package]
+name = "ex_55_text_sharing"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-rt = "2.10.0"
+actix-web = "4.7.0"
+md5 = "0.7.0"
+redis = "0.25.4"
+reqwest = "0.12.4"
+serde = { version = "1.0.203", features = ["derive"] }
