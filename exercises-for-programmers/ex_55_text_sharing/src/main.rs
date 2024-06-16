@@ -15,6 +15,26 @@ struct AppState {
 }
 
 impl AppState {
+    fn set_text(&self, text: &str, hash: Option<&str>) -> Result<String, String> {
+        let hash = match hash {
+            Some(hash) => String::from(hash),
+            None => {
+                let hash = md5::compute(text);
+                format!("{:x}", hash)
+            }
+        };
+        let key = format!("text.{hash}");
+        let mut con = self.client.get_connection().unwrap();
+        match redis::cmd("set")
+            .arg(&key)
+            .arg(&text)
+            .query::<String>(&mut con)
+        {
+            Ok(_) => Ok(hash),
+            Err(err) => Err(format!("set {key}: {err}")),
+        }
+    }
+
     fn get_text(&self, hash: &str) -> Result<String, String> {
         let mut con = self.client.get_connection().unwrap();
         let key = format!("text.{hash}");
@@ -44,6 +64,7 @@ fn routes(cfg: &mut web::ServiceConfig) {
     cfg.route("/text", web::post().to(post_text));
     cfg.route("/text/{hash}", web::get().to(get_text));
     cfg.route("/edit/{hash}", web::get().to(get_edit));
+    cfg.route("/edit/{hash}", web::post().to(post_edit));
 }
 
 async fn get_index() -> Result<NamedFile> {
@@ -55,17 +76,8 @@ async fn post_text(
     app_state: web::Data<AppState>,
     web::Form(form): web::Form<TextForm>,
 ) -> impl Responder {
-    let hash = md5::compute(&form.text);
-    let hash = format!("{hash:x}");
-    let key = format!("text.{hash}");
-    eprintln!("post text: {} ({})", &form.text, hash);
-    let mut con = app_state.client.get_connection().unwrap();
-    match redis::cmd("set")
-        .arg(key)
-        .arg(&form.text)
-        .query::<String>(&mut con)
-    {
-        Ok(_) => HttpResponse::Created().body(format!("{BASE_URL}/text/{hash}")),
+    match app_state.set_text(&form.text, None) {
+        Ok(hash) => HttpResponse::Created().body(format!("{BASE_URL}/text/{hash}")),
         Err(err) => HttpResponse::InternalServerError().body(format!("error: {err}")),
     }
 }
@@ -90,5 +102,17 @@ fn load_text(app_state: web::Data<AppState>, hash: &str, template_file: &str) ->
             HttpResponse::Ok().body(html)
         }
         Err(err) => HttpResponse::NotFound().body(format!("no text with hash {hash}: {err}")),
+    }
+}
+
+async fn post_edit(
+    app_state: web::Data<AppState>,
+    web::Form(form): web::Form<TextForm>,
+    path: web::Path<String>,
+) -> impl Responder {
+    let hash = format!("{path}");
+    match app_state.set_text(&form.text, Some(&hash)) {
+        Ok(hash) => HttpResponse::Ok().body(format!("{BASE_URL}/text/{hash}")),
+        Err(err) => HttpResponse::InternalServerError().body(format!("error: {err}")),
     }
 }
