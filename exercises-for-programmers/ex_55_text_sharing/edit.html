@@ -2,13 +2,13 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Exercise 55: Text Sharing</title>
+        <title>Edit Text {{HASH}}</title>
     </head>
     <body>
-        <h1>Exercise 55: Text Sharing</h1>
-        <form method="post" action="/text">
+        <h1>Edit Text {{HASH}}</h1>
+        <form method="post" action="/edit/{{HASH}}">
             <div><label for="text">Text</label></div>
-            <div><textarea name="text" rows="10" cols="50"></textarea></div>
+            <div><textarea name="text" rows="10" cols="50">{{TEXT}}</textarea></div>
             <div><input type="submit"></div>
         </form>
     </body>

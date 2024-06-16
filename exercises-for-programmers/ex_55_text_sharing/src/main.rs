@@ -14,6 +14,17 @@ struct AppState {
     client: redis::Client,
 }
 
+impl AppState {
+    fn get_text(&self, hash: &str) -> Result<String, String> {
+        let mut con = self.client.get_connection().unwrap();
+        let key = format!("text.{hash}");
+        match redis::cmd("get").arg(&key).query::<String>(&mut con) {
+            Ok(text) => Ok(text),
+            Err(err) => Err(format!("get {}: {err}", key)),
+        }
+    }
+}
+
 #[derive(Deserialize)]
 struct TextForm {
     text: String,
@@ -32,6 +43,7 @@ fn routes(cfg: &mut web::ServiceConfig) {
     cfg.route("/", web::get().to(get_index));
     cfg.route("/text", web::post().to(post_text));
     cfg.route("/text/{hash}", web::get().to(get_text));
+    cfg.route("/edit/{hash}", web::get().to(get_edit));
 }
 
 async fn get_index() -> Result<NamedFile> {
@@ -59,12 +71,19 @@ async fn post_text(
 }
 
 async fn get_text(app_state: web::Data<AppState>, path: web::Path<String>) -> impl Responder {
-    let mut con = app_state.client.get_connection().unwrap();
     let hash = format!("{path}");
-    let key = format!("text.{hash}");
-    match redis::cmd("get").arg(&key).query::<String>(&mut con) {
+    load_text(app_state, &hash, "./text.html")
+}
+
+async fn get_edit(app_state: web::Data<AppState>, path: web::Path<String>) -> impl Responder {
+    let hash = format!("{path}");
+    load_text(app_state, &hash, "./edit.html")
+}
+
+fn load_text(app_state: web::Data<AppState>, hash: &str, template_file: &str) -> impl Responder {
+    match app_state.get_text(&hash) {
         Ok(text) => {
-            let template = fs::read_to_string("./text.html").unwrap();
+            let template = fs::read_to_string(template_file).unwrap();
             let html = template
                 .replace("{{HASH}}", &hash)
                 .replace("{{TEXT}}", &text);
