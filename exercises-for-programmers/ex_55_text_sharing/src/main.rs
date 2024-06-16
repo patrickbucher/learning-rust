@@ -3,6 +3,7 @@ use actix_web::{web, App, HttpResponse, HttpServer, Responder, Result};
 use md5;
 use redis;
 use serde::Deserialize;
+use std::fs;
 use std::io;
 use std::path::PathBuf;
 
@@ -30,6 +31,7 @@ async fn main() -> io::Result<()> {
 fn routes(cfg: &mut web::ServiceConfig) {
     cfg.route("/", web::get().to(get_index));
     cfg.route("/text", web::post().to(post_text));
+    cfg.route("/text/{hash}", web::get().to(get_text));
 }
 
 async fn get_index() -> Result<NamedFile> {
@@ -45,7 +47,6 @@ async fn post_text(
     let hash = format!("{hash:x}");
     let key = format!("text.{hash}");
     eprintln!("post text: {} ({})", &form.text, hash);
-
     let mut con = app_state.client.get_connection().unwrap();
     match redis::cmd("set")
         .arg(key)
@@ -54,5 +55,21 @@ async fn post_text(
     {
         Ok(_) => HttpResponse::Created().body(format!("{BASE_URL}/text/{hash}")),
         Err(err) => HttpResponse::InternalServerError().body(format!("error: {err}")),
+    }
+}
+
+async fn get_text(app_state: web::Data<AppState>, path: web::Path<String>) -> impl Responder {
+    let mut con = app_state.client.get_connection().unwrap();
+    let hash = format!("{path}");
+    let key = format!("text.{hash}");
+    match redis::cmd("get").arg(&key).query::<String>(&mut con) {
+        Ok(text) => {
+            let template = fs::read_to_string("./text.html").unwrap();
+            let html = template
+                .replace("{{HASH}}", &hash)
+                .replace("{{TEXT}}", &text);
+            HttpResponse::Ok().body(html)
+        }
+        Err(err) => HttpResponse::NotFound().body(format!("no text with hash {hash}: {err}")),
     }
 }
