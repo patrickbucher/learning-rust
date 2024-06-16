@@ -3,7 +3,7 @@
 - Reading _Effective Rust_
     - state: item 3/35
 - Working through [_Exercises for Programmers_](exercises-for-programmers)
-    - state: exercise 39/57
+    - state: exercise 55/57
 - Working through [_Rust Servers, Services, and
   Apps_](https://github.com/patrickbucher/rssa)
     - state: chapter 6/12
