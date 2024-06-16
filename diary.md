@@ -1,3 +1,11 @@
+# Day 84 (2024-06-16)
+
+I worked through exercise 55, which is a text sharing/editing tool. The
+requirements were technically quite similar to exercise 54 from yesterday, so I
+could make the code slightly nicer and was able to do everything roughly 80
+minutes. I also used a poor man's templating engine for the task, because
+learning a proper one would be overkill. (But I should look into those, too.)
+
 # Day 83 (2024-06-15)
 
 I worked on exercise 54, which is an URL shortener. I got it to work using actix
