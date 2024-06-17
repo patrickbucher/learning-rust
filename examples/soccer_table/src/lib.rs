@@ -43,8 +43,8 @@ impl Display for Table {
                 r.team,
                 r.points,
                 r.wins,
-                r.defeats,
                 r.ties,
+                r.defeats,
                 r.goals_scored,
                 r.goals_conceded,
                 r.goals_diff
