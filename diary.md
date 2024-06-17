@@ -1,3 +1,7 @@
+# Day 85 (2024-06-17)
+
+I did exercise 56 in the evening. One more to go.
+
 # Day 84 (2024-06-16)
 
 I worked through exercise 55, which is a text sharing/editing tool. The
