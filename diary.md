@@ -2,6 +2,9 @@
 
 I worked through exercise 57 and, thus, finished the book.
 
+I also wrote a little utility called [warmup](https://crates.io/crates/warmup)
+for my own use.
+
 # Day 85 (2024-06-17)
 
 I did exercise 56 in the evening. One more to go.
