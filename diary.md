@@ -1,3 +1,7 @@
+# Day 86 (2024-06-18)
+
+I worked through exercise 57 and, thus, finished the book.
+
 # Day 85 (2024-06-17)
 
 I did exercise 56 in the evening. One more to go.

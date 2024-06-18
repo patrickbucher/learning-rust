@@ -1,12 +1,10 @@
 # Activities
 
-- Reading _Effective Rust_
-    - state: item 3/35
-- Working through [_Exercises for Programmers_](exercises-for-programmers)
-    - state: exercise 55/57
 - Working through [_Rust Servers, Services, and
   Apps_](https://github.com/patrickbucher/rssa)
     - state: chapter 6/12
+- Reading _Effective Rust_
+    - state: item 3/35
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
     - state: first useful features done, requires tests, documentation, and
       error handling
