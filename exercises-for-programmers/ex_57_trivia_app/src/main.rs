@@ -1,14 +1,15 @@
 use akshually::io::prompt_line;
+use rand::{thread_rng, RngCore};
 use std::env;
 use std::fs;
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct Question {
     text: String,
     answers: Vec<Answer>,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 struct Answer {
     text: String,
     correct: bool,
@@ -77,12 +78,24 @@ fn parse(path: &str) -> Result<Vec<Question>, String> {
                     answers.push(answer);
                 }
             }
-            let mut question = Question {
+            let question = Question {
                 text: text.into(),
-                answers,
+                answers: shuffle(&answers),
             };
             questions.push(question);
         }
     }
-    Ok(questions)
+    Ok(shuffle(&mut questions))
+}
+
+fn shuffle<T: Clone>(items: &Vec<T>) -> Vec<T> {
+    let mut result: Vec<T> = Vec::new();
+    let mut copy: Vec<T> = items.iter().map(|e| e.clone()).collect();
+    let mut rand = thread_rng();
+    while !copy.is_empty() {
+        let i: usize = rand.next_u32() as usize % copy.len();
+        result.push(copy[i].clone());
+        copy.remove(i);
+    }
+    result
 }
