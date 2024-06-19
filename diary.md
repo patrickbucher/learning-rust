@@ -1,3 +1,8 @@
+# Day 87 (2024-06-19)
+
+I finally picked up the RSSA book again after 2-3 weeks of other activities. I
+enhanced the course data model as described.
+
 # Day 86 (2024-06-18)
 
 I worked through exercise 57 and, thus, finished the book.
