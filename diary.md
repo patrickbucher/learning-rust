@@ -1,3 +1,9 @@
+# Day 88 (2024-06-20)
+
+I continued working through chapter 6 of the RSSA book. I spotted more
+repetitions and incoherences. The book could be considerably shorter—and better.
+But I'll finish it anyway.
+
 # Day 87 (2024-06-19)
 
 I finally picked up the RSSA book again after 2-3 weeks of other activities. I
