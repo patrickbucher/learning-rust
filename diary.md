@@ -1,3 +1,8 @@
+# Day 89 (2024-06-21)
+
+Little time today again, but I continued writing the unit tests for chapter 6 in
+the RSSA book.
+
 # Day 88 (2024-06-20)
 
 I continued working through chapter 6 of the RSSA book. I spotted more
