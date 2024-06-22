@@ -1,3 +1,8 @@
+# Day 90 (2024-06-22)
+
+Not much progress on the RSSA front; the code doesn't build after all the
+modifications. I have to step through the recent ~12 pages again.
+
 # Day 89 (2024-06-21)
 
 Little time today again, but I continued writing the unit tests for chapter 6 in
