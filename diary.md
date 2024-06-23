@@ -1,3 +1,10 @@
+# Day 91 (2024-06-23)
+
+I managed to get the first half of the modifications in chapter 6 (RSSA book)
+running. There was quite some drudgery involved, and the book's quality is below
+the usual Manning standards. However, there's useful content in the rest of the
+book, so I'll continue to work it through.
+
 # Day 90 (2024-06-22)
 
 Not much progress on the RSSA front; the code doesn't build after all the
