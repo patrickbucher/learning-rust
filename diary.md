@@ -4,6 +4,8 @@ I almost finished chapter 6 in the RSSA book, but unfortunately, the code
 provided is incomplete. Fortunately, the upcoming chapters look promising
 (templates, forms, async), so I'll struggle through it.
 
+In the evening, I finally finished chapter 6.
+
 # Day 91 (2024-06-23)
 
 I managed to get the first half of the modifications in chapter 6 (RSSA book)
