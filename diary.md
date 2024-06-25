@@ -1,3 +1,8 @@
+# Day 93 (2024-06-25)
+
+I started working through chapter 7, which introduces Tera templates that are
+similar to Jinja templates.
+
 # Day 92 (2024-06-24)
 
 I almost finished chapter 6 in the RSSA book, but unfortunately, the code
