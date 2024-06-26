@@ -1,3 +1,10 @@
+# Day 94 (2024-06-26)
+
+I managed to finish chapter 7 in the RSSA book, which required some adjustments
+(the actix client is now part of the awc crate). I'd like to go as quickly as
+possible through chapters 8 and 9 so that I can get started with Grokking
+Algorithms next week.
+
 # Day 93 (2024-06-25)
 
 I started working through chapter 7, which introduces Tera templates that are
