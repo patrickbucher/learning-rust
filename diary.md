@@ -1,3 +1,8 @@
+# Day 95 (2024-06-27)
+
+I started working through chapter 8 in the RSSA book, which again looks rather
+tedious.
+
 # Day 94 (2024-06-26)
 
 I managed to finish chapter 7 in the RSSA book, which required some adjustments
