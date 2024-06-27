@@ -5,6 +5,10 @@ I managed to finish chapter 7 in the RSSA book, which required some adjustments
 possible through chapters 8 and 9 so that I can get started with Grokking
 Algorithms next week.
 
+In the evening, I worked through my first session of [Drink First
+Programming](https://www.youtube.com/playlist?list=PLux6j39XOCC7T_3h1MI86CkOc1qqrzxGR),
+for which I implemented _Connect Four_ in Rust.
+
 # Day 93 (2024-06-25)
 
 I started working through chapter 7, which introduces Tera templates that are
