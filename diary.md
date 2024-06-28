@@ -1,3 +1,9 @@
+# Day 96 (2024-06-28)
+
+I continued working on chapter 8 in the RSSA book. I also wrote a short review
+about the book on Amazon to warn other readers. It was really executed poorly.
+Afterwards, I finished chapter 8 nonetheless.
+
 # Day 95 (2024-06-27)
 
 I started working through chapter 8 in the RSSA book, which again looks rather
