@@ -1,8 +1,9 @@
 # Activities
 
-- Working through [_Rust Servers, Services, and
-  Apps_](https://github.com/patrickbucher/rssa)
-    - state: chapter 6/12
+- Working through [_Rust Servers, Services, and Apps_](https://github.com/patrickbucher/rssa)
+    - state: chapter 9/12
+- Working through _Grokking Algorithms_
+    - state: next up
 - Reading _Effective Rust_
     - state: item 3/35
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
