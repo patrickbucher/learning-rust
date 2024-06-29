@@ -1,3 +1,10 @@
+# Day 97 (2024-06-29)
+
+I worked through chapter 9 in the RSSA book, which hardly introduced anything
+new besides checking a hashed password. I modified my review on Amazon and
+reduced the rating from 3 to 2 stars. Now I hope that at least the rest of the
+book is a bit more englightening.
+
 # Day 96 (2024-06-28)
 
 I continued working on chapter 8 in the RSSA book. I also wrote a short review
