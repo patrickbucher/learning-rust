@@ -1,6 +1,12 @@
+# Day 98 (2024-06-30)
+
+I worked through chapter 10 of the RSSA book, which is about async Rust. The
+introduction was decent, however, a practical example would have been more
+illustrative.
+
 # Day 97 (2024-06-29)
 
-I worked through chapter 9 in the RSSA book, which hardly introduced anything
+I worked through chapter 9 of the RSSA book, which hardly introduced anything
 new besides checking a hashed password. I modified my review on Amazon and
 reduced the rating from 3 to 2 stars. Now I hope that at least the rest of the
 book is a bit more englightening.
