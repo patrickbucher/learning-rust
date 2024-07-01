@@ -1,3 +1,9 @@
+# Day 99 (2024-07-01)
+
+I worked through chapter 11 of the RSSA book, which just opens a new loose end:
+peer-to-peer communication. This chapter could be a complete stand-alone
+tutorial, I have no idea how it made it into this book.
+
 # Day 98 (2024-06-30)
 
 I worked through chapter 10 of the RSSA book, which is about async Rust. The
