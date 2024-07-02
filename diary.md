@@ -1,3 +1,13 @@
+# Day 100 (2024-07-02)
+
+I worked through most of chapter 12, but then finished readig the book without
+doing the exercises. I also archived the repository. Conclusion from _Rust
+Servers, Services, and Apps_ (RSSA): The books shows how to build a basic web
+application using the actix framework with sqlx, but the same would have been
+possible on 100 pages instead of 300.
+
+On towards more challenging topics: Algorithms.
+
 # Day 99 (2024-07-01)
 
 I worked through chapter 11 of the RSSA book, which just opens a new loose end:
