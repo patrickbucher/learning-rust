@@ -1,7 +1,5 @@
 # Activities
 
-- Working through [_Rust Servers, Services, and Apps_](https://github.com/patrickbucher/rssa)
-    - state: chapter 11/12
 - Working through _Grokking Algorithms_
     - state: next up
 - Reading _Effective Rust_
