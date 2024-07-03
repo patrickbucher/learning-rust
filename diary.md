@@ -1,3 +1,7 @@
+# Day 101 (2024-07-03)
+
+I started reading _Grokking Algorithms_ and implemented Binary Search.
+
 # Day 100 (2024-07-02)
 
 I worked through most of chapter 12, but then finished readig the book without
