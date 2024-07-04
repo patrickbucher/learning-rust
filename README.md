@@ -11,8 +11,7 @@ every day
 - [exercises-for-programmers](exercises-for-programmers/): exercises from
   [Exercises for Programmers](https://pragprog.com/titles/bhwb/exercises-for-programmers/)
 - [grokking-algorithms](grokking-algorithms/): examples for [Grokking
-  Algorithms](https://www.manning.com/books/grokking-algorithms), currently on
-  hold
+  Algorithms](https://www.manning.com/books/grokking-algorithms)
 - [notes](notes/): notes on various topics
 
 ## Initial Idea
