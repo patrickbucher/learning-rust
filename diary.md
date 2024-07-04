@@ -1,3 +1,9 @@
+# Day 102 (2024-07-04)
+
+I worked through chapter 2 in _Grokking Algorithms_ and implemented Selection
+Sort. Linked lists were also a subject of the chapter, but no implementation was
+discussed. However, this would be an interesting exercise for later.
+
 # Day 101 (2024-07-03)
 
 I started reading _Grokking Algorithms_ and implemented Binary Search.

@@ -28,7 +28,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_search_miss() {
+    fn search_miss() {
         let haystack = vec![6, 12, 18, 24, 30, 36, 42, 48, 54, 60];
         let needle = 25;
         let actual = search(&haystack, &needle);
@@ -36,7 +36,7 @@ mod tests {
     }
 
     #[test]
-    fn test_search_hit() {
+    fn search_hit() {
         let haystack: Vec<u8> = (1..100).collect();
         let needle: u8 = 23;
         let actual = search(&haystack, &needle);
@@ -44,7 +44,7 @@ mod tests {
     }
 
     #[test]
-    fn test_search_big_hit() {
+    fn search_big_hit() {
         let haystack: Vec<u32> = (0..1_000_000).collect();
         let needle: u32 = 272341;
         let actual = search(&haystack, &needle);
