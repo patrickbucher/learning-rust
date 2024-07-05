@@ -1,3 +1,10 @@
+# Day 103 (2024-07-05)
+
+I worked through chapter 3 in _Grokking Algorithms_, which was about recursion
+and had to real programming exercises to do. I implemented the factorial
+function with some doc tests, but also struggled through implementing a linked
+list, which I finally got to run!
+
 # Day 102 (2024-07-04)
 
 I worked through chapter 2 in _Grokking Algorithms_ and implemented Selection

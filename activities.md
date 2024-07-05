@@ -1,7 +1,7 @@
 # Activities
 
 - Working through _Grokking Algorithms_
-    - state: chapter 2/13
+    - state: chapter 3/13
 - Reading _Effective Rust_
     - state: item 3/35
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
