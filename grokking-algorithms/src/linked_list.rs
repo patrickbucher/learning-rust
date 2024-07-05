@@ -13,19 +13,11 @@ impl<T: Clone> LinkedList<T> {
     }
 
     pub fn prepend(self, value: T) -> Self {
-        match self.head {
-            Some(node) => LinkedList {
-                head: Some(Box::new(Node {
-                    value: value,
-                    next: Some(node),
-                })),
-            },
-            None => LinkedList {
-                head: Some(Box::new(Node {
-                    value: value,
-                    next: None,
-                })),
-            },
+        LinkedList {
+            head: Some(Box::new(Node {
+                value: value,
+                next: self.head,
+            })),
         }
     }
 
