@@ -66,3 +66,18 @@ unequal size, it will probably perform faster than either an array or a linked
 list containing all the usernames. However, since the speedup for the first step
 by 1/26 is a constant factor, the data structure will perform more or less the
 same as a linked list as n gets bigger.
+
+# Chapter 3
+
+## 3.1
+
+A function `greet` was called with the `name` parameter set to `"maggie"`. This
+function called another function `greet2`, also with the `name` parameter set to
+`"maggie"`.
+
+## 3.2
+
+The stack will be built up until the process runs out of stack space. The
+program will then be terminated by the operating system.
+
+## 3.2
