@@ -1,3 +1,11 @@
+/// Sorts the items in O(n * log n) on average using the quick sort algorithm
+///
+/// ```
+/// use grokking_algorithms::quick_sort::sort;
+/// assert_eq!(sort(&Vec::<u8>::new()), Vec::<u8>::new());
+/// assert_eq!(sort(&vec![3, 1, 2]), vec![1, 2, 3]);
+/// assert_eq!(sort(&vec![5, 6, 4, 7, 3, 8, 2, 9, 1, 0]), (0..=9).collect::<Vec<u8>>());
+/// ```
 pub fn sort<T: Ord + Clone>(items: &Vec<T>) -> Vec<T> {
     let n = items.len();
     if n < 2 {
