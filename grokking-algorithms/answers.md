@@ -81,3 +81,26 @@ The stack will be built up until the process runs out of stack space. The
 program will then be terminated by the operating system.
 
 ## 3.2
+
+# Chapter 4
+
+## 4.1
+
+See the `sum` function in `src/recursion.rs`.
+
+## 4.2
+
+See the `count` function in `src/recursion.rs`.
+
+## 4.3
+
+See the `max` function in `src/recursion.rs`.
+
+## 4.4
+
+See the `binary_search` function in `src/recursion.rs`.
+
+The base case is an empty list, in which case there is no result.
+
+The recursive case is the sublist from either low to mid or mid to high,
+depending on how the searched value compares to the value in the middle.
