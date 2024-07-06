@@ -1,3 +1,8 @@
+# Day 104 (2024-07-06)
+
+I worked through chapter 4 in _Grokking Algorithms_, for which I implemented
+several recursice functions and the Quicksort algorithm with test cases.
+
 # Day 103 (2024-07-05)
 
 I worked through chapter 3 in _Grokking Algorithms_, which was about recursion

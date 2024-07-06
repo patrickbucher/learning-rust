@@ -100,7 +100,26 @@ See the `max` function in `src/recursion.rs`.
 
 See the `binary_search` function in `src/recursion.rs`.
 
-The base case is an empty list, in which case there is no result.
+The _first_ base case is an empty list, in which case there is no result.
+
+The _second_ base case is a list consisting of a single element, which either is
+the proper value or another value.
 
 The recursive case is the sublist from either low to mid or mid to high,
 depending on how the searched value compares to the value in the middle.
+
+## 4.5
+
+O(n)
+
+## 4.6
+
+O(n)
+
+## 4.7
+
+O(1)
+
+## 4.8
+
+O(n²)
