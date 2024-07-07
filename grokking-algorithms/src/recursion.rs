@@ -34,8 +34,8 @@ pub fn sum(numbers: &[isize]) -> isize {
     if numbers.is_empty() {
         0
     } else {
-        let head: isize = numbers[0];
-        let tail: Vec<isize> = numbers.iter().skip(1).cloned().collect();
+        let head = numbers[0];
+        let tail = &numbers[1..];
         head + sum(&tail)
     }
 }
@@ -55,7 +55,7 @@ pub fn count<T: Clone>(numbers: &[T]) -> usize {
     if numbers.is_empty() {
         0
     } else {
-        let tail: Vec<T> = numbers.iter().skip(1).cloned().collect();
+        let tail = &numbers[1..];
         1 + count(&tail)
     }
 }
@@ -84,7 +84,7 @@ fn find_max(numbers: &[isize], acc: Option<isize>) -> Option<isize> {
         acc
     } else {
         let head = numbers[0];
-        let tail: Vec<isize> = numbers.iter().skip(1).cloned().collect();
+        let tail = &numbers[1..];
         let acc = match acc {
             Some(val) => {
                 if head > val {
