@@ -1,3 +1,8 @@
+# Day 105 (2024-07-07)
+
+I used Clippy to improve the code for my _Grokkig Algorithms_ examples. I should
+use more slices instead of vectors. Clippy is a good teacher.
+
 # Day 104 (2024-07-06)
 
 I worked through chapter 4 in _Grokking Algorithms_, for which I implemented
