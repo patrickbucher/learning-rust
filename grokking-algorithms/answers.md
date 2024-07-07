@@ -143,3 +143,24 @@ between invocations.
 ## 5.4
 
 This is consistent, because the length of a string stays the same.
+
+## 5.5
+
+- 1) is always bad.
+- 2) is not good, because the names have similar lengths.
+- 3) is not so good, because initial letters aren't evenly distributed.
+- 4) looks quite decent, because all the letters are considered.
+
+## 5.6
+
+- 1) is always bad.
+- 2) is good, because all the keys are distinct.
+- 3) is not good, because there is always the same starting letter.
+- 4) this should work, because the length of the string will also be considered.
+
+## 5.7
+
+- 1) is always bad.
+- 2) is not good, because the titles have similar lenghts.
+- 3) is not so good, because initial letters aren't evenly distributed.
+- 4) looks quite decent, because all the letters are considered.
