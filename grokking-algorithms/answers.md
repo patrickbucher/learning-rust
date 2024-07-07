@@ -1,4 +1,4 @@
-# Chapter 1
+# Introduction to Algorithms
 
 ## 1.1
 
@@ -28,7 +28,7 @@ O(n) for linear search
 O(n) for linear search; even though 'A' roughly covers 1/26 of the alphabet, the
 constant factor 1/26 isn't relevant for the algorithm's order.
 
-# Chapter 2
+# Selection Sort
 
 ## 2.1
 
@@ -67,7 +67,7 @@ list containing all the usernames. However, since the speedup for the first step
 by 1/26 is a constant factor, the data structure will perform more or less the
 same as a linked list as n gets bigger.
 
-# Chapter 3
+# Recursion
 
 ## 3.1
 
@@ -82,7 +82,7 @@ program will then be terminated by the operating system.
 
 ## 3.2
 
-# Chapter 4
+# Quicksort
 
 ## 4.1
 
@@ -123,3 +123,23 @@ O(1)
 ## 4.8
 
 O(n²)
+
+# Hash Tables
+
+## 5.1
+
+This is consistent, because the hash for the same value will always be 1.
+
+## 5.2
+
+This is not consistent, because a random value will likely change on the next
+invocation.
+
+## 5.3
+
+This is not consistent, because the index for the next empty slot may change
+between invocations.
+
+## 5.4
+
+This is consistent, because the length of a string stays the same.
