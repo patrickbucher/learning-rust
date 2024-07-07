@@ -18,14 +18,13 @@ pub fn sort<T: Ord + Clone>(items: &Vec<T>) -> Vec<T> {
     sorted
 }
 
-fn find_min_index<T: Ord>(items: &Vec<T>) -> Option<usize> {
+fn find_min_index<T: Ord>(items: &[T]) -> Option<usize> {
     if items.is_empty() {
         None
     } else {
         let mut min = &items[0];
         let mut min_index = 0;
-        for i in 1..items.len() {
-            let item = &items[i];
+        for (i, item) in items.iter().enumerate() {
             if item < min {
                 min = item;
                 min_index = i;

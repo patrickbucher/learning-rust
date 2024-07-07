@@ -76,12 +76,12 @@ pub fn max(numbers: &Vec<isize>) -> Option<isize> {
     }
 }
 
-fn find_max(numbers: &Vec<isize>, acc: Option<isize>) -> Option<isize> {
+fn find_max(numbers: &[isize], acc: Option<isize>) -> Option<isize> {
     if numbers.is_empty() {
         acc
     } else {
         let head = numbers[0];
-        let tail: Vec<isize> = numbers.into_iter().skip(1).cloned().collect();
+        let tail: Vec<isize> = numbers.iter().skip(1).cloned().collect();
         let acc = match acc {
             Some(val) => {
                 if head > val {
@@ -127,7 +127,7 @@ fn do_binary_search(
     let mid = (high + low) / 2;
     match needle.cmp(&haystack[mid]) {
         Ordering::Equal => Some(mid),
-        Ordering::Less => do_binary_search(&haystack, needle, low, mid - 1),
-        Ordering::Greater => do_binary_search(&haystack, needle, mid + 1, high),
+        Ordering::Less => do_binary_search(haystack, needle, low, mid - 1),
+        Ordering::Greater => do_binary_search(haystack, needle, mid + 1, high),
     }
 }

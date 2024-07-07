@@ -15,7 +15,7 @@ impl<T: Clone> LinkedList<T> {
     pub fn prepend(self, value: T) -> Self {
         LinkedList {
             head: Some(Box::new(Node {
-                value: value,
+                value,
                 next: self.head,
             })),
         }
