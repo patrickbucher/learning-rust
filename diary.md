@@ -3,6 +3,13 @@
 I used Clippy to improve the code for my _Grokkig Algorithms_ examples. I should
 use more slices instead of vectors. Clippy is a good teacher.
 
+I worked through chapter 5 in _Grokking Algorithms_, which left little to
+program, except some hash table prototype.
+
+For chapter 6, I should consider re-reading the chapters on smart pointers in
+the Rust book. Otherwise, it won't be possible to work with graphs in a
+reasonable way.
+
 # Day 104 (2024-07-06)
 
 I worked through chapter 4 in _Grokking Algorithms_, for which I implemented
