@@ -9,7 +9,7 @@ use std::cmp::Ordering;
 /// assert_eq!(search(&haystack, &4), Some(1));
 /// assert_eq!(search(&haystack, &5), None);
 /// ```
-pub fn search<T: Ord>(haystack: &Vec<T>, needle: &T) -> Option<usize> {
+pub fn search<T: Ord>(haystack: &[T], needle: &T) -> Option<usize> {
     let mut low = 0;
     let mut high = haystack.len() - 1;
     while low <= high {

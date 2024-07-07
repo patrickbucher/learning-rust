@@ -7,6 +7,12 @@ pub struct LinkedList<T: Clone> {
     head: Option<Box<Node<T>>>,
 }
 
+impl<T: Clone> Default for LinkedList<T> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<T: Clone> LinkedList<T> {
     pub fn new() -> Self {
         LinkedList { head: None }

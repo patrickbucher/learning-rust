@@ -27,14 +27,15 @@ pub fn factorial(n: usize) -> usize {
 /// assert_eq!(sum(&vec![0]), 0);
 /// assert_eq!(sum(&vec![1]), 1);
 /// assert_eq!(sum(&vec![1, 2, 3]), 6);
-/// assert_eq!(sum(&(1..=100).collect()), 5050);
+/// let numbers: Vec<isize> = (1..=100).collect();
+/// assert_eq!(sum(&numbers), 5050);
 /// ```
-pub fn sum(numbers: &Vec<isize>) -> isize {
+pub fn sum(numbers: &[isize]) -> isize {
     if numbers.is_empty() {
         0
     } else {
         let head: isize = numbers[0];
-        let tail: Vec<isize> = numbers.into_iter().skip(1).cloned().collect();
+        let tail: Vec<isize> = numbers.iter().skip(1).cloned().collect();
         head + sum(&tail)
     }
 }
@@ -47,13 +48,14 @@ pub fn sum(numbers: &Vec<isize>) -> isize {
 /// assert_eq!(count::<u8>(&vec![0]), 1);
 /// assert_eq!(count::<u8>(&vec![1]), 1);
 /// assert_eq!(count::<u8>(&vec![1, 2, 3]), 3);
-/// assert_eq!(count::<u8>(&(0..100).collect()), 100);
+/// let numbers: Vec<u8> = (0..100).collect();
+/// assert_eq!(count::<u8>(&numbers), 100);
 /// ```
-pub fn count<T: Clone>(numbers: &Vec<T>) -> usize {
+pub fn count<T: Clone>(numbers: &[T]) -> usize {
     if numbers.is_empty() {
         0
     } else {
-        let tail: Vec<T> = numbers.into_iter().skip(1).cloned().collect();
+        let tail: Vec<T> = numbers.iter().skip(1).cloned().collect();
         1 + count(&tail)
     }
 }
@@ -66,9 +68,10 @@ pub fn count<T: Clone>(numbers: &Vec<T>) -> usize {
 /// assert_eq!(max(&vec![1]), Some(1));
 /// assert_eq!(max(&vec![1, 2, 3]), Some(3));
 /// assert_eq!(max(&vec![9, 5, 0]), Some(9));
-/// assert_eq!(max(&(0..100).collect()), Some(99));
+/// let numbers: Vec<isize> = (0..100).collect();
+/// assert_eq!(max(&numbers), Some(99));
 /// ```
-pub fn max(numbers: &Vec<isize>) -> Option<isize> {
+pub fn max(numbers: &[isize]) -> Option<isize> {
     if numbers.is_empty() {
         None
     } else {
