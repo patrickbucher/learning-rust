@@ -4,6 +4,9 @@ I read chapter 6 in _Grokking Algorithms_ on breadth-first search (and graphs).
 The examples can be done with a hash table, a queue, and a set; so I don't need
 to recap smart pointers for now.
 
+In the evening, I implemented a proper example for a hash table and the
+breadth-first search from chapter 6.
+
 # Day 105 (2024-07-07)
 
 I used Clippy to improve the code for my _Grokkig Algorithms_ examples. I should
