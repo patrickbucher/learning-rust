@@ -164,3 +164,52 @@ This is consistent, because the length of a string stays the same.
 - 2) is not good, because the titles have similar lenghts.
 - 3) is not so good, because initial letters aren't evenly distributed.
 - 4) looks quite decent, because all the letters are considered.
+
+# Breadth-First Search
+
+## 6.1
+
+- Start
+    - [up]
+        - [right]
+            - Finish
+        - [down]
+    - [down]
+        - [up]
+        - [right]
+            - [up]
+                - Finish
+
+Start -> up -> right = Finish (two steps)
+
+## 6.2
+
+- CAB [Start]
+    - CAT
+        - MAT
+        - BAT [Finish]
+    - CAR
+        - CAT
+        - BAR
+
+CAB -> CAT -> BAT = Fiish (two steps)
+
+## 6.3
+
+- A) invalid, because "brush teet" must come before "eat breakfast"
+- B) valid
+- C) invalid, because "wake up" must be the first step
+
+## 6.4
+
+- wake up
+- pack lunch
+- brush teeth
+- exercise
+- eat breakfast
+- shower
+- get dressed
+
+## 6.5
+
+A and C are also trees.
