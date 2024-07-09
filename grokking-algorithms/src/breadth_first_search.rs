@@ -4,6 +4,12 @@ pub struct DirectedGraph {
     graph: HashMap<String, Vec<String>>,
 }
 
+impl Default for DirectedGraph {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl DirectedGraph {
     pub fn new() -> Self {
         DirectedGraph {

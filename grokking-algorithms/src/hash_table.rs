@@ -29,7 +29,7 @@ impl HashTable {
                 return Some(v);
             }
         }
-        return None;
+        None
     }
 
     pub fn contains(&self, key: &str) -> bool {

@@ -36,7 +36,7 @@ pub fn sum(numbers: &[isize]) -> isize {
     } else {
         let head = numbers[0];
         let tail = &numbers[1..];
-        head + sum(&tail)
+        head + sum(tail)
     }
 }
 
@@ -56,7 +56,7 @@ pub fn count<T: Clone>(numbers: &[T]) -> usize {
         0
     } else {
         let tail = &numbers[1..];
-        1 + count(&tail)
+        1 + count(tail)
     }
 }
 
@@ -95,7 +95,7 @@ fn find_max(numbers: &[isize], acc: Option<isize>) -> Option<isize> {
             }
             None => Some(head),
         };
-        find_max(&tail, acc)
+        find_max(tail, acc)
     }
 }
 
