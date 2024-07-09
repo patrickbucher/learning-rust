@@ -4,6 +4,10 @@ I read chapter 7 in _Grokking Algorithms_ on depth-first search and Huffman
 coding. The chapter contains no exercises, but I'd like to implement a directory
 walk both as breadth- and depth-first search.
 
+I implemented both breadth- and depth-first search in a struggle session in the
+evening. However, the example I built up doesn't really point out the difference
+between the two. I'd like to sit down for a rework session of this examples.
+
 # Day 106 (2024-07-08)
 
 I read chapter 6 in _Grokking Algorithms_ on breadth-first search (and graphs).
