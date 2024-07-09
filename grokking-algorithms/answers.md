@@ -213,3 +213,7 @@ CAB -> CAT -> BAT = Fiish (two steps)
 ## 6.5
 
 A and C are also trees.
+
+# Trees
+
+_there are no exercises for this chapter_
