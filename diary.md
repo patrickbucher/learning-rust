@@ -1,3 +1,9 @@
+# Day 107 (2024-07-09)
+
+I read chapter 7 in _Grokking Algorithms_ on depth-first search and Huffman
+coding. The chapter contains no exercises, but I'd like to implement a directory
+walk both as breadth- and depth-first search.
+
 # Day 106 (2024-07-08)
 
 I read chapter 6 in _Grokking Algorithms_ on breadth-first search (and graphs).
