@@ -29,11 +29,10 @@ impl DirectedGraph {
     }
 
     pub fn has_path(&self, from: &str, to: &str) -> bool {
-        let initial_neighbours = match self.graph.get(from) {
-            None => return false,
-            Some(vec) => vec,
+        let mut search_queue = match self.graph.get(from) {
+            Some(vec) => VecDeque::from(vec.clone()),
+            None => VecDeque::new(),
         };
-        let mut search_queue: VecDeque<String> = VecDeque::from(initial_neighbours.clone());
         let mut searched: HashSet<String> = HashSet::new();
         while !search_queue.is_empty() {
             match search_queue.pop_back() {
