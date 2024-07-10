@@ -1,3 +1,10 @@
+# Day 108 (2024-07-10)
+
+I refactored the test cases for breadth-/depth-first search, but since the order
+in which directory elements are listed is non-deterministic, the test cases
+still rely on a sorted result. However, both work as expected, which is why I'll
+continue with the next chapter.
+
 # Day 107 (2024-07-09)
 
 I read chapter 7 in _Grokking Algorithms_ on depth-first search and Huffman
