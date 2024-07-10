@@ -1,8 +1,9 @@
 use std::collections::VecDeque;
 use std::fs::read_dir;
-use std::path::{PathBuf,Path};
+use std::io::Error;
+use std::path::{Path, PathBuf};
 
-pub fn list_files_breadth_first(path: &Path) -> Result<Vec<PathBuf>, std::io::Error> {
+pub fn list_files_breadth_first(path: &Path) -> Result<Vec<PathBuf>, Error> {
     let mut result: Vec<PathBuf> = Vec::new();
     let mut worklist: VecDeque<PathBuf> = VecDeque::from([path.to_path_buf().clone()]);
     while !worklist.is_empty() {
@@ -44,6 +45,7 @@ mod tests {
     use super::*;
     use std::env::temp_dir;
     use std::fs::{create_dir, remove_dir_all, write};
+    use std::io::ErrorKind;
     use std::path::PathBuf;
 
     #[test]
@@ -74,6 +76,104 @@ mod tests {
         cleanup(&path);
     }
 
+    fn create_scaffold(hiera: Entry) -> Result<PathBuf, Error> {
+        let mut workdir = temp_dir();
+        let mut root: Option<PathBuf> = None;
+        let mut worklist: VecDeque<(PathBuf, Entry)> = VecDeque::from([(workdir, hiera)]);
+        while !worklist.is_empty() {
+            match worklist.pop_front() {
+                Some((workdir, entry)) => match entry {
+                    Entry::Dir {
+                        name: name,
+                        content: children,
+                    } => {
+                        let mut dir = workdir.clone();
+                        dir.push(name);
+                        create_dir(dir.clone())?;
+                        if let None = root {
+                            root = Some(dir.clone());
+                        }
+                        for child in children {
+                            worklist.push_back((dir.clone(), child));
+                        }
+                    }
+                    Entry::File {
+                        name: name,
+                        content: data,
+                    } => {
+                        let mut path = workdir.clone();
+                        path.push(name);
+                        write(path, data);
+                    }
+                },
+                None => break,
+            }
+        }
+        match root {
+            Some(dir) => Ok(dir),
+            None => Err(Error::new(ErrorKind::Other, "no scaffold was created")),
+        }
+    }
+
+    enum Entry {
+        Dir { name: String, content: Vec<Entry> },
+        File { name: String, content: String },
+    }
+
+    fn get_entry_hiera() -> Entry {
+        Entry::Dir {
+            name: "abc".into(),
+            content: vec![
+                Entry::File {
+                    name: "1.txt".into(),
+                    content: "one".into(),
+                },
+                Entry::File {
+                    name: "2.txt".into(),
+                    content: "two".into(),
+                },
+                Entry::File {
+                    name: "3.txt".into(),
+                    content: "three".into(),
+                },
+                Entry::Dir {
+                    name: "def".into(),
+                    content: vec![
+                        Entry::File {
+                            name: "4.txt".into(),
+                            content: "four".into(),
+                        },
+                        Entry::File {
+                            name: "5.txt".into(),
+                            content: "five".into(),
+                        },
+                        Entry::File {
+                            name: "6.txt".into(),
+                            content: "six".into(),
+                        },
+                        Entry::Dir {
+                            name: "ghi".into(),
+                            content: vec![
+                                Entry::File {
+                                    name: "7.txt".into(),
+                                    content: "four".into(),
+                                },
+                                Entry::File {
+                                    name: "8.txt".into(),
+                                    content: "five".into(),
+                                },
+                                Entry::File {
+                                    name: "9.txt".into(),
+                                    content: "six".into(),
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
+        }
+    }
+
     fn scaffold(nodes: &[&str]) -> PathBuf {
         let mut dir = temp_dir();
         let mut root: Option<PathBuf> = None;
@@ -91,6 +191,6 @@ mod tests {
     }
 
     fn cleanup(dir: &PathBuf) {
-        remove_dir_all(dir);
+        let _ = remove_dir_all(dir);
     }
 }
