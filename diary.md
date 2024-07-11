@@ -1,3 +1,10 @@
+# Day 109 (2024-07-11)
+
+I read chapter 8 in _Grokking Algorithms_. Again: no exercises, but also no
+code, which is a bit of a letdown. However, I implemented a binary tree with the
+operations `insert` and `contains`. The next step will be to transform this tree
+into an AVL tree, which balances itself, which might be a challenge in Rust.
+
 # Day 108 (2024-07-10)
 
 I refactored the test cases for breadth-/depth-first search, but since the order
