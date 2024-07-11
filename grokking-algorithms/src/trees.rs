@@ -6,16 +6,6 @@ pub struct Node {
     right: Option<Box<Node>>,
 }
 
-impl Default for Node {
-    fn default() -> Self {
-        Node {
-            value: 0,
-            left: None,
-            right: None,
-        }
-    }
-}
-
 impl Node {
     pub fn new(value: isize) -> Self {
         Node {
