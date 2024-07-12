@@ -5,6 +5,11 @@ code, which is a bit of a letdown. However, I implemented a binary tree with the
 operations `insert` and `contains`. The next step will be to transform this tree
 into an AVL tree, which balances itself, which might be a challenge in Rust.
 
+In the evening, I did another _Drink First Programming_ session, in which I
+programmed the game _Reversi_ in Rust. It was quite a struggle, but everything
+worked as intended at the end, even though I didn't implement everything needed
+for a good user experience.
+
 # Day 108 (2024-07-10)
 
 I refactored the test cases for breadth-/depth-first search, but since the order
