@@ -2,6 +2,7 @@ use std::cmp::Ordering;
 
 pub struct Node {
     value: isize,
+    balance: isize,
     left: Option<Box<Node>>,
     right: Option<Box<Node>>,
 }
@@ -10,6 +11,7 @@ impl Node {
     pub fn new(value: isize) -> Self {
         Node {
             value,
+            balance: 0,
             left: None,
             right: None,
         }
@@ -19,11 +21,17 @@ impl Node {
         match value.cmp(&self.value) {
             Ordering::Less => match &mut self.left {
                 Some(ref mut child) => child.insert(value),
-                None => self.left = Some(Box::new(Node::new(value))),
+                None => {
+                    self.left = Some(Box::new(Node::new(value)));
+                    self.balance -= 1;
+                }
             },
             _ => match &mut self.right {
                 Some(ref mut child) => child.insert(value),
-                None => self.right = Some(Box::new(Node::new(value))),
+                None => {
+                    self.right = Some(Box::new(Node::new(value)));
+                    self.balance += 1;
+                }
             },
         }
     }
@@ -54,18 +62,25 @@ mod tests {
             tree.insert(value);
         }
         assert_eq!(tree.value, 5);
+        assert_eq!(tree.balance, 0);
         let left = tree.left.unwrap();
         let right = tree.right.unwrap();
         assert_eq!(left.value, 3);
+        assert_eq!(left.balance, 0);
         assert_eq!(right.value, 7);
+        assert_eq!(right.balance, 0);
         let ll = left.left.unwrap();
         let lr = left.right.unwrap();
         let rl = right.left.unwrap();
         let rr = right.right.unwrap();
         assert_eq!(ll.value, 2);
+        assert_eq!(ll.balance, 0);
         assert_eq!(lr.value, 4);
+        assert_eq!(lr.balance, 0);
         assert_eq!(rl.value, 6);
+        assert_eq!(rl.balance, 0);
         assert_eq!(rr.value, 8);
+        assert_eq!(rr.balance, 0);
     }
 
     #[test]
