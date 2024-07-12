@@ -2,6 +2,7 @@
 
 - Working through _Grokking Algorithms_
     - state: chapter 8/13
+    - [ ] implement rotation to balance trees
 - Reading _Effective Rust_
     - state: item 3/35
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
@@ -17,3 +18,5 @@
 - Working on error handling
     - state: started [Q&A](error-handling/error-handling.md) and
       [overview](error-handling/error-handling.png)
+    - [ ] check existing code for patterns already applied
+    - [ ] go through the documentation of `Option` and `Result` and try out every method
