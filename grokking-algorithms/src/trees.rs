@@ -49,6 +49,18 @@ impl Node {
             },
         }
     }
+
+    pub fn get_total_balance(&self) -> isize {
+        let left_balance = match &self.left {
+            Some(node) => node.get_total_balance(),
+            None => 0,
+        };
+        let right_balance = match &self.right {
+            Some(node) => node.get_total_balance(),
+            None => 0,
+        };
+        left_balance + self.balance + right_balance
+    }
 }
 
 #[cfg(test)]
@@ -95,5 +107,18 @@ mod tests {
         }
         assert!(!tree.contains(1));
         assert!(!tree.contains(9));
+    }
+
+    #[test]
+    fn node_balance() {
+        let mut tree = Node::new(5);
+        tree.insert(7);
+        tree.insert(9);
+        assert_eq!(tree.get_total_balance(), 2);
+        tree.insert(3);
+        assert_eq!(tree.get_total_balance(), 1);
+        tree.insert(2);
+        tree.insert(1);
+        assert_eq!(tree.get_total_balance(), -1);
     }
 }
