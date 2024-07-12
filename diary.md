@@ -1,3 +1,8 @@
+# Day 110 (2024-07-12)
+
+I implemented the balance mechanism for binary trees, which is a prerequisite
+for rotating unbalanced tree nodes.
+
 # Day 109 (2024-07-11)
 
 I read chapter 8 in _Grokking Algorithms_. Again: no exercises, but also no
