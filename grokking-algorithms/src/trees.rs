@@ -20,14 +20,28 @@ impl Node {
     pub fn insert(&mut self, value: isize) {
         match value.cmp(&self.value) {
             Ordering::Less => match &mut self.left {
-                Some(ref mut child) => child.insert(value),
+                Some(ref mut child) => {
+                    child.insert(value);
+                    if child.get_total_balance() < -1 {
+                        // TODO rebalance left
+                        // self.left = self.left.left
+                        // self.right = self.left
+                    }
+                }
                 None => {
                     self.left = Some(Box::new(Node::new(value)));
                     self.balance -= 1;
                 }
             },
             _ => match &mut self.right {
-                Some(ref mut child) => child.insert(value),
+                Some(ref mut child) => {
+                    child.insert(value);
+                    if child.get_total_balance() > 1 {
+                        // TODO rebalance right
+                        // self.right = self.right.right
+                        // self.left = self.right
+                    }
+                }
                 None => {
                     self.right = Some(Box::new(Node::new(value)));
                     self.balance += 1;
