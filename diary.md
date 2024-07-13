@@ -1,3 +1,9 @@
+# Day 111 (2024-07-13)
+
+I tried to implement the rotation of an unbalanced tree node, but got entangled
+in ownership issues. I first need to study smart pointers again before I can
+make any progress here.
+
 # Day 110 (2024-07-12)
 
 I implemented the balance mechanism for binary trees, which is a prerequisite
