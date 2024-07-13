@@ -26,6 +26,13 @@ impl Node {
                         // TODO rebalance left
                         // self.left = self.left.left
                         // self.right = self.left
+                        /*
+                        let mut new_right = self.left.unwrap().as_ref();
+                        new_right.left = None;
+                        self.right = Some(new_right);
+                        let new_left = self.left.unwrap().left;
+                        self.left = new_left;
+                        */
                     }
                 }
                 None => {
