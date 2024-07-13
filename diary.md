@@ -4,6 +4,11 @@ I tried to implement the rotation of an unbalanced tree node, but got entangled
 in ownership issues. I first need to study smart pointers again before I can
 make any progress here.
 
+In the evening, I read on the interior mutability pattern, but didn't figure out
+a solution for my tree problem. But I found a good hint: maybe I schould try
+with `RefCell<Option<T>>` instead of `Option<RefCell<T>>`, which I'd like to try
+out tomorrow.
+
 # Day 110 (2024-07-12)
 
 I implemented the balance mechanism for binary trees, which is a prerequisite
