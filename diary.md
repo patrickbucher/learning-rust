@@ -1,3 +1,10 @@
+# Day 112 (2024-07-14)
+
+I finally made some progress with the Interior Mutability Pattern; at least the
+original tree implementation works now. However, I had to comment out one part
+of the existing unit test, because I still don't know how to access the nested
+fields in a tree correctly.
+
 # Day 111 (2024-07-13)
 
 I tried to implement the rotation of an unbalanced tree node, but got entangled
