@@ -93,27 +93,47 @@ mod tests {
         }
         assert_eq!(tree.value, 5);
         assert_eq!(tree.balance, 0);
+
         let left = tree.left.unwrap();
         let right = tree.right.unwrap();
         assert_eq!(left.borrow().value, 3);
         assert_eq!(left.borrow().balance, 0);
         assert_eq!(right.borrow().value, 7);
         assert_eq!(right.borrow().balance, 0);
-        // TODO: fix the rest
-        /*
-        let ll = left.left.unwrap();
-        let lr = left.right.unwrap();
-        let rl = right.left.unwrap();
-        let rr = right.right.unwrap();
-        assert_eq!(ll.value, 2);
-        assert_eq!(ll.balance, 0);
-        assert_eq!(lr.value, 4);
-        assert_eq!(lr.balance, 0);
-        assert_eq!(rl.value, 6);
-        assert_eq!(rl.balance, 0);
-        assert_eq!(rr.value, 8);
-        assert_eq!(rr.balance, 0);
-        */
+
+        let ll = &left.borrow().left;
+        let lr = &left.borrow().right;
+        let rl = &right.borrow().left;
+        let rr = &right.borrow().right;
+
+        match ll {
+            Some(node) => {
+                assert_eq!(node.borrow().value, 2);
+                assert_eq!(node.borrow().balance, 0);
+            }
+            None => unreachable!(),
+        }
+        match lr {
+            Some(node) => {
+                assert_eq!(node.borrow().value, 4);
+                assert_eq!(node.borrow().balance, 0);
+            }
+            None => unreachable!(),
+        }
+        match rl {
+            Some(node) => {
+                assert_eq!(node.borrow().value, 6);
+                assert_eq!(node.borrow().balance, 0);
+            }
+            None => unreachable!(),
+        }
+        match rr {
+            Some(node) => {
+                assert_eq!(node.borrow().value, 8);
+                assert_eq!(node.borrow().balance, 0);
+            }
+            None => unreachable!(),
+        }
     }
 
     #[test]

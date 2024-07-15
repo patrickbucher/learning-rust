@@ -1,3 +1,11 @@
+# Day 113 (2024007-15)
+
+I managed to re-write the existing unit test for the code using the interior
+mutability pattern. Since `Rc` implements the `Deref` trait, its use is quite
+transparent, which puzzled me at first. However, the compiler warnings guided me
+quite well. When in doubt, using pattern matching provided the most useful
+compiler messages. I also used the `unreachable!` macro to let a unit test fail.
+
 # Day 112 (2024-07-14)
 
 I finally made some progress with the Interior Mutability Pattern; at least the
