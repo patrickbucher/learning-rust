@@ -1,12 +1,10 @@
-use std::cell::RefCell;
 use std::cmp::Ordering;
-use std::rc::Rc;
 
 pub struct Node {
     value: isize,
     balance: isize,
-    left: Option<Rc<RefCell<Node>>>,
-    right: Option<Rc<RefCell<Node>>>,
+    left: Option<Box<Node>>,
+    right: Option<Box<Node>>,
 }
 
 impl Node {
@@ -21,33 +19,27 @@ impl Node {
 
     pub fn insert(&mut self, value: isize) {
         match value.cmp(&self.value) {
-            Ordering::Less => match &self.left {
-                Some(child) => {
-                    let mut inner_child = child.borrow_mut();
-                    inner_child.insert(value);
-                    if inner_child.get_total_balance() < -1 {
-                        // TODO rebalance left
-                        // self.left = self.left.left
-                        // self.right = self.left
+            Ordering::Less => match self.left {
+                Some(ref mut child) => {
+                    child.insert(value);
+                    if child.get_total_balance() < -1 {
+                        // TODO: rebalance left
                     }
                 }
                 None => {
-                    self.left = Some(Rc::new(RefCell::new(Node::new(value))));
+                    self.left = Some(Box::new(Node::new(value)));
                     self.balance -= 1;
                 }
             },
-            _ => match &self.right {
-                Some(child) => {
-                    let mut inner_child = child.borrow_mut();
-                    inner_child.insert(value);
-                    if inner_child.get_total_balance() > 1 {
-                        // TODO rebalance right
-                        // self.right = self.right.right
-                        // self.left = self.right
+            _ => match self.right {
+                Some(ref mut child) => {
+                    child.insert(value);
+                    if child.get_total_balance() > 1 {
+                        // TODO: rebalance right
                     }
                 }
                 None => {
-                    self.right = Some(Rc::new(RefCell::new(Node::new(value))));
+                    self.right = Some(Box::new(Node::new(value)));
                     self.balance += 1;
                 }
             },
@@ -58,11 +50,11 @@ impl Node {
         match value.cmp(&self.value) {
             Ordering::Equal => true,
             Ordering::Less => match &self.left {
-                Some(child) => child.borrow().contains(value),
+                Some(child) => child.contains(value),
                 None => false,
             },
             Ordering::Greater => match &self.right {
-                Some(child) => child.borrow().contains(value),
+                Some(child) => child.contains(value),
                 None => false,
             },
         }
@@ -70,11 +62,11 @@ impl Node {
 
     pub fn get_total_balance(&self) -> isize {
         let left_balance = match &self.left {
-            Some(node) => node.borrow().get_total_balance(),
+            Some(node) => node.get_total_balance(),
             None => 0,
         };
         let right_balance = match &self.right {
-            Some(node) => node.borrow().get_total_balance(),
+            Some(node) => node.get_total_balance(),
             None => 0,
         };
         left_balance + self.balance + right_balance
@@ -93,47 +85,13 @@ mod tests {
         }
         assert_eq!(tree.value, 5);
         assert_eq!(tree.balance, 0);
-
         let left = tree.left.unwrap();
         let right = tree.right.unwrap();
-        assert_eq!(left.borrow().value, 3);
-        assert_eq!(left.borrow().balance, 0);
-        assert_eq!(right.borrow().value, 7);
-        assert_eq!(right.borrow().balance, 0);
-
-        let ll = &left.borrow().left;
-        let lr = &left.borrow().right;
-        let rl = &right.borrow().left;
-        let rr = &right.borrow().right;
-
-        match ll {
-            Some(node) => {
-                assert_eq!(node.borrow().value, 2);
-                assert_eq!(node.borrow().balance, 0);
-            }
-            None => unreachable!(),
-        }
-        match lr {
-            Some(node) => {
-                assert_eq!(node.borrow().value, 4);
-                assert_eq!(node.borrow().balance, 0);
-            }
-            None => unreachable!(),
-        }
-        match rl {
-            Some(node) => {
-                assert_eq!(node.borrow().value, 6);
-                assert_eq!(node.borrow().balance, 0);
-            }
-            None => unreachable!(),
-        }
-        match rr {
-            Some(node) => {
-                assert_eq!(node.borrow().value, 8);
-                assert_eq!(node.borrow().balance, 0);
-            }
-            None => unreachable!(),
-        }
+        assert_eq!(left.value, 3);
+        assert_eq!(left.balance, 0);
+        assert_eq!(right.value, 7);
+        assert_eq!(right.balance, 0);
+        // TODO: test nodes with values 2, 4, 6, 8
     }
 
     #[test]

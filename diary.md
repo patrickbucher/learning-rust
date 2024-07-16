@@ -1,4 +1,10 @@
-# Day 113 (2024007-15)
+# Day 114 (2024-07-16)
+
+I figured out that the interior mutability pattern probably is the wrong
+approach for the problem at hand. Nonetheless, I now understand it better,
+especially when to _not_ apply it. I'll continue with a `Box`.
+
+# Day 113 (2024-07-15)
 
 I managed to re-write the existing unit test for the code using the interior
 mutability pattern. Since `Rc` implements the `Deref` trait, its use is quite
