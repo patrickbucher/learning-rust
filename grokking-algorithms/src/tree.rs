@@ -91,7 +91,18 @@ mod tests {
         assert_eq!(left.balance, 0);
         assert_eq!(right.value, 7);
         assert_eq!(right.balance, 0);
-        // TODO: test nodes with values 2, 4, 6, 8
+        let ll = left.left.unwrap();
+        let lr = left.right.unwrap();
+        let rl = right.left.unwrap();
+        let rr = right.right.unwrap();
+        assert_eq!(ll.value, 2);
+        assert_eq!(ll.balance, 0);
+        assert_eq!(lr.value, 4);
+        assert_eq!(lr.balance, 0);
+        assert_eq!(rl.value, 6);
+        assert_eq!(rl.balance, 0);
+        assert_eq!(rr.value, 8);
+        assert_eq!(rr.balance, 0);
     }
 
     #[test]
