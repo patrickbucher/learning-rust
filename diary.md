@@ -4,6 +4,10 @@ I figured out that the interior mutability pattern probably is the wrong
 approach for the problem at hand. Nonetheless, I now understand it better,
 especially when to _not_ apply it. I'll continue with a `Box`.
 
+Later in the evening, I got to know the `take()` method on `Option`, which
+probably exactly solves my problem. Ownership goes through all of the APIs in
+Rust.
+
 # Day 113 (2024-07-15)
 
 I managed to re-write the existing unit test for the code using the interior

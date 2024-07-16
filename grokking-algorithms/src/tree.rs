@@ -23,7 +23,13 @@ impl Node {
                 Some(ref mut child) => {
                     child.insert(value);
                     if child.get_total_balance() < -1 {
-                        // TODO: rebalance left
+                        // TODO: test this code
+                        let mut left: &mut Option<Box<Node>> = &mut child.left;
+                        let mut left_inner: Box<Node> = left.take().unwrap();
+                        let left_left: Option<Box<Node>> = left_inner.left.take();
+                        self.left = left_left;
+                        self.right = Some(left_inner);
+                        // end of TODO
                     }
                 }
                 None => {
