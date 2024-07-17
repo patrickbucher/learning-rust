@@ -29,7 +29,6 @@ impl Node {
                         let left_left: Option<Box<Node>> = left_inner.left.take();
                         self.left = left_left;
                         self.right = Some(left_inner);
-                        // end of TODO
                     }
                 }
                 None => {
@@ -41,7 +40,12 @@ impl Node {
                 Some(ref mut child) => {
                     child.insert(value);
                     if child.get_total_balance() > 1 {
-                        // TODO: rebalance right
+                        // TODO: test this code
+                        let mut right: &mut Option<Box<Node>> = &mut child.right;
+                        let mut right_inner: Box<Node> = right.take().unwrap();
+                        let right_right: Option<Box<Node>> = right_inner.right.take();
+                        self.right = right_right;
+                        self.left = Some(right_inner);
                     }
                 }
                 None => {
@@ -76,6 +80,20 @@ impl Node {
             None => 0,
         };
         left_balance + self.balance + right_balance
+    }
+
+    pub fn get_values(&self) -> Vec<isize> {
+        let mut values = Vec::new();
+        values.extend(match &self.left {
+            Some(node) => node.get_values(),
+            None => Vec::new(),
+        });
+        values.push(self.value);
+        values.extend(match &self.right {
+            Some(node) => node.get_values(),
+            None => Vec::new(),
+        });
+        values
     }
 }
 
@@ -136,5 +154,16 @@ mod tests {
         tree.insert(2);
         tree.insert(1);
         assert_eq!(tree.get_total_balance(), -1);
+    }
+
+    #[test]
+    fn get_values_inserted_in_order() {
+        let mut tree = Node::new(4);
+        for value in [2, 6, 1, 3, 5, 7] {
+            tree.insert(value);
+        }
+        let expected = vec![1, 2, 3, 4, 5, 6, 7];
+        let actual = tree.get_values();
+        assert_eq!(actual, expected);
     }
 }

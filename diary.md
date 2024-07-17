@@ -1,3 +1,8 @@
+# Day 115 (2024-07-17)
+
+I implemented in-order traversal for the tree, which should be helpful to test
+tree rotation (balancing).
+
 # Day 114 (2024-07-16)
 
 I figured out that the interior mutability pattern probably is the wrong
