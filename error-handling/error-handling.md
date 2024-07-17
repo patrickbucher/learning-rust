@@ -1,5 +1,43 @@
 # Error Handling Q&A
 
+TODO:
+
+- `Option`
+    - `and`
+    - `and_then`
+    - `expect`
+    - `filter`
+    - `flatten`
+    - `get_or_insert`
+    - `get_or_insert_with`
+    - `insert`
+    - `inspect`
+    - `is_none`
+    - `is_some`
+    - `is_some_and`
+    - `iter`
+    - `iter_mut`
+    - `map`
+    - `map_or`
+    - `map_or_else`
+    - `ok_or`
+    - `ok_or_else`
+    - `or`
+    - `or_else`
+    - `replace`
+    - `take`
+    - `transpose` -> `Result`
+    - `unwrap`
+    - `unwrap_or`
+    - `unwrap_or_default`
+    - `unwrap_or_else`
+    - `unwrap_unchecked`
+    - `unzip`
+    - `xor`
+    - `zip`
+- `Result`
+    - TODO
+
 ## Incompatible Error Types: `map_err()`
 
 - Q: My function returns `Result<T, E>`, but my error type is `F`.
