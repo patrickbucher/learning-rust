@@ -1,7 +1,13 @@
 # Day 115 (2024-07-17)
 
 I implemented in-order traversal for the tree, which should be helpful to test
-tree rotation (balancing).
+tree rotation (balancing). However, I figured out that my initial approach won't
+work. I probably should step away from this tree example and re-visit it
+together with a more detailed resource for such algorithms, _Grokking
+Algorithms_ only gives a very rough idea on the mechanism.
+
+I'll pick up error handling again until I'm back at home, where the physical
+book is located.
 
 # Day 114 (2024-07-16)
 
