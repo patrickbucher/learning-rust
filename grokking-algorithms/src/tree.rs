@@ -23,12 +23,17 @@ impl Node {
                 Some(ref mut child) => {
                     child.insert(value);
                     if child.get_total_balance() < -1 {
-                        // TODO: test this code
+                        // TODO: fix bogus code
+                        // self.parent = self.left
+                        // self.right = self
+                        // self.left = None
+                        /*
                         let mut left: &mut Option<Box<Node>> = &mut child.left;
                         let mut left_inner: Box<Node> = left.take().unwrap();
                         let left_left: Option<Box<Node>> = left_inner.left.take();
                         self.left = left_left;
                         self.right = Some(left_inner);
+                        */
                     }
                 }
                 None => {
@@ -40,12 +45,17 @@ impl Node {
                 Some(ref mut child) => {
                     child.insert(value);
                     if child.get_total_balance() > 1 {
-                        // TODO: test this code
+                        // TODO: fix bogus code
+                        // self.parent = self.right
+                        // self.left = self
+                        // self.right = None
+                        /*
                         let mut right: &mut Option<Box<Node>> = &mut child.right;
                         let mut right_inner: Box<Node> = right.take().unwrap();
                         let right_right: Option<Box<Node>> = right_inner.right.take();
                         self.right = right_right;
                         self.left = Some(right_inner);
+                        */
                     }
                 }
                 None => {
@@ -165,5 +175,17 @@ mod tests {
         let expected = vec![1, 2, 3, 4, 5, 6, 7];
         let actual = tree.get_values();
         assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn get_values_inserted_ascendingly() {
+        let mut tree = Node::new(1);
+        assert_eq!(tree.get_values(), vec![1]);
+        tree.insert(2);
+        assert_eq!(tree.get_values(), vec![1, 2]);
+        tree.insert(3);
+        assert_eq!(tree.get_values(), vec![1, 2, 3]);
+        tree.insert(4);
+        assert_eq!(tree.get_values(), vec![1, 2, 3, 4]);
     }
 }
