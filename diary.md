@@ -3,6 +3,11 @@
 I started writing a _consuming_ `insert` operation, but I'm not sure how to pull
 it off.
 
+For a change, I worked again on `warmup` and `rowcalc`, which I use to plan my
+exercises. For those tools, I should be able to muster enough motivation.
+Especially `rowcalc` I didn't ever use, because it's just unfinished for my
+purposes.
+
 # Day 115 (2024-07-17)
 
 I implemented in-order traversal for the tree, which should be helpful to test
