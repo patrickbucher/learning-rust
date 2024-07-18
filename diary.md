@@ -1,3 +1,8 @@
+# Day 116 (2024-07-18)
+
+I started writing a _consuming_ `insert` operation, but I'm not sure how to pull
+it off.
+
 # Day 115 (2024-07-17)
 
 I implemented in-order traversal for the tree, which should be helpful to test

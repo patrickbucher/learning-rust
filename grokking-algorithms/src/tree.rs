@@ -66,11 +66,24 @@ impl Node {
         }
     }
 
-    pub fn insert_balanced(self, value: isize) -> Self {
+    pub fn insert_balanced(mut self, value: isize) -> Self {
         let own = self.value;
+        let balance = self.get_total_balance();
         match value.cmp(&own) {
-            Ordering::Less => {},
-            _ => {},
+            Ordering::Less => {
+                if balance <= -1 {
+                    let left = self.left.take();
+                    let left_left = left.unwrap().left.take();
+                    // left.right = self;
+                    // left.left = left_left;
+                }
+            }
+            _ => {
+                if balance >= 1 {
+                    let right = self.right.take();
+                    let right_right = right.unwrap().right.take();
+                }
+            }
         }
         self
     }
