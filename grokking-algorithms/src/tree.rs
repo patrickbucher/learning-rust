@@ -66,6 +66,15 @@ impl Node {
         }
     }
 
+    pub fn insert_balanced(self, value: isize) -> Self {
+        let own = self.value;
+        match value.cmp(&own) {
+            Ordering::Less => {},
+            _ => {},
+        }
+        self
+    }
+
     pub fn contains(&self, value: isize) -> bool {
         match value.cmp(&self.value) {
             Ordering::Equal => true,
