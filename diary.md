@@ -1,3 +1,8 @@
+# Day 117 (2024-07-19)
+
+I refactored the `rowcalc` program. The code is now ready for additional
+features (break computation, formatted duration output).
+
 # Day 116 (2024-07-18)
 
 I started writing a _consuming_ `insert` operation, but I'm not sure how to pull
