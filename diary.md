@@ -1,3 +1,10 @@
+# Day 118 (2024-07-20)
+
+Today was a travelling day again, but I managed to unify the computations in
+`rowcalc` a bit. I should finally tackle the breaks feature, so that the program
+becomes useful for me (again). On the other hand, I have access to _Grokking
+Algorithms_ again, so I probably should continue with that.
+
 # Day 117 (2024-07-19)
 
 I refactored the `rowcalc` program. The code is now ready for additional
