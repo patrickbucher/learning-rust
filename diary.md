@@ -1,3 +1,10 @@
+# Day 119 (2024-07-21)
+
+My `rowcalc` refactoring yesterday screwed up rounding, which I fixed today.
+
+I implemented a method `insert_inplace` for my tree implementation, which should
+make it easier to re-balance the tree upon insertion.
+
 # Day 118 (2024-07-20)
 
 Today was a travelling day again, but I managed to unify the computations in

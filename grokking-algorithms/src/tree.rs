@@ -22,19 +22,6 @@ impl Node {
             Ordering::Less => match self.left {
                 Some(ref mut child) => {
                     child.insert(value);
-                    if child.get_total_balance() < -1 {
-                        // TODO: fix bogus code
-                        // self.parent = self.left
-                        // self.right = self
-                        // self.left = None
-                        /*
-                        let mut left: &mut Option<Box<Node>> = &mut child.left;
-                        let mut left_inner: Box<Node> = left.take().unwrap();
-                        let left_left: Option<Box<Node>> = left_inner.left.take();
-                        self.left = left_left;
-                        self.right = Some(left_inner);
-                        */
-                    }
                 }
                 None => {
                     self.left = Some(Box::new(Node::new(value)));
@@ -44,19 +31,6 @@ impl Node {
             _ => match self.right {
                 Some(ref mut child) => {
                     child.insert(value);
-                    if child.get_total_balance() > 1 {
-                        // TODO: fix bogus code
-                        // self.parent = self.right
-                        // self.left = self
-                        // self.right = None
-                        /*
-                        let mut right: &mut Option<Box<Node>> = &mut child.right;
-                        let mut right_inner: Box<Node> = right.take().unwrap();
-                        let right_right: Option<Box<Node>> = right_inner.right.take();
-                        self.right = right_right;
-                        self.left = Some(right_inner);
-                        */
-                    }
                 }
                 None => {
                     self.right = Some(Box::new(Node::new(value)));
@@ -66,26 +40,37 @@ impl Node {
         }
     }
 
-    pub fn insert_balanced(mut self, value: isize) -> Self {
-        let own = self.value;
-        let balance = self.get_total_balance();
-        match value.cmp(&own) {
-            Ordering::Less => {
-                if balance <= -1 {
-                    let left = self.left.take();
-                    let left_left = left.unwrap().left.take();
-                    // left.right = self;
-                    // left.left = left_left;
-                }
-            }
-            _ => {
-                if balance >= 1 {
-                    let right = self.right.take();
-                    let right_right = right.unwrap().right.take();
-                }
-            }
+    pub fn insert_inplace(self, value: isize) -> Self {
+        match value.cmp(&self.value) {
+            Ordering::Less => Node {
+                value: self.value,
+                balance: self.balance - 1,
+                left: match self.left {
+                    Some(node) => Some(Box::new(node.insert_inplace(value))),
+                    None => Some(Box::new(Node {
+                        value,
+                        balance: 0,
+                        left: None,
+                        right: None,
+                    })),
+                },
+                right: self.right,
+            },
+            _ => Node {
+                value: self.value,
+                balance: self.balance + 1,
+                left: self.left,
+                right: match self.right {
+                    Some(node) => Some(Box::new(node.insert_inplace(value))),
+                    None => Some(Box::new(Node {
+                        value,
+                        balance: 0,
+                        left: None,
+                        right: None,
+                    })),
+                },
+            },
         }
-        self
     }
 
     pub fn contains(&self, value: isize) -> bool {
@@ -209,5 +194,14 @@ mod tests {
         assert_eq!(tree.get_values(), vec![1, 2, 3]);
         tree.insert(4);
         assert_eq!(tree.get_values(), vec![1, 2, 3, 4]);
+    }
+
+    #[test]
+    fn insert_numbers_inplace() {
+        let mut tree = Node::new(5);
+        for value in [3, 7, 2, 4, 6, 8] {
+            tree = tree.insert_inplace(value);
+        }
+        assert_eq!(tree.get_values(), (2..=8).collect::<Vec<isize>>());
     }
 }
