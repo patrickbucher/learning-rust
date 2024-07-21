@@ -2,7 +2,6 @@ use std::cmp::Ordering;
 
 pub struct Node {
     value: isize,
-    balance: isize,
     left: Option<Box<Node>>,
     right: Option<Box<Node>>,
 }
@@ -11,7 +10,6 @@ impl Node {
     pub fn new(value: isize) -> Self {
         Node {
             value,
-            balance: 0,
             left: None,
             right: None,
         }
@@ -25,7 +23,6 @@ impl Node {
                 }
                 None => {
                     self.left = Some(Box::new(Node::new(value)));
-                    self.balance -= 1;
                 }
             },
             _ => match self.right {
@@ -34,7 +31,6 @@ impl Node {
                 }
                 None => {
                     self.right = Some(Box::new(Node::new(value)));
-                    self.balance += 1;
                 }
             },
         }
@@ -42,29 +38,27 @@ impl Node {
 
     pub fn insert_inplace(self, value: isize) -> Self {
         match value.cmp(&self.value) {
+            // TODO: if balance == -1, do something else
             Ordering::Less => Node {
                 value: self.value,
-                balance: self.balance - 1,
                 left: match self.left {
                     Some(node) => Some(Box::new(node.insert_inplace(value))),
                     None => Some(Box::new(Node {
                         value,
-                        balance: 0,
                         left: None,
                         right: None,
                     })),
                 },
                 right: self.right,
             },
+            // TODO: if balance == +1, do something else
             _ => Node {
                 value: self.value,
-                balance: self.balance + 1,
                 left: self.left,
                 right: match self.right {
                     Some(node) => Some(Box::new(node.insert_inplace(value))),
                     None => Some(Box::new(Node {
                         value,
-                        balance: 0,
                         left: None,
                         right: None,
                     })),
@@ -87,16 +81,27 @@ impl Node {
         }
     }
 
-    pub fn get_total_balance(&self) -> isize {
+    pub fn get_node_balance(&self) -> isize {
+        let mut balance = 0;
+        if self.left.is_some() {
+            balance -= 1;
+        }
+        if self.right.is_some() {
+            balance += 1;
+        }
+        balance
+    }
+
+    pub fn get_tree_balance(&self) -> isize {
         let left_balance = match &self.left {
-            Some(node) => node.get_total_balance(),
+            Some(node) => node.get_tree_balance(),
             None => 0,
         };
         let right_balance = match &self.right {
-            Some(node) => node.get_total_balance(),
+            Some(node) => node.get_tree_balance(),
             None => 0,
         };
-        left_balance + self.balance + right_balance
+        left_balance + self.get_node_balance() + right_balance
     }
 
     pub fn get_values(&self) -> Vec<isize> {
@@ -125,25 +130,25 @@ mod tests {
             tree.insert(value);
         }
         assert_eq!(tree.value, 5);
-        assert_eq!(tree.balance, 0);
+        assert_eq!(tree.get_node_balance(), 0);
         let left = tree.left.unwrap();
         let right = tree.right.unwrap();
         assert_eq!(left.value, 3);
-        assert_eq!(left.balance, 0);
+        assert_eq!(left.get_node_balance(), 0);
         assert_eq!(right.value, 7);
-        assert_eq!(right.balance, 0);
+        assert_eq!(right.get_node_balance(), 0);
         let ll = left.left.unwrap();
         let lr = left.right.unwrap();
         let rl = right.left.unwrap();
         let rr = right.right.unwrap();
         assert_eq!(ll.value, 2);
-        assert_eq!(ll.balance, 0);
+        assert_eq!(ll.get_node_balance(), 0);
         assert_eq!(lr.value, 4);
-        assert_eq!(lr.balance, 0);
+        assert_eq!(lr.get_node_balance(), 0);
         assert_eq!(rl.value, 6);
-        assert_eq!(rl.balance, 0);
+        assert_eq!(rl.get_node_balance(), 0);
         assert_eq!(rr.value, 8);
-        assert_eq!(rr.balance, 0);
+        assert_eq!(rr.get_node_balance(), 0);
     }
 
     #[test]
@@ -165,12 +170,12 @@ mod tests {
         let mut tree = Node::new(5);
         tree.insert(7);
         tree.insert(9);
-        assert_eq!(tree.get_total_balance(), 2);
+        assert_eq!(tree.get_tree_balance(), 2);
         tree.insert(3);
-        assert_eq!(tree.get_total_balance(), 1);
+        assert_eq!(tree.get_tree_balance(), 1);
         tree.insert(2);
         tree.insert(1);
-        assert_eq!(tree.get_total_balance(), -1);
+        assert_eq!(tree.get_tree_balance(), -1);
     }
 
     #[test]
