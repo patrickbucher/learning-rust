@@ -37,15 +37,30 @@ impl Node {
     }
 
     pub fn insert_inplace(self, value: isize) -> Self {
+        let balance = self.get_node_balance();
         match value.cmp(&self.value) {
             Ordering::Less => match self.left {
-                Some(node) => {
-                    let new = node.insert_inplace(value);
-                    // TODO: balance!
-                    Node {
-                        value: self.value,
-                        left: Some(Box::new(new)),
-                        right: self.right,
+                Some(left) => {
+                    let left_value = left.value;
+                    let new = left.insert_inplace(value);
+                    let balance = balance + new.get_tree_balance();
+                    if balance < -1 {
+                        println!("insert {value}: rebalance left");
+                        Node {
+                            value: left_value,
+                            left: Some(Box::new(new)),
+                            right: Some(Box::new(Node {
+                                value: self.value,
+                                left: None,
+                                right: None,
+                            })),
+                        }
+                    } else {
+                        Node {
+                            value: self.value,
+                            left: Some(Box::new(new)),
+                            right: self.right,
+                        }
                     }
                 }
                 None => Node {
@@ -59,13 +74,27 @@ impl Node {
                 },
             },
             _ => match self.right {
-                Some(node) => {
-                    let new = node.insert_inplace(value);
-                    // TODO: balance!
-                    Node {
-                        value: self.value,
-                        left: self.left,
-                        right: Some(Box::new(new)),
+                Some(right) => {
+                    let right_value = right.value;
+                    let new = right.insert_inplace(value);
+                    let balance = balance + new.get_tree_balance();
+                    if balance > 1 {
+                        println!("insert {value}: rebalance right");
+                        Node {
+                            value: right_value,
+                            left: Some(Box::new(Node {
+                                value: self.value,
+                                left: None,
+                                right: None,
+                            })),
+                            right: Some(Box::new(new)),
+                        }
+                    } else {
+                        Node {
+                            value: self.value,
+                            left: self.left,
+                            right: Some(Box::new(new)),
+                        }
                     }
                 }
                 None => Node {
@@ -130,6 +159,10 @@ impl Node {
             None => Vec::new(),
         });
         values
+    }
+
+    pub fn is_leaf(&self) -> bool {
+        self.left.is_none() && self.right.is_none()
     }
 }
 
@@ -222,5 +255,14 @@ mod tests {
             tree = tree.insert_inplace(value);
         }
         assert_eq!(tree.get_values(), (2..=8).collect::<Vec<isize>>());
+    }
+
+    #[test]
+    fn insert_unbalanced_inplace() {
+        let mut tree = Node::new(1);
+        for value in 2..=9 {
+            tree = tree.insert_inplace(value);
+        }
+        assert_eq!(tree.get_values(), (1..=9).collect::<Vec<isize>>());
     }
 }
