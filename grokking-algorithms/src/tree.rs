@@ -38,26 +38,40 @@ impl Node {
 
     pub fn insert_inplace(self, value: isize) -> Self {
         match value.cmp(&self.value) {
-            // TODO: if balance == -1, do something else
-            Ordering::Less => Node {
-                value: self.value,
-                left: match self.left {
-                    Some(node) => Some(Box::new(node.insert_inplace(value))),
-                    None => Some(Box::new(Node {
+            Ordering::Less => match self.left {
+                Some(node) => {
+                    let new = node.insert_inplace(value);
+                    // TODO: balance!
+                    Node {
+                        value: self.value,
+                        left: Some(Box::new(new)),
+                        right: self.right,
+                    }
+                }
+                None => Node {
+                    value: self.value,
+                    left: Some(Box::new(Node {
                         value,
                         left: None,
                         right: None,
                     })),
+                    right: self.right,
                 },
-                right: self.right,
             },
-            // TODO: if balance == +1, do something else
-            _ => Node {
-                value: self.value,
-                left: self.left,
-                right: match self.right {
-                    Some(node) => Some(Box::new(node.insert_inplace(value))),
-                    None => Some(Box::new(Node {
+            _ => match self.right {
+                Some(node) => {
+                    let new = node.insert_inplace(value);
+                    // TODO: balance!
+                    Node {
+                        value: self.value,
+                        left: self.left,
+                        right: Some(Box::new(new)),
+                    }
+                }
+                None => Node {
+                    value: self.value,
+                    left: self.left,
+                    right: Some(Box::new(Node {
                         value,
                         left: None,
                         right: None,
