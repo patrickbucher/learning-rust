@@ -44,10 +44,21 @@ impl Node {
                     let left_value = left.value;
                     let new = left.insert_inplace(value);
                     if new.get_tree_balance() < -1 {
-                        // FIXME: rebalance
                         Node {
                             value: self.value,
-                            left: Some(Box::new(new)),
+                            left: Some(Box::new(Node {
+                                value: new.left.unwrap().value,
+                                left: Some(Box::new(Node {
+                                    value,
+                                    left: None,
+                                    right: None,
+                                })),
+                                right: Some(Box::new(Node {
+                                    value: left_value,
+                                    left: None,
+                                    right: None,
+                                })),
+                            })),
                             right: self.right,
                         }
                     } else {
@@ -72,16 +83,23 @@ impl Node {
                 Some(right) => {
                     let right_value = right.value;
                     let new = right.insert_inplace(value);
-                    if new.get_tree_balance() < 1 {
-                        println!("insert {value}: rebalance right");
+                    if new.get_tree_balance() > 1 {
                         Node {
-                            value: right_value,
-                            left: Some(Box::new(Node {
-                                value: self.value,
-                                left: None,
-                                right: None,
+                            value: self.value,
+                            left: self.left,
+                            right: Some(Box::new(Node {
+                                value: new.right.unwrap().value,
+                                left: Some(Box::new(Node {
+                                    value: right_value,
+                                    left: None,
+                                    right: None,
+                                })),
+                                right: Some(Box::new(Node {
+                                    value,
+                                    left: None,
+                                    right: None,
+                                })),
                             })),
-                            right: Some(Box::new(new)),
                         }
                     } else {
                         Node {
@@ -252,19 +270,6 @@ mod tests {
     }
 
     #[test]
-    fn insert_unbalanced_inplace_left_reduced() {
-        let mut tree = Node::new(5);
-        tree = tree.insert_inplace(4);
-        tree = tree.insert_inplace(3);
-        assert_eq!(tree.get_values(), (3..=5).collect::<Vec<isize>>());
-        // still ok
-
-        tree = tree.insert_inplace(2); // TODO: this breaks everything
-        assert_eq!(tree.get_values(), (2..=5).collect::<Vec<isize>>());
-    }
-
-    #[test]
-    #[ignore]
     fn insert_unbalanced_inplace_left() {
         let mut tree = Node::new(9);
         for value in (1..=8).rev() {
@@ -274,7 +279,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
     fn insert_unbalanced_inplace_right() {
         let mut tree = Node::new(1);
         for value in 2..=9 {
