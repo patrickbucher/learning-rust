@@ -1,3 +1,9 @@
+# Day 120 (2024-07-22)
+
+I implemented tree balancing, but there is still a mistake that I was able to
+demonstrate using a test case. I'm probably pruning the tree, i.e. omitting
+nodes upon balancing.
+
 # Day 119 (2024-07-21)
 
 My `rowcalc` refactoring yesterday screwed up rounding, which I fixed today.
