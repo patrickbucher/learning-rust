@@ -286,4 +286,29 @@ mod tests {
         }
         assert_eq!(tree.get_values(), (1..=9).collect::<Vec<isize>>());
     }
+
+    #[test]
+    fn insert_inplace_random() {
+        let mut tree = Node::new(10);
+        tree = tree.insert_inplace(11); // FIXME: wrong position
+        tree = tree.insert_inplace(18);
+        tree = tree.insert_inplace(3);
+        tree = tree.insert_inplace(19);
+        tree = tree.insert_inplace(5);
+        tree = tree.insert_inplace(12); // FIXME: missing
+        tree = tree.insert_inplace(1);
+        tree = tree.insert_inplace(2);
+        tree = tree.insert_inplace(4);
+        tree = tree.insert_inplace(13); // FIXME: missing
+        tree = tree.insert_inplace(6);
+        tree = tree.insert_inplace(9);
+        tree = tree.insert_inplace(17);
+        tree = tree.insert_inplace(14);
+        tree = tree.insert_inplace(0);
+        tree = tree.insert_inplace(7);
+        tree = tree.insert_inplace(16);
+        tree = tree.insert_inplace(8);
+        tree = tree.insert_inplace(15);
+        assert_eq!(tree.get_values(), (0..20).collect::<Vec<isize>>());
+    }
 }
