@@ -1,3 +1,10 @@
+# Day 121 (2024-07-23)
+
+I limited tree rotation to cases where the inbalanced node has a free child
+position (left or right), which now seems to work. I leave it there for the
+moment and consider tree balancing again with a proper book on the subject. For
+now, I'll continue with the other topics in _Grokking Algorithms_.
+
 # Day 120 (2024-07-22)
 
 I implemented tree balancing, but there is still a mistake that I was able to

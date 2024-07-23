@@ -43,7 +43,7 @@ impl Node {
                 Some(left) => {
                     let left_value = left.value;
                     let new = left.insert_inplace(value);
-                    if new.get_tree_balance() < -1 {
+                    if new.get_tree_balance() < -1 && new.has_free_child() {
                         Node {
                             value: self.value,
                             left: Some(Box::new(Node {
@@ -83,7 +83,7 @@ impl Node {
                 Some(right) => {
                     let right_value = right.value;
                     let new = right.insert_inplace(value);
-                    if new.get_tree_balance() > 1 {
+                    if new.get_tree_balance() > 1 && new.has_free_child() {
                         Node {
                             value: self.value,
                             left: self.left,
@@ -175,6 +175,10 @@ impl Node {
 
     pub fn is_leaf(&self) -> bool {
         self.left.is_none() && self.right.is_none()
+    }
+
+    pub fn has_free_child(&self) -> bool {
+        self.left.is_none() || self.right.is_none()
     }
 }
 
@@ -290,16 +294,16 @@ mod tests {
     #[test]
     fn insert_inplace_random() {
         let mut tree = Node::new(10);
-        tree = tree.insert_inplace(11); // FIXME: wrong position
+        tree = tree.insert_inplace(11);
         tree = tree.insert_inplace(18);
         tree = tree.insert_inplace(3);
         tree = tree.insert_inplace(19);
         tree = tree.insert_inplace(5);
-        tree = tree.insert_inplace(12); // FIXME: missing
+        tree = tree.insert_inplace(12);
         tree = tree.insert_inplace(1);
         tree = tree.insert_inplace(2);
         tree = tree.insert_inplace(4);
-        tree = tree.insert_inplace(13); // FIXME: missing
+        tree = tree.insert_inplace(13);
         tree = tree.insert_inplace(6);
         tree = tree.insert_inplace(9);
         tree = tree.insert_inplace(17);
