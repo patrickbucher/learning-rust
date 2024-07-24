@@ -6,6 +6,8 @@ modelled using maps and therefore don't require any smart pointers such as `Rc`,
 which will make the implementation of Dijkstra's shortest path algorithm much
 easier.
 
+I started implementing some boiler-plate code for graphs.
+
 # Day 121 (2024-07-23)
 
 I limited tree rotation to cases where the inbalanced node has a free child
