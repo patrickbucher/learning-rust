@@ -1,8 +1,7 @@
 # Activities
 
 - Working through _Grokking Algorithms_
-    - state: chapter 8/13
-    - [ ] implement rotation to balance trees
+    - state: chapter 9/13
 - Reading _Effective Rust_
     - state: item 3/35
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)

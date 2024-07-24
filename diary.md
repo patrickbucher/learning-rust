@@ -1,9 +1,21 @@
+# Day 122 (2024-07-24)
+
+I read once through chapter 9 in _Grokking Algorithms_, but not focused enough
+in order to understand it. I have to re-read it tomorrow early. Graphs can be
+modelled using maps and therefore don't require any smart pointers such as `Rc`,
+which will make the implementation of Dijkstra's shortest path algorithm much
+easier.
+
 # Day 121 (2024-07-23)
 
 I limited tree rotation to cases where the inbalanced node has a free child
 position (left or right), which now seems to work. I leave it there for the
 moment and consider tree balancing again with a proper book on the subject. For
 now, I'll continue with the other topics in _Grokking Algorithms_.
+
+In the afternoon, I started writing a prototype for a web application that
+processes a form. The application should later use the Bexio API, which we plan
+to use in our company for a project.
 
 # Day 120 (2024-07-22)
 
