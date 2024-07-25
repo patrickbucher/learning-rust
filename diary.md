@@ -1,3 +1,9 @@
+# Day 123 (2024-07-25)
+
+I started re-reading chapter 9 in _Grokking Algorithm_ and realized that I have
+to refactor my data structures in order to implement the shortest path
+algorithm.
+
 # Day 122 (2024-07-24)
 
 I read once through chapter 9 in _Grokking Algorithms_, but not focused enough
