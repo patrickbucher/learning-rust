@@ -1,3 +1,8 @@
+# Day 124 (2024-07-26)
+
+I finished the refactoring of the graph data structure, which now allows me to
+continue implementing the shortest path algorithm.
+
 # Day 123 (2024-07-25)
 
 I started re-reading chapter 9 in _Grokking Algorithm_ and realized that I have
