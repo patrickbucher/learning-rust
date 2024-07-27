@@ -26,19 +26,41 @@ impl Graph {
     }
 
     pub fn get_shortest_path(&self, from: &str, to: &str) -> Result<Vec<String>, String> {
-        println!("{:?}", self.build_costs(from));
-        println!("{:?}", self.build_parents(from));
+        let mut costs = self.build_costs(from);
+        let mut parents = self.build_parents(from);
+        let mut processed: HashSet<String> = HashSet::new();
+        let mut node = get_cheapest(&costs);
+        while node.is_some() {
+            let name = node.clone().unwrap().0;
+            let cost = node.clone().unwrap().1;
+            if processed.contains(&name) {
+                break;
+            }
+            let neighbours = match self.connections.get(&name) {
+                Some(map) => map,
+                None => break,
+            };
+            for (n, d) in neighbours {
+                let new_cost = cost + d;
+                if new_cost < cost {
+                    costs.insert(n.into(), new_cost);
+                    parents.insert(n.into(), name.clone());
+                }
+            }
+            processed.insert(name);
+            node = get_cheapest(&costs);
+        }
         Ok(Vec::new())
     }
 
-    fn build_costs(&self, from: &str) -> HashMap<String, Option<usize>> {
-        let mut costs: HashMap<String, Option<usize>> = HashMap::new();
+    fn build_costs(&self, from: &str) -> HashMap<String, usize> {
+        let mut costs: HashMap<String, usize> = HashMap::new();
         for (node, outnodes) in self.connections.clone() {
             if node != from {
-                costs.insert(node.into(), None);
+                costs.insert(node.into(), usize::MAX);
             }
             for outnode in outnodes.keys() {
-                costs.insert(outnode.into(), None);
+                costs.insert(outnode.into(), usize::MAX);
             }
         }
         match self.connections.get(from.into()) {
@@ -46,8 +68,8 @@ impl Graph {
                 for (node, dist) in outnodes {
                     costs
                         .entry(node.into())
-                        .and_modify(|mut v| *v = Some(*dist))
-                        .or_insert(Some(*dist));
+                        .and_modify(|v| *v = *dist)
+                        .or_insert(*dist);
                 }
                 costs
             }
@@ -55,12 +77,12 @@ impl Graph {
         }
     }
 
-    fn build_parents(&self, from: &str) -> HashMap<String, Option<String>> {
-        let mut parents: HashMap<String, Option<String>> = HashMap::new();
+    fn build_parents(&self, from: &str) -> HashMap<String, String> {
+        let mut parents: HashMap<String, String> = HashMap::new();
         for (node, outnodes) in &self.connections {
-            parents.insert(node.into(), None);
+            parents.insert(node.into(), "".into());
             for outnode in outnodes.keys() {
-                parents.insert(outnode.into(), None);
+                parents.insert(outnode.into(), "".into());
             }
         }
         match &self.connections.get(from.into()) {
@@ -68,8 +90,8 @@ impl Graph {
                 for outnode in outnodes.keys() {
                     parents
                         .entry(outnode.into())
-                        .and_modify(|mut v| *v = Some(from.into()))
-                        .or_insert(Some(from.into()));
+                        .and_modify(|v| *v = from.into())
+                        .or_insert(from.into());
                 }
             }
             None => return HashMap::new(),
