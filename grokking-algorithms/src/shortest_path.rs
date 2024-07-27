@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 pub struct Graph {
     connections: HashMap<String, HashMap<String, usize>>,
@@ -26,20 +26,55 @@ impl Graph {
     }
 
     pub fn get_shortest_path(&self, from: &str, to: &str) -> Result<Vec<String>, String> {
-        let outnodes = match self.connections.get(from.into()) {
-            Some(node) => node,
-            None => return Err(format!("no such node '{from}' in graph")),
-        };
-        let mut distances: HashMap<String, Option<usize>> = HashMap::new();
-        for (from, outnodes) in self.connections.clone() {
-            distances.insert(from.into(), None);
+        println!("{:?}", self.build_costs(from));
+        println!("{:?}", self.build_parents(from));
+        Ok(Vec::new())
+    }
+
+    fn build_costs(&self, from: &str) -> HashMap<String, Option<usize>> {
+        let mut costs: HashMap<String, Option<usize>> = HashMap::new();
+        for (node, outnodes) in self.connections.clone() {
+            if node != from {
+                costs.insert(node.into(), None);
+            }
             for outnode in outnodes.keys() {
-                distances.insert(outnode.into(), None);
+                costs.insert(outnode.into(), None);
             }
         }
-        // TODO: use get_cheapest
-        // println!("{:?}", distances);
-        Ok(Vec::new())
+        match self.connections.get(from.into()) {
+            Some(outnodes) => {
+                for (node, dist) in outnodes {
+                    costs
+                        .entry(node.into())
+                        .and_modify(|mut v| *v = Some(*dist))
+                        .or_insert(Some(*dist));
+                }
+                costs
+            }
+            None => return HashMap::new(),
+        }
+    }
+
+    fn build_parents(&self, from: &str) -> HashMap<String, Option<String>> {
+        let mut parents: HashMap<String, Option<String>> = HashMap::new();
+        for (node, outnodes) in &self.connections {
+            parents.insert(node.into(), None);
+            for outnode in outnodes.keys() {
+                parents.insert(outnode.into(), None);
+            }
+        }
+        match &self.connections.get(from.into()) {
+            Some(outnodes) => {
+                for outnode in outnodes.keys() {
+                    parents
+                        .entry(outnode.into())
+                        .and_modify(|mut v| *v = Some(from.into()))
+                        .or_insert(Some(from.into()));
+                }
+            }
+            None => return HashMap::new(),
+        }
+        parents
     }
 }
 
