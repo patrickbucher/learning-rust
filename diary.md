@@ -1,3 +1,7 @@
+# Day 125 (2024-07-27)
+
+I continued implementing the shortest path algorithm.
+
 # Day 124 (2024-07-26)
 
 I finished the refactoring of the graph data structure, which now allows me to
