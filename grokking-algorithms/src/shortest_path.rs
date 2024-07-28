@@ -25,97 +25,65 @@ impl Graph {
         }
     }
 
-    pub fn get_shortest_path(&self, from: &str, to: &str) -> Result<Vec<String>, String> {
-        let mut costs = self.build_costs(from);
-        let mut parents = self.build_parents(from);
+    pub fn get_shortest_path(&self, from: &str, to: &str) -> Result<(Vec<String>, usize), String> {
+        let mut costs: HashMap<String, usize> = HashMap::new();
+        let mut parents: HashMap<String, String> = HashMap::new();
         let mut processed: HashSet<String> = HashSet::new();
-        let mut node = get_cheapest(&costs);
-        while node.is_some() {
-            let name = node.clone().unwrap().0;
-            let cost = node.clone().unwrap().1;
-            if processed.contains(&name) {
+
+        let mut current: String = from.into();
+        costs.insert(current.into(), 0);
+
+        loop {
+            // add outnodes to the costs table
+
+            // determine the cheapest node to continue with
+            let mut cheapest: Option<(String, usize)> = None;
+            for (node, weight) in &costs {
+                cheapest = match cheapest {
+                    Some((_, w)) => {
+                        if *weight < w && !processed.contains(node.into()) {
+                            Some((node.into(), *weight))
+                        } else {
+                            cheapest
+                        }
+                    }
+                    None => cheapest,
+                }
+            }
+            if cheapest.is_none() {
                 break;
             }
-            let neighbours = match self.connections.get(&name) {
-                Some(map) => map,
-                None => break,
+            let current = cheapest.unwrap().0;
+            println!("continue with node {}", current);
+            
+            // process the cheapest node's outnodes
+            let mut outnodes = match self.connections.get(&current) {
+                Some(node) => node,
+                None => return Err(format!("no such node {current}")),
             };
-            for (n, d) in neighbours {
-                let new_cost = cost + d;
-                if new_cost < cost {
-                    costs.insert(n.into(), new_cost);
-                    parents.insert(n.into(), name.clone());
-                }
-            }
-            processed.insert(name);
-            node = get_cheapest(&costs);
-        }
-        Ok(Vec::new())
-    }
-
-    fn build_costs(&self, from: &str) -> HashMap<String, usize> {
-        let mut costs: HashMap<String, usize> = HashMap::new();
-        for (node, outnodes) in self.connections.clone() {
-            if node != from {
-                costs.insert(node.into(), usize::MAX);
-            }
-            for outnode in outnodes.keys() {
-                costs.insert(outnode.into(), usize::MAX);
-            }
-        }
-        match self.connections.get(from.into()) {
-            Some(outnodes) => {
-                for (node, dist) in outnodes {
-                    costs
-                        .entry(node.into())
-                        .and_modify(|v| *v = *dist)
-                        .or_insert(*dist);
-                }
-                costs
-            }
-            None => return HashMap::new(),
-        }
-    }
-
-    fn build_parents(&self, from: &str) -> HashMap<String, String> {
-        let mut parents: HashMap<String, String> = HashMap::new();
-        for (node, outnodes) in &self.connections {
-            parents.insert(node.into(), "".into());
-            for outnode in outnodes.keys() {
-                parents.insert(outnode.into(), "".into());
-            }
-        }
-        match &self.connections.get(from.into()) {
-            Some(outnodes) => {
-                for outnode in outnodes.keys() {
-                    parents
-                        .entry(outnode.into())
-                        .and_modify(|v| *v = from.into())
-                        .or_insert(from.into());
-                }
-            }
-            None => return HashMap::new(),
-        }
-        parents
-    }
-}
-
-fn get_cheapest(nodes: &HashMap<String, usize>) -> Option<(String, usize)> {
-    let mut cheapest: Option<(String, usize)> = None;
-    for (outnode, distance) in nodes {
-        cheapest = match cheapest {
-            Some((node, dist)) => {
-                if *distance < dist {
-                    Some((outnode.into(), *distance))
+            let start_weight = costs.get(&current).unwrap().clone();
+            for (outnode, weight) in outnodes {
+                let new_weight = start_weight + weight;
+                if costs.contains_key(outnode) {
+                    let old_weight = costs.get(outnode).unwrap();
+                    if new_weight < *old_weight {
+                        costs.insert(outnode.clone(), new_weight);
+                        parents.insert(current.clone(), outnode.clone());
+                    }
                 } else {
-                    Some((node.into(), dist))
+                    costs.insert(outnode.clone(), new_weight);
+                    parents.insert(current.clone(), outnode.clone());
                 }
             }
-            None => Some((outnode.into(), *distance)),
+
+            // mark the node as processed
+            processed.insert(current.into());
         }
+        println!("{:?}", costs);
+        Ok((Vec::new(), usize::MAX))
     }
-    cheapest
 }
+
 
 #[cfg(test)]
 mod tests {
@@ -131,28 +99,17 @@ mod tests {
     }
 
     #[test]
-    fn get_cheapest_node() {
-        let mut distances: HashMap<String, usize> = HashMap::new();
-        distances.insert("a".into(), 8);
-        distances.insert("b".into(), 3);
-        distances.insert("c".into(), 1);
-        distances.insert("d".into(), 5);
-        distances.insert("e".into(), 2);
-        let expected = Some(("c".into(), 1));
-        let actual = get_cheapest(&distances);
-        assert_eq!(actual, expected);
-    }
-
-    #[test]
     fn get_shortest_path() {
         let mut graph = Graph::new();
         graph.add("Start", "A", 6);
         graph.add("Start", "B", 2);
-        graph.add("A", "B", 3);
+        graph.add("B", "A", 3);
         graph.add("A", "Finish", 1);
         graph.add("B", "Finish", 5);
-        let expected: Vec<String> = vec!["Start".into(), "B".into(), "A".into(), "Finish".into()];
+        let path: Vec<String> = vec!["Start".into(), "B".into(), "A".into(), "Finish".into()];
+        let weight: usize = 6;
+        let expected = Ok((path, weight));
         let actual = graph.get_shortest_path("Start", "Finish");
-        assert_eq!(expected, actual.unwrap());
+        assert_eq!(expected, actual);
     }
 }
