@@ -52,14 +52,7 @@ impl Graph {
             // process the cheapest node's outnodes
             let outnodes = match self.connections.get(&current) {
                 Some(node) => node,
-                None => {
-                    if current == to {
-                        processed.insert(current.clone());
-                        break;
-                    } else {
-                        return Err(format!("no such node {current}"));
-                    }
-                }
+                None => &HashMap::new(),
             };
             let start_weight = *costs.get(&current).unwrap();
             for (outnode, weight) in outnodes {
@@ -85,7 +78,7 @@ impl Graph {
 fn backtrack(parents: &HashMap<String, String>, from: &str, to: &str) -> Vec<String> {
     let mut path: Vec<String> = vec![to.into()];
     let mut node: String = to.into();
-    loop {
+    while node != *from {
         node = match parents.get(&node) {
             Some(child) => {
                 path.push(child.clone());
@@ -93,9 +86,6 @@ fn backtrack(parents: &HashMap<String, String>, from: &str, to: &str) -> Vec<Str
             }
             None => break,
         };
-        if node == *from {
-            break;
-        }
     }
     let path: Vec<String> = path.into_iter().rev().collect();
     path
