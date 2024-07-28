@@ -1,7 +1,9 @@
 # Day 126 (2024-07-28)
 
 I worked through the exercises in chapter 9, after which I finally understood
-Dijktra's shortest path algorithm.
+Dijktra's shortest path algorithm. This allowed me to implement the algorithm.
+There's a couple of things I'd like to improve in the code, but I can move on
+for now.
 
 # Day 125 (2024-07-27)
 
