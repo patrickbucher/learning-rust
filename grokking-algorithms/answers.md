@@ -217,3 +217,115 @@ A and C are also trees.
 # Trees
 
 _there are no exercises for this chapter_
+
+# Balanced Trees
+
+_there are no exercises for this chapter_
+
+# Dijkstra's Algorithm
+
+1. Begin at the start node.
+2. Add the costs of the outnodes to the costs table.
+3. Add the start node to the processed set.
+4. Pick the node from the cost table with the lowest weight that is not in the
+   processed set.
+5. Set the parent of that node as the start node.
+6. Continue with step 2, until the finish node is the cheapest unprocessed node.
+7. Build the route by following the parents table from finish to start.
+
+## 9.1
+
+Costs:
+
+| Node   | Weight |
+|--------|-------:|
+| Start  |      0 |
+| A      |      5 |
+| B      |      2 |
+| C      |      9 |
+| D      |      7 |
+| Finish |      8 |
+
+Parents:
+
+| Node   | Parent |
+|--------|--------|
+| A      | Start  |
+| B      | Start  |
+| D      | A      |
+| C      | A      |
+| Finish | D      |
+
+Processed:
+
+| Node  |
+|-------|
+| Start |
+| A     |
+| B     |
+| D     |
+
+Solution: Start -> A -> D -> Finish in 8
+
+## 9.2
+
+Costs:
+
+| Node   | Weight |
+|--------|-------:|
+| Start  |      0 |
+| A      |     10 |
+| B      |     30 |
+| C      |     31 |
+| Finish |     60 |
+
+Parents:
+
+| Node   | Parent |
+|--------|--------|
+| A      | Start  |
+| B      | A      |
+| C      | B      |
+| Finish | B      |
+
+Processed:
+
+| Node  |
+|-------|
+| Start |
+| A     |
+| B     |
+| C     |
+
+Solution: Start -> A -> B -> Finish in 60
+
+## 9.3
+
+Costs:
+
+| Node   | Weight |
+|--------|-------:|
+| Start  |      0 |
+| A      |      2 |
+| B      |      2 |
+| C      |      4 |
+| Finish |      4 |
+
+Parents:
+
+| Node   | Parent |
+|--------|--------|
+| A      | Start  |
+| B      | Start  |
+| C      | B      |
+| Finish | B      |
+
+Processed:
+
+| Node  |
+|-------|
+| Start |
+| A     |
+| B     |
+
+Solution: Start -> B -> Finish in 4
