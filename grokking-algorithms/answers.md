@@ -329,3 +329,22 @@ Processed:
 | B     |
 
 Solution: Start -> B -> Finish in 4
+
+# Greedy Algorithms
+
+## 10.1
+
+Load the truck with boxes ordered in descending order of their size. If the next
+box doesn't fit, try the next smaller one.
+
+This might not give the best possible solution, because a big box could have a
+shape such that other boxes with a better combined payoff wouldn't fit.
+
+## 10.2
+
+Visit the places in descending order of their point value until the holiday is
+over.
+
+This might be a bad strategy, because the highly valued places are very far
+apart, requiring a lot of travelling time in between, whereas relativly highly
+valued places could be rather close to one another.
