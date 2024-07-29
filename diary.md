@@ -1,3 +1,8 @@
+# Day 127 (2024-07-29)
+
+I started reading chapter 10 in _Grokking Algorithms_ and started scaffolding
+the covering set problem.
+
 # Day 126 (2024-07-28)
 
 I worked through the exercises in chapter 9, after which I finally understood
