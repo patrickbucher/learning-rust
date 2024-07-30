@@ -1,3 +1,7 @@
+# Day 128 (2024-07-30)
+
+I continued working on chapter 10.
+
 # Day 127 (2024-07-29)
 
 I started reading chapter 10 in _Grokking Algorithms_ and started scaffolding

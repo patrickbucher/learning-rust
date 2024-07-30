@@ -1,6 +1,23 @@
 use std::collections::{HashMap, HashSet};
 
-pub fn cover(things: &HashSet<String>, options: &HashMap<String, String>) -> HashSet<String> {
+pub fn cover(
+    required: &HashSet<String>,
+    options: &HashMap<String, HashSet<String>>,
+) -> HashSet<String> {
+    let mut solution: HashSet<String> = HashSet::new();
+    let mut required_covered: HashSet<String> = HashSet::new();
+    let mut best_option: Option<String> = None;
+    for (option, option_coverage) in options {
+        let covered: HashSet<String> = required.intersection(option_coverage).cloned().collect();
+        if covered.len() > required_covered.len() {
+            best_option = Some(option.clone());
+            required_covered = covered;
+        }
+    }
+    match best_option {
+        Some(option) => solution.insert(option),
+        None => true, // TODO
+    };
     HashSet::new()
 }
 
