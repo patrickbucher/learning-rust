@@ -1,3 +1,8 @@
+# Day 129 (2024-07-31)
+
+I continued implementing the set coverage problem, but the code doesn't find a
+solution yet.
+
 # Day 128 (2024-07-30)
 
 I continued working on chapter 10.

@@ -3,22 +3,33 @@ use std::collections::{HashMap, HashSet};
 pub fn cover(
     required: &HashSet<String>,
     options: &HashMap<String, HashSet<String>>,
-) -> HashSet<String> {
+) -> Result<HashSet<String>, String> {
     let mut solution: HashSet<String> = HashSet::new();
-    let mut required_covered: HashSet<String> = HashSet::new();
-    let mut best_option: Option<String> = None;
-    for (option, option_coverage) in options {
-        let covered: HashSet<String> = required.intersection(option_coverage).cloned().collect();
-        if covered.len() > required_covered.len() {
-            best_option = Some(option.clone());
-            required_covered = covered;
+    let mut covered: HashSet<String> = HashSet::new();
+    let mut required = required.clone();
+    let uncovered: HashSet<String> = required.difference(&covered).cloned().collect();
+    while !uncovered.is_empty() {
+        let mut best_option: Option<String> = None;
+        let mut best_coverage: HashSet<String> = HashSet::new();
+        for (option, new_coverage) in options {
+            let potential: HashSet<String> = required.intersection(new_coverage).cloned().collect();
+            if potential.len() > best_coverage.len() {
+                best_option = Some(option.clone());
+                best_coverage = potential.clone();
+                covered = potential;
+                required = required.difference(&covered).cloned().collect();
+            }
         }
+        match best_option {
+            Some(option) => solution.insert(option),
+            None => {
+                return Err(format!(
+                    "no best option for uncovered options {uncovered:?}"
+                ))
+            }
+        };
     }
-    match best_option {
-        Some(option) => solution.insert(option),
-        None => true, // TODO
-    };
-    HashSet::new()
+    Ok(solution)
 }
 
 #[cfg(test)]
@@ -27,14 +38,31 @@ mod tests {
 
     #[test]
     fn cover_states_with_radio_stations() {
-        let states = HashSet::from(["mt", "wa", "or", "id", "nv", "ut", "ca", "az"]);
-        let stations = HashMap::from([
-            ("kone", HashSet::from(["id", "nv", "ut"])),
-            ("ktwo", HashSet::from(["wa", "id", "mt"])),
-            ("kthree", HashSet::from(["or", "nv", "ca"])),
-            ("kfour", HashSet::from(["nv", "ut"])),
-            ("kfive", HashSet::from(["ca", "az"])),
+        let states: HashSet<String> =
+            HashSet::from(["mt", "wa", "or", "id", "nv", "ut", "ca", "az"].map(|s| s.to_string()));
+        let stations: HashMap<String, HashSet<String>> = HashMap::from([
+            (
+                "kone".into(),
+                HashSet::from(["id", "nv", "ut"].map(|s| s.to_string())),
+            ),
+            (
+                "ktwo".into(),
+                HashSet::from(["wa", "id", "mt"].map(|s| s.to_string())),
+            ),
+            (
+                "kthree".into(),
+                HashSet::from(["or", "nv", "ca"].map(|s| s.to_string())),
+            ),
+            (
+                "kfour".into(),
+                HashSet::from(["nv", "ut"].map(|s| s.to_string())),
+            ),
+            (
+                "kfive".into(),
+                HashSet::from(["ca", "az"].map(|s| s.to_string())),
+            ),
         ]);
-        println!("{states:?} {stations:?}");
+        let coverage = cover(&states, &stations);
+        assert!(coverage.is_ok());
     }
 }
