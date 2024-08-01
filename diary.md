@@ -1,7 +1,10 @@
 # Day 130 (2024-08-01)
 
 I got the set coverage algorithm to work and was able to slightly simplify the
-code. The solution is very intuitive.
+code. The solution is very intuitive. I also made the code somewhat more concise
+to be used by accepting data structures that make use of string references
+rather than owned strings, which requires some conversion on the validation of
+the result. But the trade-off looks acceptable to me.
 
 # Day 129 (2024-07-31)
 
