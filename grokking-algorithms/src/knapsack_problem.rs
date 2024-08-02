@@ -1,3 +1,4 @@
+use std::cmp::{Ord, Ordering};
 use std::collections::HashSet;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
@@ -28,6 +29,18 @@ impl Selection {
     }
 }
 
+impl Ord for Selection {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.value().cmp(&other.value())
+    }
+}
+
+impl PartialOrd for Selection {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 fn optimize(items: &Vec<Item>, space: usize) -> Selection {
     let mut grid: Vec<Vec<Selection>> = Vec::new();
     for i in 0..items.len() {
@@ -39,12 +52,22 @@ fn optimize(items: &Vec<Item>, space: usize) -> Selection {
     }
     for i in 0..items.len() {
         for j in 0..space {
-            let col_best = if i > 0 {
-                grid[i - 1][j].clone()
-            } else if items[i].cost <= j + 1 {
-                Selection{items: HashSet::from([items[i].clone()])}
+            let new_fit: Selection = if items[i].cost <= j + 1 {
+                Selection {
+                    items: HashSet::from([items[i].clone()]),
+                }
             } else {
                 Selection::empty()
+            };
+            let mut col: Vec<Selection> = Vec::new();
+            for k in 0..i {
+                col.push(grid[k][j].clone());
+            }
+            let col_max = col.into_iter().max().unwrap_or(Selection::empty());
+            let col_best = if new_fit.value() > col_max.value() {
+                new_fit
+            } else {
+                col_max
             };
             let cost_available = items[i].cost as isize - (j as isize + 1);
             let new_best = if i > 0 && cost_available > 0 {
@@ -55,8 +78,10 @@ fn optimize(items: &Vec<Item>, space: usize) -> Selection {
                 Selection::empty()
             };
             grid[i][j] = if col_best.value() > new_best.value() {
+                println!("grid[{i}][{j}] = {col_best:?}");
                 col_best
             } else {
+                println!("grid[{i}][{j}] = {new_best:?}");
                 new_best
             };
         }
