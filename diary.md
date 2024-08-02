@@ -1,3 +1,8 @@
+# Day 131 (2024-08-02)
+
+I worked through chapter 11 in _Grokking Algorithms_. Then I implemented the
+algorithm for solving the _Knapsack Problem_.
+
 # Day 130 (2024-08-01)
 
 I got the set coverage algorithm to work and was able to slightly simplify the

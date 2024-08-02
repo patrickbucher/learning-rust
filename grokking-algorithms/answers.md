@@ -348,3 +348,51 @@ over.
 This might be a bad strategy, because the highly valued places are very far
 apart, requiring a lot of travelling time in between, whereas relativly highly
 valued places could be rather close to one another.
+
+# Dynamic Programming
+
+## 11.1
+
+~~No, for one pound, there are better deals: the guitar, the iPhone.~~
+
+Yes, together with the iPhone and the Guitar, one could steal USD 4500.-
+
+## 11.2
+
+Items:
+
+| Item   | Weight (lb) | Value |
+|--------|------------:|------:|
+| Water  |           3 |    10 |
+| Book   |           1 |     3 |
+| Food   |           2 |     9 |
+| Jacket |           2 |     5 |
+| Camera |           1 |     6 |
+
+Formula:
+
+    cell[i][j] = max of 1) or 2)
+
+    1) the previous max value at cell[i-1][j]
+    2) the value of the current item + value of the remaining space: cell[i-1][j-weight]
+
+Grid:
+
+| Item/Weight |   1 |      2 |     3 |      4 |      5 |      6 |
+|-------------|----:|-------:|------:|-------:|-------:|-------:|
+| Water       |   - |      - |  W=10 |   W=10 |   W=10 |   W=10 |
+| Book        | B=3 |    B=3 |  W=10 |  BW=13 |  BW=13 |  BW=13 |
+| Food        | B=3 |    F=9 | BF=12 |  BW=13 |  FW=19 | BFW=22 |
+| Jacket      | B=3 |    F=9 | BF=12 |  FJ=14 |  FW=19 | BFW=22 |
+| Camera      | C=6 | BC/F=9 | CF=15 | BCF=17 | CFJ=20 | CFW=25 |
+
+Take the Camera, the Food, and the Water for a total value of 25.
+
+## 11.3
+
+|   | B | L | U | E |
+| C | 0 | 0 | 0 | 0 |
+| L | 0 | 1 | 0 | 0 |
+| U | 0 | 0 | 2 | 0 |
+| E | 0 | 0 | 0 | 3 |
+| S | 0 | 0 | 0 | 0 |
