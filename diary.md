@@ -1,7 +1,11 @@
 # Day 131 (2024-08-02)
 
 I worked through chapter 11 in _Grokking Algorithms_. Then I implemented the
-algorithm for solving the _Knapsack Problem_.
+algorithm for solving the _Knapsack Problem_. I only got it to work properly in
+the evening.
+
+I'd like to implement an alternative solution working through all possible
+sub-sets.
 
 # Day 130 (2024-08-01)
 

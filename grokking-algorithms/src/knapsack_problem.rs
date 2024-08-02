@@ -2,29 +2,29 @@ use std::cmp::{Ord, Ordering};
 use std::collections::HashSet;
 
 #[derive(Clone, Debug, Eq, Hash, PartialEq)]
-struct Item {
+pub struct Item {
     name: String,
     cost: usize,
     value: usize,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-struct Selection {
+pub struct Selection {
     items: HashSet<Item>,
 }
 
 impl Selection {
-    fn empty() -> Self {
+    pub fn empty() -> Self {
         Selection {
             items: HashSet::new(),
         }
     }
 
-    fn cost(&self) -> usize {
+    pub fn cost(&self) -> usize {
         self.items.iter().fold(0, |acc, i| acc + i.cost)
     }
 
-    fn value(&self) -> usize {
+    pub fn value(&self) -> usize {
         self.items.iter().fold(0, |acc, i| acc + i.value)
     }
 }
@@ -41,11 +41,11 @@ impl PartialOrd for Selection {
     }
 }
 
-fn optimize(items: &Vec<Item>, space: usize) -> Selection {
+pub fn optimize(items: &[Item], space: usize) -> Selection {
     let mut grid: Vec<Vec<Selection>> = Vec::new();
-    for i in 0..items.len() {
+    for _ in 0..items.len() {
         let mut row = Vec::new();
-        for j in 0..space {
+        for _ in 0..space {
             row.push(Selection::empty());
         }
         grid.push(row);
@@ -60,8 +60,8 @@ fn optimize(items: &Vec<Item>, space: usize) -> Selection {
                 Selection::empty()
             };
             let mut col: Vec<Selection> = Vec::new();
-            for k in 0..i {
-                col.push(grid[k][j].clone());
+            for row in grid.iter().take(i) {
+                col.push(row[j].clone());
             }
             let col_max = col.into_iter().max().unwrap_or(Selection::empty());
             let col_best = if new_fit.value() > col_max.value() {
@@ -69,7 +69,7 @@ fn optimize(items: &Vec<Item>, space: usize) -> Selection {
             } else {
                 col_max
             };
-            let cost_available = items[i].cost as isize - (j as isize + 1);
+            let cost_available = (j as isize + 1) - items[i].cost as isize;
             let new_best = if i > 0 && cost_available > 0 {
                 let mut selection = grid[i - 1][cost_available as usize - 1].clone();
                 selection.items.insert(items[i].clone());
@@ -78,10 +78,8 @@ fn optimize(items: &Vec<Item>, space: usize) -> Selection {
                 Selection::empty()
             };
             grid[i][j] = if col_best.value() > new_best.value() {
-                println!("grid[{i}][{j}] = {col_best:?}");
                 col_best
             } else {
-                println!("grid[{i}][{j}] = {new_best:?}");
                 new_best
             };
         }
@@ -95,7 +93,7 @@ mod tests {
 
     #[test]
     fn knapsack_problem() {
-        let items = vec![
+        let items = [
             Item {
                 name: "Water".into(),
                 cost: 3,
