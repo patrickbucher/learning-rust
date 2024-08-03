@@ -12,6 +12,10 @@ practice actix in a real-world scenario. Then I'll step back into algorithms and
 data structures afterwards. This interleaving makes sense from a learning
 perspective.
 
+Later, I read through chapter 12 in _Grokking Algorithms_ and implemented the
+_K-Nearest Neighbors_ algorithm to classify athletes into sports by their height
+and weight. (I'm a cyclist, apparently…)
+
 # Day 131 (2024-08-02)
 
 I worked through chapter 11 in _Grokking Algorithms_. Then I implemented the
