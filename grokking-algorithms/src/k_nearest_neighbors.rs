@@ -28,7 +28,6 @@ pub fn knn_predict_sport(known: &[Athlete], unknown: &Athlete, k: usize) -> Opti
     }
     let mut sports_count: Vec<(String, usize)> = sports_count.into_iter().collect();
     sports_count.sort_by_key(|(_, v)| *v);
-    println!("{sports_count:?}");
     sports_count.last().map(|(k, _)| k).cloned()
 }
 
