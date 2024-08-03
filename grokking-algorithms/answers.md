@@ -396,3 +396,24 @@ Take the Camera, the Food, and the Water for a total value of 25.
 | U | 0 | 0 | 2 | 0 |
 | E | 0 | 0 | 0 | 3 |
 | S | 0 | 0 | 0 | 0 |
+
+# K-Nearest Neighbors
+
+## 12.1
+
+Instead of working with absolute rating values, the deviation from the rating
+average could be taken into consideration: Either the user rates the movie
+higher, the same, or lower than the community in average (-1, 0, 1).
+
+## 12.2
+
+Each vote of an influencer could be counted multiple times, the more often an
+influencer's vote is counted, the higher his influence.
+
+## 12.3
+
+~~It's hard to tell; but since the _closest_ neighbors are used, any number above
+0 would yield useful results. If too many neighbors are considered, the
+prediction/classification will probably become weaker.~~
+
+A good rule of thumb is to use the square root of the total number of users.
