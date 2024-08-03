@@ -1,7 +1,16 @@
 # Day 132 (2024-08-03)
 
 I wrote some utility function to create all possible subsets of a set, which
-allows for an exhaustive solution to the Knapsack Problem.
+allows for an exhaustive solution to the Knapsack Problem. Implementing this
+solution was rather easy.
+
+I also thought about what doing next. When I'm done with _Grokking Algorithms_,
+I initially wanted to pick up the next book on algorithms and data structures.
+However, since I'm rather busy the next two weeks, I'd rather spend my daily
+Rust time with implementing a web application for my company. This allows me to
+practice actix in a real-world scenario. Then I'll step back into algorithms and
+data structures afterwards. This interleaving makes sense from a learning
+perspective.
 
 # Day 131 (2024-08-02)
 
