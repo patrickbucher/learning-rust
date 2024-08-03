@@ -1,8 +1,41 @@
-struct Athlete {
-    name: String,
-    height: f32,
-    weight: usize,
-    sport: String,
+use std::collections::HashMap;
+
+#[derive(Debug)]
+pub struct Athlete {
+    pub name: String,
+    pub height: f32,
+    pub weight: usize,
+    pub sport: String,
+}
+
+pub fn knn_predict_sport(known: &[Athlete], unknown: &Athlete, k: usize) -> Option<String> {
+    let mut athlete_distances: Vec<(&Athlete, usize)> = known
+        .iter()
+        .map(|a| (a, (distance(a, unknown) * 100.0) as usize))
+        .collect();
+    athlete_distances.sort_by_key(|(_, d)| *d);
+    let nearest_neighbors: Vec<String> = athlete_distances
+        .iter()
+        .take(k)
+        .map(|(a, _)| a.sport.clone())
+        .collect();
+    let mut sports_count: HashMap<String, usize> = HashMap::new();
+    for neighbour in &nearest_neighbors {
+        sports_count
+            .entry(neighbour.clone())
+            .and_modify(|n| *n += 1)
+            .or_insert(1);
+    }
+    let mut sports_count: Vec<(String, usize)> = sports_count.into_iter().collect();
+    sports_count.sort_by_key(|(_, v)| *v);
+    sports_count.first().map(|(k, _)| k).cloned()
+}
+
+fn distance(some: &Athlete, other: &Athlete) -> f32 {
+    f32::sqrt(
+        (some.height - other.height).powf(2.0)
+            + (some.weight as f32 - other.weight as f32).powf(2.0),
+    )
 }
 
 #[cfg(test)]
@@ -10,7 +43,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn classify_athletes() {
+    fn predict_sport() {
         let athletes = vec![
             Athlete {
                 name: "Jan Ulrich".into(),
@@ -187,5 +220,25 @@ mod tests {
                 sport: "Long-Distance Running".into(),
             },
         ];
+
+        let candidate = Athlete {
+            name: "Tadej Pogačar".into(),
+            height: 1.76,
+            weight: 66,
+            sport: "Cycling".into(),
+        };
+        let expected: Option<String> = Some(candidate.sport.clone());
+        let actual = knn_predict_sport(&athletes, &candidate, 5);
+        assert_eq!(actual, expected);
+
+        let candidate = Athlete {
+            name: "iAleksander Aamodt Kilde".into(),
+            height: 1.81,
+            weight: 90,
+            sport: "Alpine Skiing".into(),
+        };
+        let expected: Option<String> = Some(candidate.sport.clone());
+        let actual = knn_predict_sport(&athletes, &candidate, 5);
+        assert_eq!(actual, expected);
     }
 }
