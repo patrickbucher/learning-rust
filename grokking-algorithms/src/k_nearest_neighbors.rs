@@ -28,7 +28,8 @@ pub fn knn_predict_sport(known: &[Athlete], unknown: &Athlete, k: usize) -> Opti
     }
     let mut sports_count: Vec<(String, usize)> = sports_count.into_iter().collect();
     sports_count.sort_by_key(|(_, v)| *v);
-    sports_count.first().map(|(k, _)| k).cloned()
+    println!("{sports_count:?}");
+    sports_count.last().map(|(k, _)| k).cloned()
 }
 
 fn distance(some: &Athlete, other: &Athlete) -> f32 {
@@ -232,10 +233,20 @@ mod tests {
         assert_eq!(actual, expected);
 
         let candidate = Athlete {
-            name: "iAleksander Aamodt Kilde".into(),
+            name: "Aleksander Aamodt Kilde".into(),
             height: 1.81,
             weight: 90,
             sport: "Alpine Skiing".into(),
+        };
+        let expected: Option<String> = Some(candidate.sport.clone());
+        let actual = knn_predict_sport(&athletes, &candidate, 5);
+        assert_eq!(actual, expected);
+
+        let candidate = Athlete {
+            name: "Patrick Bucher".into(),
+            height: 1.88,
+            weight: 78,
+            sport: "Cycling".into(),
         };
         let expected: Option<String> = Some(candidate.sport.clone());
         let actual = knn_predict_sport(&athletes, &candidate, 5);
