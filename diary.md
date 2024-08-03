@@ -1,3 +1,8 @@
+# Day 132 (2024-08-03)
+
+I wrote some utility function to create all possible subsets of a set, which
+allows for an exhaustive solution to the Knapsack Problem.
+
 # Day 131 (2024-08-02)
 
 I worked through chapter 11 in _Grokking Algorithms_. Then I implemented the

@@ -10,3 +10,4 @@ pub mod selection_sort;
 pub mod set_covering;
 pub mod shortest_path;
 pub mod tree;
+pub mod utils;
