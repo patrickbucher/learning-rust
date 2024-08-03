@@ -1,7 +1,8 @@
+use crate::utils::create_subsets;
 use std::cmp::{Ord, Ordering};
 use std::collections::HashSet;
 
-#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+#[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Item {
     name: String,
     cost: usize,
@@ -87,6 +88,17 @@ pub fn optimize(items: &[Item], space: usize) -> Selection {
     grid[grid.len() - 1][grid[0].len() - 1].clone()
 }
 
+pub fn optimize_exhaustive(items: &[Item], space: usize) -> Selection {
+    create_subsets(items)
+        .iter()
+        .map(|s| Selection {
+            items: HashSet::from_iter(s.iter().cloned()),
+        })
+        .filter(|c| c.cost() <= space)
+        .max()
+        .unwrap_or(Selection::empty())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -137,7 +149,10 @@ mod tests {
                 value: 9,
             },
         ]);
+        let expected = Selection { items: expected };
         let actual = optimize(&items, 6);
-        assert_eq!(actual, Selection { items: expected });
+        assert_eq!(actual, expected);
+        let actual = optimize_exhaustive(&items, 6);
+        assert_eq!(actual, expected);
     }
 }
