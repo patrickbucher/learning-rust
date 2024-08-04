@@ -15,6 +15,11 @@ Chapter 3 _Design and Implementation_ is about the Markov Chain algorithm, which
 is implemented in different programming languages (e.g. C, C++, Java). So I
 picked it as my Sunday exercise to implement this algorithm in Rust.
 
+I managed to implement the algorithm and applied it to various texts. _Lorem
+Ipsum_ works great, of course, but the output isn't too impressive. The rather
+formulaic prose of the book _Genesis_ from the King James Bible was more
+convincing.
+
 # Day 132 (2024-08-03)
 
 I wrote some utility function to create all possible subsets of a set, which
