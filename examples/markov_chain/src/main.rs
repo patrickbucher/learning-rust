@@ -1,4 +1,5 @@
 use clap::Parser;
+use markov_chain::build_markov_chain;
 use std::fs;
 use std::process;
 
@@ -13,6 +14,10 @@ struct Args {
     /// prefix length
     #[arg(short, long)]
     prefix: usize,
+
+    /// output length
+    #[arg(short, long)]
+    length: usize,
 }
 
 fn main() {
@@ -24,6 +29,6 @@ fn main() {
             process::exit(1);
         }
     };
-    let words: Vec<String> = content.split_whitespace().map(|s| s.to_string()).collect();
-    println!("{words:?}");
+    let generated = build_markov_chain(&content, args.prefix, args.length);
+    println!("{generated}");
 }
