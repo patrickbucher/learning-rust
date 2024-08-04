@@ -1,12 +1,8 @@
 use rand::Rng;
 use std::collections::HashMap;
 
-pub fn build_markov_chain(text: &String, prefix_size: usize, length: usize) -> String {
-    let words: Vec<String> = text
-        .trim()
-        .split_whitespace()
-        .map(|s| s.to_string())
-        .collect();
+pub fn build_markov_chain(text: &str, prefix_size: usize, length: usize) -> String {
+    let words: Vec<String> = text.split_whitespace().map(|s| s.to_string()).collect();
     let prefix_suffix_map = build_prefix_suffix_map(&words, prefix_size);
     let mut w1 = words[0].clone();
     let mut w2 = words[1].clone();
@@ -27,7 +23,7 @@ pub fn build_markov_chain(text: &String, prefix_size: usize, length: usize) -> S
 }
 
 fn build_prefix_suffix_map(
-    text: &Vec<String>,
+    text: &[String],
     prefix_size: usize,
 ) -> HashMap<Vec<String>, Vec<String>> {
     let mut map: HashMap<Vec<String>, Vec<String>> = HashMap::new();
