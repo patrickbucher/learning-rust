@@ -20,6 +20,10 @@ Ipsum_ works great, of course, but the output isn't too impressive. The rather
 formulaic prose of the book _Genesis_ from the King James Bible was more
 convincing.
 
+Later on, I realized that the prefix size for the Markov Chain wasn't properly
+used when generating the text. I fixed this using a `VecDeque` in place of the
+two temporary word variables.
+
 # Day 132 (2024-08-03)
 
 I wrote some utility function to create all possible subsets of a set, which

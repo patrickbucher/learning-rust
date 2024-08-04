@@ -1,23 +1,25 @@
 use rand::Rng;
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
 
 pub fn build_markov_chain(text: &str, prefix_size: usize, length: usize) -> String {
     let words: Vec<String> = text.split_whitespace().map(|s| s.to_string()).collect();
     let prefix_suffix_map = build_prefix_suffix_map(&words, prefix_size);
-    let mut w1 = words[0].clone();
-    let mut w2 = words[1].clone();
-    let mut output: Vec<String> = vec![w1.clone(), w2.clone()];
+    let mut queue: VecDeque<String> = VecDeque::new();
+    let mut output: Vec<String> = Vec::new();
+    for word in words.iter().take(prefix_size) {
+        output.push(word.clone());
+        queue.push_back(word.clone());
+    }
     for _ in 0..length {
-        let prefix = vec![w1.clone(), w2.clone()];
+        let prefix: Vec<String> = queue.iter().cloned().collect();
         let suffixes = match prefix_suffix_map.get(&prefix) {
             Some(value) => value,
             None => break,
         };
         let j = rand::thread_rng().gen_range(0..suffixes.len());
-        let w3 = suffixes[j].clone();
-        w1 = w2.clone();
-        w2 = w3.clone();
-        output.push(w3.clone());
+        output.push(suffixes[j].clone());
+        queue.push_back(suffixes[j].clone());
+        queue.pop_front();
     }
     output.join(" ")
 }
