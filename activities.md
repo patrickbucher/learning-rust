@@ -1,7 +1,10 @@
 # Activities
 
-- Working through _Grokking Algorithms_
-    - state: chapter 12/13
+- Working on a prototype for a business application using actix, tera, and reqwest
+    - state:
+        - [x] form processing
+        - [ ] static content rendering
+        - [ ] API access
 - Reading _Effective Rust_
     - state: item 3/35
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)

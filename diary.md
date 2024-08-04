@@ -1,3 +1,20 @@
+# Day 133 (2024-08-04)
+
+Having finished reading _Grokking Algorithms_, the planned next step was to work
+through _A Common Sense-Guide to Data Structures and Algorithms_ by Jay Wengrow.
+However, since I'm rather busy with learning Ansible and preparing for the
+second LPIC-1 exam, I should rather try to apply existing knowledge in Rust
+rather than learning new things. So I'd like to start with said book only in
+roughly two weeks. In the mean time, I'd like to work on a web application
+prototype for my company using actix, tera, and reqwest.
+
+I never completely worked through _The Practice of Programming_ by Brian W.
+Kernighan and Rob Pike, which is a shame. (I worked through the first two
+chapters and used the chapter on Debugging in a lesson I gave last fall.)
+Chapter 3 _Design and Implementation_ is about the Markov Chain algorithm, which
+is implemented in different programming languages (e.g. C, C++, Java). So I
+picked it as my Sunday exercise to implement this algorithm in Rust.
+
 # Day 132 (2024-08-03)
 
 I wrote some utility function to create all possible subsets of a set, which
@@ -15,6 +32,10 @@ perspective.
 Later, I read through chapter 12 in _Grokking Algorithms_ and implemented the
 _K-Nearest Neighbors_ algorithm to classify athletes into sports by their height
 and weight. (I'm a cyclist, apparently…)
+
+I finished reading the book in the evening; chapter 13 is only an outlook on
+additional algorithms with nothing really to do. The book was a good primer into
+some new territories (e.g. dynamic programming), but wasn't really challenging.
 
 # Day 131 (2024-08-02)
 
