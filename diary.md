@@ -1,3 +1,9 @@
+# Day 134 (2024-08-05_
+
+Today, I worked on the beerxio application for my company. I managed to both
+integrate dotenv and tera, so that the order form is now rendered dynamically.
+Next up: proper error handling.
+
 # Day 133 (2024-08-04)
 
 Having finished reading _Grokking Algorithms_, the planned next step was to work
