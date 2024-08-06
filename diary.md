@@ -1,4 +1,11 @@
-# Day 134 (2024-08-05_
+# Day 135 (2024-08-07)
+
+I implemented proper error handling for beerxio, which allows me to use the `?`
+operator for Tera template rendering when handling errors. I also implemented an
+order confirmation page using Tera. Next up: accessing the upstream API using
+reqwest.
+
+# Day 134 (2024-08-05)
 
 Today, I worked on the beerxio application for my company. I managed to both
 integrate dotenv and tera, so that the order form is now rendered dynamically.
