@@ -1,8 +1,12 @@
-# Day 136 (2024-08-08)
+# Day 137 (2024-08-08)
+
+I took up error handling again and documented the `Option.ok_or()` API.
+
+# Day 136 (2024-08-07)
 
 I wrote two integration tests in beerxio to GET and POST the order form.
 
-# Day 135 (2024-08-07)
+# Day 135 (2024-08-06)
 
 I implemented proper error handling for beerxio, which allows me to use the `?`
 operator for Tera template rendering when handling errors. I also implemented an
