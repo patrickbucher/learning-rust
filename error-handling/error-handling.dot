@@ -15,4 +15,5 @@ digraph ErrorHandling {
     ref_to_option -> option_to_ref [label="as_ref"]
     option_t -> t [label="unwrap_or"];
     result_te -> t [label="unwrap_or"];
+    option_t -> result_te [label="map_or"];
 }

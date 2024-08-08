@@ -3,8 +3,6 @@
 TODO:
 
 - `Option`
-    - `and`
-    - `and_then`
     - `expect`
     - `filter`
     - `flatten`
@@ -12,9 +10,6 @@ TODO:
     - `get_or_insert_with`
     - `insert`
     - `inspect`
-    - `is_none`
-    - `is_some`
-    - `is_some_and`
     - `iter`
     - `iter_mut`
     - `map`
@@ -124,6 +119,42 @@ Output:
 
 ```text
 The sum of ["123", "abc", "17", "", "1"] is 141.
+```
+
+## Mapping an `Option<T>` to a `Result<T, E>`
+
+- Q: How can I turn an `Option<T>` into a `Result<T, E>` when an error `E` can
+  be made up?
+- A: Use `ok_or()` with an error `E` on the option.
+
+Example:
+
+```rust
+fn main() {
+    let a: usize = 9;
+    let bs: &[usize] = &[0, 1, 2, 3];
+    for b in bs {
+        let result: Result<usize, String> = divide(a, *b).ok_or("divide by zero".to_string());
+        println!("{a}/{b}={result:?}");
+    }
+}
+
+fn divide(a: usize, b: usize) -> Option<usize> {
+    if b == 0 {
+        None
+    } else {
+        Some(a / b)
+    }
+}
+```
+
+Output:
+
+```text
+9/0=Err("divide by zero")
+9/1=Ok(9)
+9/2=Ok(4)
+9/3=Ok(3)
 ```
 
 ## Partitioning a Collection of Results: `partition_result()` from Itertools
