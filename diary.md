@@ -1,3 +1,9 @@
+# Day 138 (2024-08-09)
+
+I started reading _A Common-Sense Guide to Data Structures and Algorithms_,
+which I'll refer to as _CSGDSA_ from now on. I read chapter 1 and worked through
+the exercises.
+
 # Day 137 (2024-08-08)
 
 I took up error handling again and documented the `Option.ok_or()` API.

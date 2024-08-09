@@ -3,8 +3,10 @@
 - Working on a prototype for a business application using actix, tera, and reqwest
     - state:
         - [x] form processing
-        - [ ] static content rendering
+        - [x] static content rendering
         - [ ] API access
+- Reading _A Common-Sense Guide to Data Structures and Algorithms_ ("CSGDSA")
+    - state: chapter 1/20
 - Reading _Effective Rust_
     - state: item 3/35
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
