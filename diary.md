@@ -1,3 +1,7 @@
+# Day 139 (2024-08-10)
+
+I started reading chapter 2 of CSGDSA and implemented an ordered array.
+
 # Day 138 (2024-08-09)
 
 I started reading _A Common-Sense Guide to Data Structures and Algorithms_,
