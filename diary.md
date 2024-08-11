@@ -1,3 +1,8 @@
+# Day 140 (2024-08-11)
+
+I finished reading chapter 2 of CSGDSA, for which I implemented both linear and
+binary search in an ordered array.
+
 # Day 139 (2024-08-10)
 
 I started reading chapter 2 of CSGDSA and implemented an ordered array.

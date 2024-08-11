@@ -23,3 +23,25 @@
 ## 3)
 
 It would take N steps.
+
+# Chapter 2
+
+## 1)
+
+linear search for 8 in [2, 4, 6, 8, 10, 12, 13]
+
+Answer: four steps
+
+## 2)
+
+binary search for 8 in [2, 4, 6, 8, 10, 12, 13]
+
+| step | lower | upper | midpoint | value |
+|-----:|------:|------:|---------:|------:|
+|    1 |     0 |     6 |        3 |     8 |
+
+Answer: one single step.
+
+## 3)
+
+Answer: log2(100000) = 16.61 => max. 17 steps (actually 16 steps)
