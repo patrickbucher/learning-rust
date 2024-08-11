@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::fmt::Debug;
 
 pub struct OrderedArray<T: Ord + Clone + Debug> {
@@ -39,6 +40,21 @@ where
                 return Some(i);
             } else if *v > needle {
                 return None;
+            }
+        }
+        None
+    }
+
+    pub fn search_binary(&self, needle: T) -> Option<usize> {
+        let mut low = 0;
+        let mut high = self.array.len() - 1;
+        while low <= high {
+            let mid = (low + high) / 2;
+            let val = self.array[mid].clone();
+            match needle.cmp(&val) {
+                Ordering::Equal => return Some(mid),
+                Ordering::Greater => low = mid + 1,
+                Ordering::Less => high = mid - 1,
             }
         }
         None
@@ -100,6 +116,32 @@ mod tests {
         for i in 0..10 {
             let expected = None;
             let actual = numbers.search_linear(i * 10 + 1);
+            assert_eq!(expected, actual);
+        }
+    }
+
+    #[test]
+    fn search_binary_success() {
+        let mut numbers = OrderedArray::new();
+        for i in 0..10 {
+            numbers.insert(2_usize.pow(i));
+        }
+        for i in 0..10 {
+            let expected = Some(i as usize);
+            let actual = numbers.search_binary(2_usize.pow(i));
+            assert_eq!(expected, actual);
+        }
+    }
+
+    #[test]
+    fn search_binary_fail() {
+        let mut numbers = OrderedArray::new();
+        for i in 0..10 {
+            numbers.insert(2_usize.pow(i));
+        }
+        for i in 0..10 {
+            let expected = None;
+            let actual = numbers.search_binary(2_usize.pow(i) + 1000);
             assert_eq!(expected, actual);
         }
     }
