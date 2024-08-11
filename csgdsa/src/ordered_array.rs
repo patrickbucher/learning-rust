@@ -1,10 +1,12 @@
-pub struct OrderedArray<T: Ord + Clone> {
+use std::fmt::Debug;
+
+pub struct OrderedArray<T: Ord + Clone + Debug> {
     array: Vec<T>,
 }
 
 impl<T> OrderedArray<T>
 where
-    T: Ord + Clone,
+    T: Ord + Clone + Debug,
 {
     pub fn new() -> Self {
         OrderedArray { array: Vec::new() }
@@ -29,6 +31,17 @@ where
 
     pub fn get_values(&self) -> Vec<T> {
         self.array.clone()
+    }
+
+    pub fn search_linear(&self, needle: T) -> Option<usize> {
+        for (i, v) in self.array.iter().enumerate() {
+            if *v == needle {
+                return Some(i);
+            } else if *v > needle {
+                return None;
+            }
+        }
+        None
     }
 }
 
@@ -63,5 +76,31 @@ mod tests {
         let expected: Vec<isize> = (-100..100).collect();
         let actual = numbers.get_values();
         assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn search_linear_success() {
+        let mut numbers = OrderedArray::new();
+        for i in 0..10 {
+            numbers.insert(i * 10);
+        }
+        for i in 0..10 {
+            let expected = Some(i);
+            let actual = numbers.search_linear(i * 10);
+            assert_eq!(expected, actual);
+        }
+    }
+
+    #[test]
+    fn search_linear_fail() {
+        let mut numbers = OrderedArray::new();
+        for i in 0..10 {
+            numbers.insert(i * 10);
+        }
+        for i in 0..10 {
+            let expected = None;
+            let actual = numbers.search_linear(i * 10 + 1);
+            assert_eq!(expected, actual);
+        }
     }
 }
