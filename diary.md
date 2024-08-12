@@ -1,3 +1,8 @@
+# Day 141 (2024-08-12)
+
+I read chapter 3 of CSGDSA and worked through the exercises, which didn't
+require writing any code.
+
 # Day 140 (2024-08-11)
 
 I finished reading chapter 2 of CSGDSA, for which I implemented both linear and

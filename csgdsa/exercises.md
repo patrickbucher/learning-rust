@@ -45,3 +45,25 @@ Answer: one single step.
 ## 3)
 
 Answer: log2(100000) = 16.61 => max. 17 steps (actually 16 steps)
+
+# Chapter 3
+
+## 1)
+
+O(1)
+
+## 2)
+
+O(N)
+
+## 3)
+
+O(log N)
+
+## 4)
+
+O(N)
+
+## 5)
+
+O(1)
