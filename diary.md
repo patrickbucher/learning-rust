@@ -1,7 +1,8 @@
 # Day 141 (2024-08-12)
 
 I read chapter 3 of CSGDSA and worked through the exercises, which didn't
-require writing any code.
+require writing any code. I also implemented a set based on a vector, which was
+a residue task from the first chapter.
 
 # Day 140 (2024-08-11)
 
