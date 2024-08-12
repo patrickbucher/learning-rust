@@ -41,10 +41,10 @@ where
 
     pub fn search_linear(&self, needle: T) -> Option<usize> {
         for (i, v) in self.array.iter().enumerate() {
-            if *v == needle {
-                return Some(i);
-            } else if *v > needle {
-                return None;
+            match v.cmp(&needle) {
+                Ordering::Equal => return Some(i),
+                Ordering::Greater => return None,
+                Ordering::Less => continue,
             }
         }
         None
