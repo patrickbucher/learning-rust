@@ -5,14 +5,19 @@ pub struct OrderedArray<T: Ord + Clone + Debug> {
     array: Vec<T>,
 }
 
+impl<T> Default for OrderedArray<T>
+where
+    T: Ord + Clone + Debug,
+{
+    fn default() -> Self {
+        OrderedArray { array: Vec::new() }
+    }
+}
+
 impl<T> OrderedArray<T>
 where
     T: Ord + Clone + Debug,
 {
-    pub fn new() -> Self {
-        OrderedArray { array: Vec::new() }
-    }
-
     pub fn insert(&mut self, item: T) {
         let mut pos = 0;
         for v in &self.array {
@@ -67,7 +72,7 @@ mod tests {
 
     #[test]
     fn insert_in_order_small() {
-        let mut numbers = OrderedArray::new();
+        let mut numbers: OrderedArray<usize> = Default::default();
         numbers.insert(7);
         numbers.insert(3);
         numbers.insert(8);
@@ -85,7 +90,7 @@ mod tests {
 
     #[test]
     fn insert_in_order_big() {
-        let mut numbers = OrderedArray::new();
+        let mut numbers: OrderedArray<isize> = Default::default();
         for i in (-100..100).rev() {
             numbers.insert(i);
         }
@@ -96,7 +101,7 @@ mod tests {
 
     #[test]
     fn search_linear_success() {
-        let mut numbers = OrderedArray::new();
+        let mut numbers: OrderedArray<usize> = Default::default();
         for i in 0..10 {
             numbers.insert(i * 10);
         }
@@ -109,7 +114,7 @@ mod tests {
 
     #[test]
     fn search_linear_fail() {
-        let mut numbers = OrderedArray::new();
+        let mut numbers: OrderedArray<usize> = Default::default();
         for i in 0..10 {
             numbers.insert(i * 10);
         }
@@ -122,7 +127,7 @@ mod tests {
 
     #[test]
     fn search_binary_success() {
-        let mut numbers = OrderedArray::new();
+        let mut numbers: OrderedArray<usize> = Default::default();
         for i in 0..10 {
             numbers.insert(2_usize.pow(i));
         }
@@ -135,7 +140,7 @@ mod tests {
 
     #[test]
     fn search_binary_fail() {
-        let mut numbers = OrderedArray::new();
+        let mut numbers: OrderedArray<usize> = Default::default();
         for i in 0..10 {
             numbers.insert(2_usize.pow(i));
         }
