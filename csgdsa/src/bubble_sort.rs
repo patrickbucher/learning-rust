@@ -1,11 +1,16 @@
 pub fn bubble_sort<T: Clone + Ord>(values: &mut Vec<T>) {
     for i in 0..values.len() {
+        let mut sorted = true;
         for j in 1..(values.len() - i) {
             if values[j - 1] > values[j] {
+                sorted = false;
                 let tmp = values[j].clone();
                 values[j] = values[j - 1].clone();
                 values[j - 1] = tmp;
             }
+        }
+        if sorted {
+            return;
         }
     }
 }
