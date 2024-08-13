@@ -1,3 +1,8 @@
+# Day 142 (2024-08-13)
+
+I read the first part of chapter 4 in CSGDSA and implemented an optimized
+version of Bubble Sort.
+
 # Day 141 (2024-08-12)
 
 I read chapter 3 of CSGDSA and worked through the exercises, which didn't
