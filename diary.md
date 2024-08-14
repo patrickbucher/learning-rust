@@ -1,3 +1,9 @@
+# Day 143 (2024-08-14)
+
+I wrote a function that draws a random value of a collection based on its item
+count, i.e. the higher the item count of a value is, the likelier it will be
+drawn.
+
 # Day 142 (2024-08-13)
 
 I read the first part of chapter 4 in CSGDSA and implemented an optimized
