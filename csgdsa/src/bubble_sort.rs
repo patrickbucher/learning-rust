@@ -1,4 +1,4 @@
-pub fn bubble_sort<T: Clone + Ord>(values: &mut Vec<T>) {
+pub fn bubble_sort<T: Clone + Ord>(values: &mut [T]) {
     for i in 0..values.len() {
         let mut sorted = true;
         for j in 1..(values.len() - i) {
