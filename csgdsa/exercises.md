@@ -67,3 +67,27 @@ O(N)
 ## 5)
 
 O(1)
+
+# Chapter 4
+
+## 1)
+
+Assuming `log` as `log10`:
+
+| N Elements | O(N) | O(log N) | O(N²) |
+|-----------:|-----:|---------:|------:|
+|        100 |  100 |       10 | 10000 |
+|       2000 | 2000 |      7.6 |   4e6 |
+
+## 2)
+
+The array is of size 16 (the square root of 256).
+
+## 3)
+
+The complexity is O(N²) because of the nested loops, of which each iterates
+through the entire array.
+
+## 4)
+
+see `src/misc.rs` (function `find_greatest`)
