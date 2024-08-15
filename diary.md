@@ -1,3 +1,9 @@
+# Day 144 (2024-08-15)
+
+I finished working through chapter 4 and wrote a function to find the maximum
+value in an array (or vector), which was the final exercise. Now I hope for more
+interesting work to do.
+
 # Day 143 (2024-08-14)
 
 I wrote a function that draws a random value of a collection based on its item
