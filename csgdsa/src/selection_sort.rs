@@ -1,11 +1,9 @@
 pub fn selection_sort<T: Clone + Ord>(values: &mut [T]) {
     for i in 0..values.len() {
         let mut smallest_index = i;
-        let mut smallest_value = values[i].clone();
         for j in (i + 1)..values.len() {
-            if values[j] < smallest_value {
+            if values[j] < values[smallest_index] {
                 smallest_index = j;
-                smallest_value = values[j].clone();
             }
         }
         if i != smallest_index {
