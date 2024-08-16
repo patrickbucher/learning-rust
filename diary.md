@@ -1,3 +1,7 @@
+# Day 145 (2024-08-16)
+
+I worked through chapter 5 in CSGDSA and implemented Selection Sort.
+
 # Day 144 (2024-08-15)
 
 I finished working through chapter 4 and wrote a function to find the maximum
