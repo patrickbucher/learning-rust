@@ -93,3 +93,26 @@ through the entire array.
 ## 4)
 
 see `src/misc.rs` (function `find_greatest`)
+
+# Chapter 5
+
+## 1)
+
+4N + 16 => O(N)
+
+## 2)
+
+2N² => O(N²)
+
+## 3)
+
+N + N => O(N)
+
+## 4)
+
+3N => O(N)
+
+## 5)
+
+N/2 * N = N²/2 => O(N²)
+
