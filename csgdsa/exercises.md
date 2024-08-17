@@ -116,3 +116,23 @@ N + N => O(N)
 
 N/2 * N = N²/2 => O(N²)
 
+# Chapter 6
+
+## 1)
+
+3N² + 2N + 1 => O(N²)
+
+## 2)
+
+N + log N => O(N)
+
+## 3)
+
+- Best Case: The first two elements add up to 10.
+- Average Case: A matching pair is roughly found around the middle.
+- Worst Case: No matching pair is found after; O(N²).
+
+## 4)
+
+The time complexity is O(N). Instead of setting `foundX` to `true`, the function
+could just return with `true`.

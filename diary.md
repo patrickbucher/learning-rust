@@ -1,3 +1,8 @@
+# Day 146 (2024-08-17)
+
+I worked through chapter 6 in CSGDSA and implemented Insertion Sort (and a
+function to find the intersection of two vectors).
+
 # Day 145 (2024-08-16)
 
 I worked through chapter 5 in CSGDSA and implemented Selection Sort.
