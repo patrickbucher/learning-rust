@@ -1,18 +1,16 @@
 pub fn insertion_sort<T: Clone + Ord>(values: &mut [T]) {
     for i in 1..values.len() {
         let current = values[i].clone();
-        let mut new_index: Option<usize> = None;
+        let mut new_index = i;
         for j in (0..i).rev() {
             if current < values[j] {
                 values[j + 1] = values[j].clone();
-                new_index = Some(j);
+                new_index = j;
             } else {
                 break;
             }
         }
-        if new_index.is_some() {
-            values[new_index.unwrap()] = current.clone();
-        }
+        values[new_index] = current.clone();
     }
 }
 
