@@ -28,9 +28,27 @@ pub fn intersect<T: Eq + Clone>(xs: &[T], ys: &[T]) -> Vec<T> {
     intersection
 }
 
+pub fn is_palindrome(word: &str) -> bool {
+    let chars: Vec<char> = word.chars().collect();
+    if chars.is_empty() {
+        return true;
+    }
+    let mut i: usize = 0;
+    let mut j: usize = chars.len() - 1;
+    while i <= j && j > 0 {
+        if chars[i] != chars[j] {
+            return false;
+        }
+        i += 1;
+        j -= 1;
+    }
+    true
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::HashMap;
 
     #[test]
     fn find_no_greatest_number_in_empty_vec() {
@@ -90,5 +108,39 @@ mod tests {
         let actual: Vec<usize> = intersect(&twos, &threes);
         let expected: Vec<usize> = vec![6, 12, 18];
         assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn check_is_palindrome() {
+        let tests: HashMap<&str, bool> = HashMap::from([
+            ("", true),
+            ("x", true),
+            ("oo", true),
+            ("oh", false),
+            ("wow", true),
+            ("and", false),
+            ("deed", true),
+            ("dear", false),
+            ("sugus", true),
+            ("joint", false),
+            ("maoam", true),
+            ("fails", false),
+            ("kayak", true),
+            ("kojak", false),
+            ("hannah", true),
+            ("heather", false),
+            ("deified", true),
+            ("dedicated", false),
+            ("racecar", true),
+            ("ripcurl", false),
+            ("rotator", true),
+            ("reindeer", false),
+            ("reliefpfeiler", true),
+            ("gartenzaun", false),
+        ]);
+        for (word, expected) in tests {
+            let actual = is_palindrome(word);
+            assert_eq!(actual, expected);
+        }
     }
 }
