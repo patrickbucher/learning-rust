@@ -136,3 +136,27 @@ N + log N => O(N)
 
 The time complexity is O(N). Instead of setting `foundX` to `true`, the function
 could just return with `true`.
+
+# Chapter 7
+
+## 1)
+
+O(N)
+
+## 2)
+
+O(N+M), with N being the length of the first and M being the length of the
+second array.
+
+## 3)
+
+O(N * M), with N being the size of the haystack and M being the length of the
+needle.
+
+## 4)
+
+O(N³)
+
+## 5)
+
+O(log N)

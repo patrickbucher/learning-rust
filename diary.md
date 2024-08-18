@@ -1,3 +1,9 @@
+# Day 147 (2024-08-18)
+
+I worked through chapter 7 in CSGDSA, but only implemented the palindrome
+checker. The other "algorithms" were quite arbitrary and not really reusable.
+The book is soon going to be a bit more interesting and more challenging.
+
 # Day 146 (2024-08-17)
 
 I worked through chapter 6 in CSGDSA and implemented Insertion Sort (and a
