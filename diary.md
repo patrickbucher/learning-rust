@@ -1,3 +1,9 @@
+# Day 148 (2024-08-19)
+
+I wrote a small utility program to sum up time indications of the form hh:mm,
+which I use a lot at work. (The AWK version I wrote yesterday is considerably
+shorter.)
+
 # Day 147 (2024-08-18)
 
 I worked through chapter 7 in CSGDSA, but only implemented the palindrome
