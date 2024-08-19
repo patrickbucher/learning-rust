@@ -1,5 +1,5 @@
-use regex::Regex;
 use std::io;
+use sumtime::TimeParser;
 
 fn main() {
     let mut lines: Vec<String> = Vec::new();
@@ -13,29 +13,15 @@ fn main() {
             break;
         }
     }
-    let re = Regex::new("^([0-9]+):([0-5][0-9])$").unwrap();
-    let mut total_hours: usize = 0;
-    let mut total_minutes: usize = 0;
+    let parser = TimeParser::new();
+    let mut hh_mm: Vec<(usize, usize)> = Vec::new();
     for line in lines {
-        match re.captures(&line) {
-            Some(matches) => {
-                if matches.len() == 3 {
-                    let (hours, minutes) = match (matches.get(1), matches.get(2)) {
-                        (Some(h), Some(m)) => (h.as_str(), m.as_str()),
-                        _ => ("0", "0"),
-                    };
-                    let (hours, minutes): (usize, usize) =
-                        (hours.parse().unwrap_or(0), minutes.parse().unwrap_or(0));
-                    total_hours += hours;
-                    total_minutes += minutes;
-                } else {
-                    continue;
-                }
-            }
-            None => continue,
-        }
+        hh_mm.push(parser.parse(&line));
     }
-    total_hours += total_minutes / 60;
-    total_minutes %= 60;
-    println!("{total_hours}:{total_minutes:02}");
+    let (mut hh, mut mm) = hh_mm
+        .iter()
+        .fold((0, 0), |(hh, mm), (h, m)| ((hh + h), (mm + m)));
+    hh += mm / 60;
+    mm %= 60;
+    println!("{hh}:{mm:02}");
 }
