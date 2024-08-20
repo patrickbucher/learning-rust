@@ -16,7 +16,9 @@ fn main() {
     let parser = TimeParser::new();
     let mut hh_mm: Vec<(usize, usize)> = Vec::new();
     for line in lines {
-        hh_mm.push(parser.parse(&line));
+        if let Some(time) = parser.parse(&line) {
+            hh_mm.push(time);
+        }
     }
     let (mut hh, mut mm) = hh_mm
         .iter()
