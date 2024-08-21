@@ -1,3 +1,7 @@
+# Day 150 (2024-08-21)
+
+I finished reading chapter 8 in CSGDSA…
+
 # Day 149 (2024-08-20)
 
 I refactored and tested yesterday's code of my `sumtime` program.

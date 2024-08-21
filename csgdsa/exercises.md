@@ -160,3 +160,21 @@ O(N³)
 ## 5)
 
 O(log N)
+
+# Chapter 8
+
+## 1)
+
+see `src/misc.rs` (function `intersect`)
+
+## 2)
+
+see `src/misc.rs` (function `find_first_duplicate`)
+
+## 3)
+
+see `src/misc.rs` (function `find_missing_alphabet_letter`)
+
+## 4)
+
+see `src/misc.rs` (function `find_first_unique_letter`)

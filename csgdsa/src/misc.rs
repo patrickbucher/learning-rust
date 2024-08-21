@@ -1,3 +1,7 @@
+use std::collections::HashMap;
+use std::collections::HashSet;
+use std::iter;
+
 pub fn find_greatest<T: Ord + Clone>(items: &[T]) -> Option<T> {
     let mut greatest = None;
     for item in items {
@@ -43,6 +47,47 @@ pub fn is_palindrome(word: &str) -> bool {
         j -= 1;
     }
     true
+}
+
+pub fn find_first_duplicate<'a>(strings: &[&'a str]) -> Option<&'a str> {
+    let mut seen: HashSet<&str> = HashSet::new();
+    for s in strings {
+        if seen.contains(s) {
+            return Some(s);
+        }
+        seen.insert(s);
+    }
+    None
+}
+
+pub fn find_missing_alphabet_letter(text: &str) -> Option<char> {
+    let mut seen: HashMap<char, bool> = iter::zip('a'..='z', iter::repeat(false)).collect();
+    for letter in text.chars() {
+        seen.entry(letter).and_modify(|v| *v = true);
+    }
+    let unseen: HashMap<char, bool> = seen.into_iter().filter(|(_, v)| !(*v)).collect();
+    let mut unseen: Vec<char> = unseen.keys().cloned().collect();
+    unseen.sort();
+    unseen.first().copied()
+}
+
+pub fn find_first_unique_letter(text: &str) -> Option<char> {
+    let mut seen: HashMap<char, bool> = HashMap::new();
+    for letter in text.chars() {
+        seen.entry(letter)
+            .and_modify(|v| *v = true)
+            .or_insert(false);
+    }
+    for letter in text.chars() {
+        if let Some(duplicate) = seen.get(&letter) {
+            if *duplicate {
+                continue;
+            } else {
+                return Some(letter);
+            }
+        }
+    }
+    None
 }
 
 #[cfg(test)]
@@ -140,6 +185,51 @@ mod tests {
         ]);
         for (word, expected) in tests {
             let actual = is_palindrome(word);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn find_first_duplicates() {
+        let tests: HashMap<Vec<&str>, Option<&str>> = HashMap::from([
+            (Vec::new(), None),
+            (vec!["foo"], None),
+            (vec!["foo", "bar"], None),
+            (vec!["a", "b", "c", "a"], Some("a")),
+            (vec!["a", "b", "c", "d", "d"], Some("d")),
+        ]);
+        for (test, expected) in tests {
+            let actual = find_first_duplicate(&test);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn find_missing_alphabet_letters() {
+        let tests: HashMap<&str, Option<char>> = HashMap::from([
+            ("", Some('a')),
+            ("abc", Some('d')),
+            ("abcdefghijklmnopqrstuvwxy", Some('z')),
+            ("abcdefghijklmnopqrstuvwxyz", None),
+            ("the quick brown box jumps over a lazy dog", Some('f')),
+        ]);
+        for (test, expected) in tests {
+            let actual = find_missing_alphabet_letter(test);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn find_first_unique_letters() {
+        let tests: HashMap<&str, Option<char>> = HashMap::from([
+            ("", None),
+            ("abc", Some('a')),
+            ("abca", Some('b')),
+            ("abcd", Some('a')),
+            ("minimum", Some('n')),
+        ]);
+        for (test, expected) in tests {
+            let actual = find_first_unique_letter(test);
             assert_eq!(actual, expected);
         }
     }
