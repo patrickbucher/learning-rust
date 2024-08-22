@@ -1,6 +1,12 @@
+# Day 151 (2024-08-22)
+
+I worked through chapter 9 in CSGDSA, for which I both implemented a stack and a
+queue based on a vector.
+
 # Day 150 (2024-08-21)
 
-I finished reading chapter 8 in CSGDSA…
+I finished reading chapter 8 in CSGDSA and worked through all the exercises,
+mostly dealing with maps and sets.
 
 # Day 149 (2024-08-20)
 

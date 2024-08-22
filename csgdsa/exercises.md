@@ -178,3 +178,21 @@ see `src/misc.rs` (function `find_missing_alphabet_letter`)
 ## 4)
 
 see `src/misc.rs` (function `find_first_unique_letter`)
+
+# Chapter 9
+
+## 1)
+
+A queue; because "first come, first served" and FIFO are the same principle.
+
+## 2)
+
+The number 4 would be on the top.
+
+## 3)
+
+The number 3 would be at the front.
+
+## 4)
+
+see `src/stack.rs` (function `reverse`)

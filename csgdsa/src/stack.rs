@@ -34,6 +34,18 @@ impl<T: Clone> Default for Stack<T> {
     }
 }
 
+pub fn reverse(s: &str) -> String {
+    let mut chars = Stack::new();
+    for c in s.chars() {
+        chars.push(c);
+    }
+    let mut reversed = String::new();
+    while let Some(c) = chars.pop() {
+        reversed.push(c);
+    }
+    reversed
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -60,5 +72,10 @@ mod tests {
         }
         assert_eq!(stack.size(), 0);
         assert_eq!(stack.pop(), None);
+    }
+
+    #[test]
+    fn reverse_string() {
+        assert_eq!(reverse("abcde"), "edcba");
     }
 }
