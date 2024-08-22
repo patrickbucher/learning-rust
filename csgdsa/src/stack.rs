@@ -58,5 +58,7 @@ mod tests {
         for i in range.rev() {
             assert_eq!(stack.pop(), Some(i));
         }
+        assert_eq!(stack.size(), 0);
+        assert_eq!(stack.pop(), None);
     }
 }
