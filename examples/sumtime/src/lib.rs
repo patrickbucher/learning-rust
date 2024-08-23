@@ -11,24 +11,10 @@ impl TimeParser {
     }
 
     pub fn parse(&self, time: &str) -> Option<(usize, usize)> {
-        match self.re.captures(time) {
-            Some(matches) => {
-                if matches.len() == 3 {
-                    let hours = match matches.get(1) {
-                        Some(hours) => hours.as_str().parse().unwrap_or(0),
-                        None => 0,
-                    };
-                    let minutes = match matches.get(2) {
-                        Some(minutes) => minutes.as_str().parse().unwrap_or(0),
-                        None => 0,
-                    };
-                    Some((hours, minutes))
-                } else {
-                    None
-                }
-            }
-            None => None,
-        }
+        let matches = self.re.captures(time)?;
+        let hours = matches.get(1)?.as_str().parse().ok()?;
+        let minutes = matches.get(2)?.as_str().parse().ok()?;
+        Some((hours, minutes))
     }
 }
 
