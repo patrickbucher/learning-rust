@@ -1,3 +1,9 @@
+# Day 152 (2024-08-23)
+
+I worked through chapter 10 in CSGDSA, but didn't write any Rust code for it.
+(The code for completing the exercises was a better fit for a weakly-typed
+programming language such as Python.)
+
 # Day 151 (2024-08-22)
 
 I worked through chapter 9 in CSGDSA, for which I both implemented a stack and a

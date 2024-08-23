@@ -196,3 +196,49 @@ The number 3 would be at the front.
 ## 4)
 
 see `src/stack.rs` (function `reverse`)
+
+# Chapter 10
+
+## 1)
+
+Base Case: `low > high`
+
+## 2)
+
+    factorial(10)
+    10 * factorial(8)
+    10 * 8 * factorial(6)
+    10 * 8 * 6 * factorial(4)
+    10 * 8 * 6 * 4 * factorial(2)
+    10 * 8 * 6 * 4 * 2 * factorial(0)
+    …
+
+Since the base case checks for equality of `n` with `1`, the function never
+terminates.
+
+## 3)
+
+```ruby
+def sum(low, high)
+  return 0 if low > high
+  return high + sum(low, high - 1)
+end
+```
+
+## 4)
+
+```python
+array = [1, 2, 3, [4, 5, 6], 7, [8, [9, 10, 11, [12, 13, 14]]], [
+    15, 16, 17, 18, 19, [20, 21, 22, [23, 24, 25, [26, 27, 29]], 30, 31], 32], 33]
+
+
+def print_numbers(arr):
+    for item in arr:
+        if type(item) == type(0):
+            print(item)
+        else:
+            print_numbers(item)
+
+
+print_numbers(array)
+```
