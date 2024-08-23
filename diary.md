@@ -4,6 +4,10 @@ I worked through chapter 10 in CSGDSA, but didn't write any Rust code for it.
 (The code for completing the exercises was a better fit for a weakly-typed
 programming language such as Python.)
 
+I also asked for help in the Rust forum for the `sumtime` regex matching code,
+which can be written much easier using the `?` operator, which I have to use
+more often together with `Option<T>`.
+
 # Day 151 (2024-08-22)
 
 I worked through chapter 9 in CSGDSA, for which I both implemented a stack and a
