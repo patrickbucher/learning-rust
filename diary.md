@@ -8,6 +8,9 @@ I also asked for help in the Rust forum for the `sumtime` regex matching code,
 which can be written much easier using the `?` operator, which I have to use
 more often together with `Option<T>`.
 
+Later on, I extended `sumtime` so that I can now also enter decimal time
+indications (e.g. 8.5 for 8:30).
+
 # Day 151 (2024-08-22)
 
 I worked through chapter 9 in CSGDSA, for which I both implemented a stack and a
