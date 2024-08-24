@@ -1,3 +1,8 @@
+# Day 153 (2024-08-24)
+
+I started reading chapter 11 in CSGDSA and worked through the _Staircase
+Problem_.
+
 # Day 152 (2024-08-23)
 
 I worked through chapter 10 in CSGDSA, but didn't write any Rust code for it.
