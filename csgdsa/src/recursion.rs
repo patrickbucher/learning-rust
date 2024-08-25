@@ -55,6 +55,21 @@ pub fn triangular_numbers(n: usize) -> Vec<usize> {
     }
 }
 
+pub fn find_first_index_of(word: &str, letter: char) -> Option<usize> {
+    let chars: Vec<char> = word.chars().collect();
+    first_index_of(&chars, letter, 0)
+}
+
+fn first_index_of(haystack: &[char], needle: char, index: usize) -> Option<usize> {
+    if haystack.is_empty() {
+        None
+    } else if haystack[0] == needle {
+        Some(index)
+    } else {
+        first_index_of(&haystack[1..], needle, index + 1)
+    }
+}
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
@@ -173,12 +188,18 @@ pub mod tests {
     }
 
     #[test]
-    fn test_first_index_of_char() {
-        let tests: HashMap<usize, Vec<usize>> = HashMap::form([
-            // TODO
+    fn test_find_first_index_of() {
+        let tests: HashMap<(&str, char), Option<usize>> = HashMap::from([
+            (("", 'x'), None),
+            (("x", 'x'), Some(0)),
+            (("xyz", 'x'), Some(0)),
+            (("misterx", 'x'), Some(6)),
+            (("abcdefghijklmnopqrstuvwxyz", 'x'), Some(23)),
+            (("abcdefghijklmnopqrstuvwXyz", 'x'), None),
         ]);
-        for (input, expected) in tests {
-            // TODO
+        for ((word, letter), expected) in tests {
+            let actual = find_first_index_of(word, letter);
+            assert_eq!(actual, expected);
         }
     }
 }

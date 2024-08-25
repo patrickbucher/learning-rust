@@ -256,3 +256,7 @@ see `src/recursion.rs` (function `filter_even`)
 ## 3)
 
 see `src/recursion.rs` (function `triangular_numbers`)
+
+## 4)
+
+see `src/recursion.rs` (function `find_first_index_of`)
