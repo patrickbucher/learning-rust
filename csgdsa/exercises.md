@@ -248,3 +248,7 @@ print_numbers(array)
 ## 1)
 
 see `src/recursion.rs` (function `charcount`)
+
+## 2)
+
+see `src/recursion.rs` (function `filter_even`)

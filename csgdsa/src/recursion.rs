@@ -33,6 +33,16 @@ pub fn charcount(words: &[&str]) -> usize {
     }
 }
 
+pub fn filter_even(numbers: &[isize]) -> Vec<isize> {
+    if numbers.is_empty() {
+        Vec::new()
+    } else if numbers[0] % 2 == 0 {
+        [vec![numbers[0]], filter_even(&numbers[1..])].concat()
+    } else {
+        filter_even(&numbers[1..])
+    }
+}
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
@@ -111,6 +121,21 @@ pub mod tests {
         ]);
         for (input, expected) in tests {
             let actual = charcount(&input);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn test_filter_even() {
+        let tests: HashMap<Vec<isize>, Vec<isize>> = HashMap::from([
+            (Vec::new(), Vec::new()),
+            (vec![1], Vec::new()),
+            (vec![1, 2], vec![2]),
+            (vec![1, 2, 3], vec![2]),
+            (vec![1, 2, 3, 4], vec![2, 4]),
+        ]);
+        for (input, expected) in tests {
+            let actual = filter_even(&input);
             assert_eq!(actual, expected);
         }
     }
