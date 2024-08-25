@@ -6,6 +6,10 @@ was very helpful when implementing the _Staircase Problem_: Since I'm using
 - 3` is safe, because it's used in a pattern matching expression where `n` can
   only be at least 4.
 
+I finished the exercises for chapter 11 during the day; the last one was quite
+challenging. When my test failed, I figured out that my implementation was
+correct, and I just failed to see all the possible solutions to the problem.
+
 # Day 153 (2024-08-24)
 
 I started reading chapter 11 in CSGDSA and worked through the _Staircase

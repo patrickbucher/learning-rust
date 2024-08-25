@@ -70,6 +70,20 @@ fn first_index_of(haystack: &[char], needle: char, index: usize) -> Option<usize
     }
 }
 
+pub fn find_unique_paths(rows: usize, cols: usize) -> usize {
+    unique_paths(rows, cols, 0, 0)
+}
+
+fn unique_paths(rows: usize, cols: usize, x: usize, y: usize) -> usize {
+    if x == rows - 1 && y == rows - 1 {
+        1
+    } else if x >= rows || y >= cols {
+        0
+    } else {
+        unique_paths(rows, cols, x + 1, y) + unique_paths(rows, cols, x, y + 1)
+    }
+}
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
@@ -199,6 +213,21 @@ pub mod tests {
         ]);
         for ((word, letter), expected) in tests {
             let actual = find_first_index_of(word, letter);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn test_find_unique_paths() {
+        let tests: HashMap<(usize, usize), usize> = HashMap::from([
+            ((1, 2), 1),
+            ((2, 1), 1),
+            ((2, 2), 2),
+            ((3, 2), 3),
+            ((3, 3), 6),
+        ]);
+        for ((rows, cols), expected) in tests {
+            let actual = find_unique_paths(rows, cols);
             assert_eq!(actual, expected);
         }
     }

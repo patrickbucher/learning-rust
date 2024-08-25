@@ -260,3 +260,7 @@ see `src/recursion.rs` (function `triangular_numbers`)
 ## 4)
 
 see `src/recursion.rs` (function `find_first_index_of`)
+
+## 5)
+
+see `src/recursion` (function `find_unique_paths`)
