@@ -25,9 +25,18 @@ pub fn staircase(n: usize) -> usize {
     }
 }
 
+pub fn charcount(words: &[&str]) -> usize {
+    if words.is_empty() {
+        0
+    } else {
+        words[0].len() + charcount(&words[1..])
+    }
+}
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
+    use std::collections::HashMap;
 
     #[test]
     fn test_staircase() {
@@ -88,5 +97,21 @@ pub mod tests {
         assert_eq!(find_anagrams("abcd").len(), 24); // 4! = 24
         assert_eq!(find_anagrams("abcde").len(), 120); // 5! = 120
         assert_eq!(find_anagrams("abcdef").len(), 720); // 6! = 720
+    }
+
+    #[test]
+    fn test_charcount() {
+        let tests: HashMap<Vec<&str>, usize> = HashMap::from([
+            (Vec::new(), 0),
+            (vec![""], 0),
+            (vec!["", "", ""], 0),
+            (vec!["a"], 1),
+            (vec!["a", "b"], 2),
+            (vec!["", "a", "ab", "abc"], 6),
+        ]);
+        for (input, expected) in tests {
+            let actual = charcount(&input);
+            assert_eq!(actual, expected);
+        }
     }
 }
