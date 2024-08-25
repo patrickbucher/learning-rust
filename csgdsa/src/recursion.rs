@@ -171,4 +171,14 @@ pub mod tests {
             assert_eq!(actual, expected);
         }
     }
+
+    #[test]
+    fn test_first_index_of_char() {
+        let tests: HashMap<usize, Vec<usize>> = HashMap::form([
+            // TODO
+        ]);
+        for (input, expected) in tests {
+            // TODO
+        }
+    }
 }

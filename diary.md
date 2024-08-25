@@ -1,3 +1,11 @@
+# Day 154 (2024-08-25)
+
+I continued reading chapter 11 in CSGDSA and realized that the Rust type system
+was very helpful when implementing the _Staircase Problem_: Since I'm using
+`usize`, I don't have to deal with negative numbers; and even the expression `n
+- 3` is safe, because it's used in a pattern matching expression where `n` can
+  only be at least 4.
+
 # Day 153 (2024-08-24)
 
 I started reading chapter 11 in CSGDSA and worked through the _Staircase
