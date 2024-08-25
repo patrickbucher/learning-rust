@@ -252,3 +252,7 @@ see `src/recursion.rs` (function `charcount`)
 ## 2)
 
 see `src/recursion.rs` (function `filter_even`)
+
+## 3)
+
+see `src/recursion.rs` (function `triangular_numbers`)

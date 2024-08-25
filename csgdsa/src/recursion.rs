@@ -43,6 +43,18 @@ pub fn filter_even(numbers: &[isize]) -> Vec<isize> {
     }
 }
 
+pub fn triangular_numbers(n: usize) -> Vec<usize> {
+    match n {
+        0 => Vec::new(),
+        1 => vec![1],
+        _ => {
+            let left = triangular_numbers(n - 1);
+            let next = left[left.len() - 1] + n;
+            [left, vec![next]].concat()
+        }
+    }
+}
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
@@ -136,6 +148,26 @@ pub mod tests {
         ]);
         for (input, expected) in tests {
             let actual = filter_even(&input);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn test_triangular_numbers() {
+        let tests: HashMap<usize, Vec<usize>> = HashMap::from([
+            (0, Vec::new()),
+            (1, vec![1]),
+            (2, vec![1, 3]),
+            (3, vec![1, 3, 6]),
+            (4, vec![1, 3, 6, 10]),
+            (5, vec![1, 3, 6, 10, 15]),
+            (6, vec![1, 3, 6, 10, 15, 21]),
+            (7, vec![1, 3, 6, 10, 15, 21, 28]),
+            (8, vec![1, 3, 6, 10, 15, 21, 28, 36]),
+            (9, vec![1, 3, 6, 10, 15, 21, 28, 36, 45]),
+        ]);
+        for (input, expected) in tests {
+            let actual = triangular_numbers(input);
             assert_eq!(actual, expected);
         }
     }
