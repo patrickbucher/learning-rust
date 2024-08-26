@@ -73,16 +73,31 @@ fn first_index_of(haystack: &[char], needle: char, index: usize) -> Option<usize
 }
 
 pub fn find_unique_paths(rows: usize, cols: usize) -> usize {
-    unique_paths(rows, cols, 0, 0)
+    let mut cache: HashMap<(usize, usize), usize> = HashMap::from([((0, 0), 0)]);
+    unique_paths_memoized(rows, cols, 0, 0, &mut cache)
 }
 
-fn unique_paths(rows: usize, cols: usize, x: usize, y: usize) -> usize {
+fn unique_paths_memoized(
+    rows: usize,
+    cols: usize,
+    x: usize,
+    y: usize,
+    cache: &mut HashMap<(usize, usize), usize>,
+) -> usize {
     if x == rows - 1 && y == rows - 1 {
         1
     } else if x >= rows || y >= cols {
         0
     } else {
-        unique_paths(rows, cols, x + 1, y) + unique_paths(rows, cols, x, y + 1)
+        match cache.get(&(rows - x, cols - y)) {
+            Some(result) => *result,
+            None => {
+                let result = unique_paths_memoized(rows, cols, x + 1, y, cache)
+                    + unique_paths_memoized(rows, cols, x, y + 1, cache);
+                cache.insert((rows - x, cols - y), result);
+                result
+            }
+        }
     }
 }
 

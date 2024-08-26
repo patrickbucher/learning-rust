@@ -277,4 +277,4 @@ see `src/recursion.rs` (function `golomb`)
 
 ## 3)
 
-TODO
+see `src/recursion.rs` (function `find_unique_paths`)

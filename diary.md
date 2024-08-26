@@ -4,6 +4,12 @@ I read chapter 12 in CSGDSA, which mostly is about optimizing recursive
 functions using memoization. I first was afraid that memoization could be
 troublesome due to Rust's borrowing rules, but it works perfectly.
 
+I worked through the exercises during my stay at the hospital; programming can
+be a bit tedious when connected to an infusion and when the blood pressure is
+measured every 5 minutes automatically. I also had my left thumb in a
+contraption to measure my heart rate, so the right thumb had to press all the
+spaces for once.
+
 # Day 154 (2024-08-25)
 
 I continued reading chapter 11 in CSGDSA and realized that the Rust type system
