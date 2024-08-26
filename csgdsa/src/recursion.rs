@@ -117,6 +117,22 @@ pub fn add_until(n: usize, numbers: &[usize]) -> usize {
     }
 }
 
+pub fn golomb(n: usize) -> usize {
+    golomb_memoized(n, &mut HashMap::from([(1, 1)]))
+}
+
+fn golomb_memoized(n: usize, cache: &mut HashMap<usize, usize>) -> usize {
+    match cache.get(&n) {
+        Some(result) => *result,
+        None => {
+            let param = golomb_memoized(n - 1, cache);
+            let result = 1 + golomb_memoized(n - param, cache);
+            cache.insert(n, result);
+            result
+        }
+    }
+}
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
@@ -300,6 +316,31 @@ pub mod tests {
         ]);
         for (input, expected) in tests {
             let actual = add_until(100, &input);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn test_golomb() {
+        let tests: HashMap<usize, usize> = HashMap::from([
+            (1, 1),
+            (2, 2),
+            (3, 2),
+            (4, 3),
+            (5, 3),
+            (6, 3),
+            (7, 4),
+            (8, 4),
+            (9, 4),
+            (10, 4),
+            (11, 5),
+            (12, 5),
+            (13, 5),
+            (14, 5),
+            (15, 5),
+        ]);
+        for (input, expected) in tests {
+            let actual = golomb(input);
             assert_eq!(actual, expected);
         }
     }

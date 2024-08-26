@@ -273,7 +273,7 @@ see `src/recursion.rs` (function `add_until`)
 
 ## 2)
 
-TODO
+see `src/recursion.rs` (function `golomb`)
 
 ## 3)
 
