@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 pub fn find_anagrams(word: &str) -> Vec<String> {
     let mut anagrams: Vec<String> = Vec::new();
     if word.len() == 1 {
@@ -81,6 +83,24 @@ fn unique_paths(rows: usize, cols: usize, x: usize, y: usize) -> usize {
         0
     } else {
         unique_paths(rows, cols, x + 1, y) + unique_paths(rows, cols, x, y + 1)
+    }
+}
+
+pub fn fibonacci(n: usize) -> usize {
+    let mut cache = HashMap::from([(0, 1), (1, 1)]);
+    fibonacci_memoized(n, &mut cache)
+}
+
+fn fibonacci_memoized(n: usize, cache: &mut HashMap<usize, usize>) -> usize {
+    match cache.get(&n) {
+        Some(result) => *result,
+        None => {
+            let x = fibonacci_memoized(n - 2, cache);
+            let y = fibonacci_memoized(n - 1, cache);
+            let z = x + y;
+            cache.insert(n, z);
+            z
+        }
     }
 }
 
@@ -228,6 +248,26 @@ pub mod tests {
         ]);
         for ((rows, cols), expected) in tests {
             let actual = find_unique_paths(rows, cols);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn test_fibonacci() {
+        let tests: HashMap<usize, usize> = HashMap::from([
+            (0, 1),
+            (1, 1),
+            (2, 2),
+            (3, 3),
+            (4, 5),
+            (5, 8),
+            (6, 13),
+            (7, 21),
+            (8, 34),
+            (9, 55),
+        ]);
+        for (input, expected) in tests {
+            let actual = fibonacci(input);
             assert_eq!(actual, expected);
         }
     }
