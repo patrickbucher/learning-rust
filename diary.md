@@ -1,3 +1,9 @@
+# Day 155 (2024-08-26)
+
+I read chapter 12 in CSGDSA, which mostly is about optimizing recursive
+functions using memoization. I first was afraid that memoization could be
+troublesome due to Rust's borrowing rules, but it works perfectly.
+
 # Day 154 (2024-08-25)
 
 I continued reading chapter 11 in CSGDSA and realized that the Rust type system
