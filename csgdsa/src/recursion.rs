@@ -104,6 +104,19 @@ fn fibonacci_memoized(n: usize, cache: &mut HashMap<usize, usize>) -> usize {
     }
 }
 
+pub fn add_until(n: usize, numbers: &[usize]) -> usize {
+    if numbers.is_empty() {
+        0
+    } else {
+        let rest = add_until(n, &numbers[1..]);
+        if numbers[0] + rest > n {
+            rest
+        } else {
+            numbers[0] + rest
+        }
+    }
+}
+
 #[cfg(test)]
 pub mod tests {
     use super::*;
@@ -268,6 +281,25 @@ pub mod tests {
         ]);
         for (input, expected) in tests {
             let actual = fibonacci(input);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn test_add_until() {
+        let tests: HashMap<Vec<usize>, usize> = HashMap::from([
+            (Vec::new(), 0),
+            (vec![10], 10),
+            (vec![0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 45),
+            (vec![0, 1, 2, 3, 4, 50, 5, 6, 7, 8, 9], 95),
+            (vec![0, 1, 2, 3, 4, 99, 5, 6, 7, 8, 9], 45),
+            (vec![10, 20, 30], 60),
+            (vec![10, 20, 30, 40], 100),
+            (vec![15, 25, 45, 35], 95),
+            (vec![10, 20, 30, 40, 50], 100),
+        ]);
+        for (input, expected) in tests {
+            let actual = add_until(100, &input);
             assert_eq!(actual, expected);
         }
     }

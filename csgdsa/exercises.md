@@ -264,3 +264,17 @@ see `src/recursion.rs` (function `find_first_index_of`)
 ## 5)
 
 see `src/recursion` (function `find_unique_paths`)
+
+# Chapter 12
+
+## 1)
+
+see `src/recursion.rs` (function `add_until`)
+
+## 2)
+
+TODO
+
+## 3)
+
+TODO
