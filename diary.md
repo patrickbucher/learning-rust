@@ -1,3 +1,8 @@
+# Day 156 (2024-08-27)
+
+I started reading chapter 13 in CSGDSA and implemented Quick Sort in a way that
+was quite new to me.
+
 # Day 155 (2024-08-26)
 
 I read chapter 12 in CSGDSA, which mostly is about optimizing recursive
