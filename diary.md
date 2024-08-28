@@ -1,3 +1,8 @@
+# Day 157 (2024-08-28)
+
+I continued reading chapter 13 in CSGDSA and started implementing the Quick
+Select algorithm; however I got it slightly conceputally wrong.
+
 # Day 156 (2024-08-27)
 
 I started reading chapter 13 in CSGDSA and implemented Quick Sort in a way that

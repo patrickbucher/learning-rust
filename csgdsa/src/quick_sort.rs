@@ -1,6 +1,4 @@
-use std::fmt::Debug;
-
-pub fn quick_sort<T: Clone + Ord + Debug>(values: &mut [T]) {
+pub fn quick_sort<T: Clone + Ord>(values: &mut [T]) {
     let n = values.len();
     if n <= 1 {
         return;
