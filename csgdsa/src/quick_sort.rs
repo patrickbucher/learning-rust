@@ -1,17 +1,25 @@
-pub fn quick_sort<T: Clone + Ord>(values: &mut [T]) {
+use std::fmt::Debug;
+
+pub fn quick_sort<T: Clone + Ord + Debug>(values: &mut [T]) {
     let n = values.len();
     if n <= 1 {
         return;
     }
-    let top = n - 1;
-    let pivot = values[top].clone();
-    let mut i = 0;
-    let mut j = top - 1;
+    let i = partition(values, 0, n);
+    quick_sort(&mut values[0..i]);
+    quick_sort(&mut values[i..n]);
+}
+
+fn partition<T: Clone + Ord + Debug>(values: &mut [T], lower: usize, upper: usize) -> usize {
+    let pivot_index = upper - 1;
+    let pivot_value = values[pivot_index].clone();
+    let mut i = lower;
+    let mut j = pivot_index - 1;
     loop {
-        while values[i] < pivot && i < top {
+        while values[i] < pivot_value && i < pivot_index {
             i += 1;
         }
-        while values[j] > pivot && j > 0 {
+        while values[j] > pivot_value && j > 0 {
             j -= 1;
         }
         if i >= j {
@@ -23,10 +31,9 @@ pub fn quick_sort<T: Clone + Ord>(values: &mut [T]) {
         }
     }
     let tmp = values[i].clone();
-    values[i] = pivot;
-    values[top] = tmp;
-    quick_sort(&mut values[0..i]);
-    quick_sort(&mut values[i..n]);
+    values[i] = pivot_value;
+    values[pivot_index] = tmp;
+    i
 }
 
 #[cfg(test)]

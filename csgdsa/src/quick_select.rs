@@ -1,5 +1,6 @@
 use std::cmp::Ordering;
 
+// FIXME: re-implement in sc/quick_sort.rs using the patition function
 pub fn quick_select<T: Clone + Ord>(values: &mut [T], selection: isize) -> Option<T> {
     if values.is_empty() {
         return None;
@@ -27,38 +28,6 @@ pub fn quick_select<T: Clone + Ord>(values: &mut [T], selection: isize) -> Optio
             Some(values[index].clone())
         }
     }
-}
-
-// TODO: re-use partition for quick sort
-
-fn partition<T: Clone + Ord>(values: &mut [T], lower: usize, upper: usize) -> usize {
-    let n = upper - lower;
-    if n == 0 {
-        return 0;
-    }
-    let pivot_index = upper - 1;
-    let pivot_value = values[pivot_index].clone();
-    let mut i = lower;
-    let mut j = pivot_index - 1;
-    loop {
-        while values[i] < pivot_value && i < pivot_index {
-            i += 1;
-        }
-        while values[j] > pivot_value && j > 0 {
-            j -= 1;
-        }
-        if i >= j {
-            break;
-        } else {
-            let tmp = values[i].clone();
-            values[i] = pivot_value.clone();
-            values[pivot_index] = tmp;
-        }
-    }
-    let tmp = values[i].clone();
-    values[i] = pivot_value;
-    values[pivot_index] = tmp;
-    pivot_index
 }
 
 #[cfg(test)]

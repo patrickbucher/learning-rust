@@ -1,3 +1,8 @@
+# Day 158 (2024-08-29)
+
+I refactored the Quick Sort algorithm in tems of the `partition` function, which
+first remained some fixing.
+
 # Day 157 (2024-08-28)
 
 I continued reading chapter 13 in CSGDSA and started implementing the Quick
