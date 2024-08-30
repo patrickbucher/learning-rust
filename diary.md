@@ -1,7 +1,12 @@
+# Day 159 (2024-08-30)
+
+I managed to implement the Quick Select algorithm using the `partition` function
+I wrote yesterday.
+
 # Day 158 (2024-08-29)
 
-I refactored the Quick Sort algorithm in tems of the `partition` function, which
-first remained some fixing.
+I refactored the Quick Sort algorithm in terms of the `partition` function,
+which first remained some fixing.
 
 # Day 157 (2024-08-28)
 

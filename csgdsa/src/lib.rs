@@ -3,7 +3,6 @@ pub mod insertion_sort;
 pub mod misc;
 pub mod ordered_array;
 pub mod queue;
-pub mod quick_select;
 pub mod quick_sort;
 pub mod recursion;
 pub mod selection_sort;
