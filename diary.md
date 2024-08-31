@@ -1,3 +1,9 @@
+# Day 160 (2024-08-31)
+
+I wrote an optimized version of a function to find duplicates, which uses Quick
+Sort. In the process, I found a nasty bug in the partition function, which
+caused a stack overflow. I managed to fixed this bug.
+
 # Day 159 (2024-08-30)
 
 I managed to implement the Quick Select algorithm using the `partition` function

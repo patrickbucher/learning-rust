@@ -1,3 +1,4 @@
+use crate::quick_sort::quick_sort;
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::iter;
@@ -88,6 +89,19 @@ pub fn find_first_unique_letter(text: &str) -> Option<char> {
         }
     }
     None
+}
+
+pub fn has_duplicate<T: Ord + Clone>(values: &mut [T]) -> bool {
+    if values.is_empty() {
+        return false;
+    }
+    quick_sort(values);
+    for i in 0..(values.len() - 1) {
+        if values[i] == values[i + 1] {
+            return true;
+        }
+    }
+    false
 }
 
 #[cfg(test)]
@@ -230,6 +244,24 @@ mod tests {
         ]);
         for (test, expected) in tests {
             let actual = find_first_unique_letter(test);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn has_duplicates() {
+        let tests: HashMap<Vec<usize>, bool> = HashMap::from([
+            (Vec::new(), false),
+            (vec![1], false),
+            (vec![1, 1], true),
+            (vec![1, 2, 3], false),
+            (vec![1, 2, 1], true),
+            (vec![1, 2, 3, 3], true),
+            (vec![1, 2, 3, 4, 2], true),
+            (vec![1, 2, 3, 1, 2, 3, 1, 2, 3], true),
+        ]);
+        for (mut test, expected) in tests {
+            let actual = has_duplicate(&mut test);
             assert_eq!(actual, expected);
         }
     }

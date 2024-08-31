@@ -48,7 +48,7 @@ fn partition<T: Clone + Ord>(values: &mut [T], lower: usize, upper: usize) -> us
     let mut i = lower;
     let mut j = pivot_index - 1;
     loop {
-        while values[i] < pivot_value && i < pivot_index {
+        while values[i] <= pivot_value && i < pivot_index {
             i += 1;
         }
         while values[j] > pivot_value && j > 0 {
@@ -56,7 +56,8 @@ fn partition<T: Clone + Ord>(values: &mut [T], lower: usize, upper: usize) -> us
         }
         if i >= j {
             break;
-        } else {
+        }
+        if values[i] > values[j] {
             let tmp = values[i].clone();
             values[i] = values[j].clone();
             values[j] = tmp;
@@ -103,6 +104,23 @@ mod tests {
         quick_sort(&mut values);
         let expected: Vec<isize> = (-100..100).collect();
         assert_eq!(values, expected);
+    }
+
+    #[test]
+    fn quick_sort_various() {
+        let tests: Vec<(Vec<usize>, Vec<usize>)> = vec![
+            (Vec::new(), Vec::new()),
+            (vec![0], vec![0]),
+            (vec![1, 2, 3], vec![1, 2, 3]),
+            (vec![2, 3, 1], vec![1, 2, 3]),
+            (vec![3, 1, 2], vec![1, 2, 3]),
+            (vec![3, 2, 1], vec![1, 2, 3]),
+            (vec![1, 2, 3, 1], vec![1, 1, 2, 3]),
+        ];
+        for (mut test, expected) in tests {
+            quick_sort(&mut test);
+            assert_eq!(test, expected);
+        }
     }
 
     #[test]
