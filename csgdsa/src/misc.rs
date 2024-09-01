@@ -150,6 +150,47 @@ pub fn find_missing_number_optimized(values: &[usize]) -> Option<usize> {
     (0..values.len()).find(|&i| i != values[i])
 }
 
+pub fn find_greatest_on2(values: &[usize]) -> Option<usize> {
+    if values.is_empty() {
+        return None;
+    }
+    let mut global_max = 0;
+    for x in values {
+        let mut local_max = 0;
+        for y in values {
+            if y > x {
+                local_max = *y;
+            }
+        }
+        if local_max > global_max {
+            global_max = local_max
+        }
+    }
+    Some(global_max)
+}
+
+pub fn find_greatest_on_logn(values: &[usize]) -> Option<usize> {
+    if values.is_empty() {
+        return None;
+    }
+    let mut values = values.to_vec();
+    quick_sort(&mut values);
+    Some(values[values.len() - 1])
+}
+
+pub fn find_greatest_on(values: &[usize]) -> Option<usize> {
+    if values.is_empty() {
+        return None;
+    }
+    let mut max = 0;
+    for x in values {
+        if *x > max {
+            max = *x;
+        }
+    }
+    Some(max)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -359,6 +400,24 @@ mod tests {
             assert_eq!(actual, expected);
             let actual = find_missing_number_optimized(&test);
             assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn find_greatest_numbers() {
+        let tests: HashMap<Vec<usize>, Option<usize>> = HashMap::from([
+            (Vec::new(), None),
+            (vec![0], Some(0)),
+            (vec![0, 1], Some(1)),
+            (vec![2, 0, 1], Some(2)),
+            (vec![2, 3, 0, 1], Some(3)),
+            (vec![4, 2, 3, 0, 1], Some(4)),
+            (vec![4, 2, 3, 0, 1, 5], Some(5)),
+        ]);
+        for (test, expected) in tests {
+            assert_eq!(find_greatest_on2(&test), expected);
+            assert_eq!(find_greatest_on_logn(&test), expected);
+            assert_eq!(find_greatest_on(&test), expected);
         }
     }
 }
