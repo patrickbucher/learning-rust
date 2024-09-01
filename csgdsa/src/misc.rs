@@ -104,6 +104,36 @@ pub fn has_duplicate<T: Ord + Clone>(values: &mut [T]) -> bool {
     false
 }
 
+pub fn greatest_product_of_three(values: &[usize]) -> Option<usize> {
+    let mut max = 0;
+    if values.len() < 3 {
+        return None;
+    }
+    for (a, x) in values.iter().enumerate() {
+        for (b, y) in values.iter().enumerate() {
+            for (c, z) in values.iter().enumerate() {
+                if a != b && b != c && a != c {
+                    let product = x * y * z;
+                    if product > max {
+                        max = product;
+                    }
+                }
+            }
+        }
+    }
+    Some(max)
+}
+
+pub fn greatest_product_of_three_optimized(values: &[usize]) -> Option<usize> {
+    if values.len() < 3 {
+        return None;
+    }
+    let mut values: Vec<usize> = values.iter().copied().collect();
+    quick_sort(&mut values);
+    let factors = values.iter().rev().take(3);
+    Some(factors.fold(1, |acc, v| acc * v))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -262,6 +292,25 @@ mod tests {
         ]);
         for (mut test, expected) in tests {
             let actual = has_duplicate(&mut test);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn greatest_products_of_three() {
+        let tests: HashMap<Vec<usize>, Option<usize>> = HashMap::from([
+            (Vec::new(), None),
+            (vec![1], None),
+            (vec![1, 2], None),
+            (vec![1, 2, 3], Some(6)),
+            (vec![1, 3, 3], Some(9)),
+            (vec![1, 2, 3, 2, 1], Some(12)),
+            (vec![5, 6, 4, 7, 4], Some(210)),
+        ]);
+        for (test, expected) in tests {
+            let actual = greatest_product_of_three(&test);
+            assert_eq!(actual, expected);
+            let actual = greatest_product_of_three_optimized(&test);
             assert_eq!(actual, expected);
         }
     }
