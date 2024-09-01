@@ -134,6 +134,26 @@ pub fn greatest_product_of_three_optimized(values: &[usize]) -> Option<usize> {
     Some(factors.fold(1, |acc, v| acc * v))
 }
 
+pub fn find_missing_number(values: &[usize]) -> Option<usize> {
+    for (i, _) in values.iter().enumerate() {
+        if !values.contains(&i) {
+            return Some(i);
+        }
+    }
+    None
+}
+
+pub fn find_missing_number_optimized(values: &[usize]) -> Option<usize> {
+    let mut values: Vec<usize> = values.iter().copied().collect();
+    quick_sort(&mut values);
+    for (i, v) in values.iter().enumerate() {
+        if i != *v {
+            return Some(i);
+        }
+    }
+    None
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -311,6 +331,37 @@ mod tests {
             let actual = greatest_product_of_three(&test);
             assert_eq!(actual, expected);
             let actual = greatest_product_of_three_optimized(&test);
+            assert_eq!(actual, expected);
+        }
+    }
+
+    #[test]
+    fn find_missing_numbers() {
+        let tests: HashMap<Vec<usize>, Option<usize>> = HashMap::from([
+            (vec![0], None),
+            (vec![1, 0], None),
+            (vec![0, 2, 1], None),
+            (vec![3, 0, 2, 1], None),
+            (vec![3, 0, 4, 2, 1], None),
+            (vec![3, 5, 0, 4, 2, 1], None),
+            (vec![3, 5, 0, 4, 2, 1, 6], None),
+            (vec![3, 5, 0, 7, 4, 2, 1, 6], None),
+            (vec![8, 3, 5, 0, 7, 4, 2, 1, 6], None),
+            (vec![8, 3, 5, 0, 7, 4, 9, 2, 1, 6], None),
+            (vec![2, 0], Some(1)),
+            (vec![1, 3, 0], Some(2)),
+            (vec![3, 0, 2, 5], Some(1)),
+            (vec![3, 0, 9, 2, 1], Some(4)),
+            (vec![3, 5, 0, 4, 2, 9], Some(1)),
+            (vec![3, 5, 0, 4, 2, 1, 7], Some(6)),
+            (vec![3, 8, 0, 7, 4, 2, 1, 6], Some(5)),
+            (vec![9, 3, 5, 0, 7, 4, 2, 1, 6], Some(8)),
+            (vec![8, 3, 5, 10, 0, 4, 9, 2, 1, 6], Some(7)),
+        ]);
+        for (test, expected) in tests {
+            let actual = find_missing_number(&test);
+            assert_eq!(actual, expected);
+            let actual = find_missing_number_optimized(&test);
             assert_eq!(actual, expected);
         }
     }
