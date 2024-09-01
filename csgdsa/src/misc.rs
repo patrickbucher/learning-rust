@@ -128,12 +128,13 @@ pub fn greatest_product_of_three_optimized(values: &[usize]) -> Option<usize> {
     if values.len() < 3 {
         return None;
     }
-    let mut values: Vec<usize> = values.iter().copied().collect();
+    let mut values: Vec<usize> = values.to_vec();
     quick_sort(&mut values);
     let factors = values.iter().rev().take(3);
-    Some(factors.fold(1, |acc, v| acc * v))
+    Some(factors.product::<usize>())
 }
 
+#[allow(clippy::manual_find)]
 pub fn find_missing_number(values: &[usize]) -> Option<usize> {
     for (i, _) in values.iter().enumerate() {
         if !values.contains(&i) {
@@ -144,14 +145,9 @@ pub fn find_missing_number(values: &[usize]) -> Option<usize> {
 }
 
 pub fn find_missing_number_optimized(values: &[usize]) -> Option<usize> {
-    let mut values: Vec<usize> = values.iter().copied().collect();
+    let mut values: Vec<usize> = values.to_vec();
     quick_sort(&mut values);
-    for (i, v) in values.iter().enumerate() {
-        if i != *v {
-            return Some(i);
-        }
-    }
-    None
+    (0..values.len()).find(|&i| i != values[i])
 }
 
 #[cfg(test)]
