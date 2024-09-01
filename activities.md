@@ -6,9 +6,7 @@
         - [x] static content rendering
         - [ ] API access
 - Reading _A Common-Sense Guide to Data Structures and Algorithms_ ("CSGDSA")
-    - state: chapter 12/20
-- Reading _Effective Rust_
-    - state: item 3/35
+    - state: chapter 13/20
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
     - state: first useful features done, requires tests, documentation, and
       error handling

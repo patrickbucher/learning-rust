@@ -278,3 +278,17 @@ see `src/recursion.rs` (function `golomb`)
 ## 3)
 
 see `src/recursion.rs` (function `find_unique_paths`)
+
+# Chapter 13
+
+## 1)
+
+see `src/misc.s` (functions `greatest_product_of_three` and `greatest_product_of_three_optimized`)
+
+## 2)
+
+see `src/misc.s` (functions `find_missing_number` and `find_missing_number_optimized`)
+
+## 3)
+
+see `src/misc.s` (functions `find_greatest_on2`, `find_greatest_on_logn`, and `find_greatest_on`)

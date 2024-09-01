@@ -1,3 +1,8 @@
+# Day 161 (2024-09-01)
+
+I worked through the exercises of chapter 13, which were rather easy. I learned
+about the `to_vec()` function of slices, which is quite handy.
+
 # Day 160 (2024-08-31)
 
 I wrote an optimized version of a function to find duplicates, which uses Quick
