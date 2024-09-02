@@ -1,3 +1,13 @@
+# Day 162 (2024-09-02)
+
+I caught a cold and slept through the day, but I resurrected `rowcalc` in the
+evening. I'm now using `duration_str` for the command line arguments (total
+time, pause time). However, I'm not sure yet what kind of output I should
+produce. But that can wait for tomorrow.
+
+My cold also breaks up my 21 days streak of rowing every morning; so I need to
+get the program ready to row again towards the end of the week.
+
 # Day 161 (2024-09-01)
 
 I worked through the exercises of chapter 13, which were rather easy. I learned
