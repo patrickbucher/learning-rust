@@ -1,3 +1,8 @@
+# Day 163 (2024-09-03)
+
+I'm still sick, but at least I went through the motions and calculated the 500m
+split time for `rowcalc`. I'd like to really work at it tomorrow.
+
 # Day 162 (2024-09-02)
 
 I caught a cold and slept through the day, but I resurrected `rowcalc` in the
