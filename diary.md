@@ -1,3 +1,10 @@
+# Day 164 (2024-09-04)
+
+I was still sick today, probably worse than yesterday, but managed to compute
+the rowing/resting phases for `rowcalc`. Now I have to make the output more
+useful by grouping the rowing phases into slices of, say, 500 meters, then I can
+work on the output and refactor the code.
+
 # Day 163 (2024-09-03)
 
 I'm still sick, but at least I went through the motions and calculated the 500m
