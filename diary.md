@@ -1,3 +1,9 @@
+# Day 165 (2024-09-05)
+
+Recovering today; I had a little time to work on `rowcalc` in the train. The
+data types are getting quite messy; a refactoring will be needed after getting
+the functionality together.
+
 # Day 164 (2024-09-04)
 
 I was still sick today, probably worse than yesterday, but managed to compute
