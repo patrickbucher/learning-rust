@@ -1,3 +1,10 @@
+# Day 166 (2024-05-06)
+
+I once again programmed in the morning and managed to get the phase
+computations right for the `rowcalc` program. It needs refactoring, and hasn't
+been tested for distances that don't align nicely up to 500m splits, but the
+logic works.
+
 # Day 165 (2024-09-05)
 
 Recovering today; I had a little time to work on `rowcalc` in the train. The
