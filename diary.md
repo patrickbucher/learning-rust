@@ -1,7 +1,8 @@
 # Day 167 (2024-05-07)
 
 I refactored `rowcalc`, so that most code is now in `lib.rs` instead of
-`main.rs`.
+`main.rs`. I managed to release a new version in the evening. Now back to
+CSGDSA.
 
 # Day 166 (2024-05-06)
 
