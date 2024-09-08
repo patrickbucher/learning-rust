@@ -5,6 +5,9 @@ flaws. The next chapter in CSGDSA will be about node-based data structures, e.g.
 linked lists. I should re-examine smart pointers in the Rust book before
 tackling this.
 
+I fixed the one big remaining bug in `rowcalc` later in the afternoon and was
+able to simplify the code. For my purposes, `rowcalc` is now feature complete.
+
 # Day 167 (2024-05-07)
 
 I refactored `rowcalc`, so that most code is now in `lib.rs` instead of
