@@ -1,3 +1,10 @@
+# Day 168 (2024-05-08)
+
+I had a few more things to tweak an `rowcalc`, but I also discovered a few
+flaws. The next chapter in CSGDSA will be about node-based data structures, e.g.
+linked lists. I should re-examine smart pointers in the Rust book before
+tackling this.
+
 # Day 167 (2024-05-07)
 
 I refactored `rowcalc`, so that most code is now in `lib.rs` instead of
