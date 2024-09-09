@@ -1,3 +1,8 @@
+# Day 169 (2024-05-09)
+
+I started re-reading chapter 15 of the Rust Book on smart pointers. I just read
+the easy first part about `Box`, the `Deref`, and the `Drop` trait.
+
 # Day 168 (2024-05-08)
 
 I had a few more things to tweak an `rowcalc`, but I also discovered a few
