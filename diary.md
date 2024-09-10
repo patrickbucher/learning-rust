@@ -3,6 +3,14 @@
 I re-read the next part of chapter 15 about `Rc` and `RefCell` and made some
 examples.
 
+In the evening, I worked through the rest of the chapter.
+
+Today, I decided to finish CSGDSA in September. Then I'll stop my daily Rust
+routine to focus on web frontend technologies for the rest of the year. Maybe
+I'll pick up Rust as a daily routine again in January, or maybe something else.
+But I'd like to use Rust for my own programs from now on where it comes in
+handy.
+
 # Day 169 (2024-05-09)
 
 I started re-reading chapter 15 of the Rust Book on smart pointers. I just read
