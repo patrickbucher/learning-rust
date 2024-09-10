@@ -1,3 +1,4 @@
+use std::cell::RefCell;
 use std::fmt::Debug;
 use std::mem::drop;
 use std::ops::Deref;
@@ -116,8 +117,68 @@ fn reference_counter() {
     println!("count: {}", Rc::strong_count(&tail));
 }
 
+fn interior_mutability() {
+    let mut x = 13;
+    let y = &mut x;
+    println!("y={y}");
+    *y = 42;
+    println!("y={y}");
+
+    let x = String::from("Joe");
+    let y: RefCell<String> = RefCell::new(x.clone());
+    let mut z = y.borrow_mut();
+
+    // NOTE: this compiles, but panics at runtime
+    // let mut q = y.borrow_mut();
+
+    z.push_str("y");
+    println!("x={x}, z={z}");
+}
+
+#[derive(Debug)]
+enum MultiList {
+    Cons(Rc<RefCell<i32>>, Rc<MultiList>),
+    Nil,
+}
+
+impl MultiList {
+    fn output(&self) -> String {
+        match self {
+            MultiList::Cons(value, next) => format!("{}, {}", value.borrow(), next.output()),
+            MultiList::Nil => String::from("Nil"),
+        }
+    }
+}
+
+fn multiple_mutable_owners() {
+    let last_value = Rc::new(RefCell::new(1));
+    let tail = MultiList::Cons(
+        Rc::new(RefCell::new(2)),
+        Rc::new(MultiList::Cons(
+            Rc::clone(&last_value),
+            Rc::new(MultiList::Nil),
+        )),
+    );
+    println!("{}", tail.output());
+
+    let tail_rc = Rc::new(tail);
+
+    let head_increment = MultiList::Cons(Rc::new(RefCell::new(3)), Rc::clone(&tail_rc));
+    println!("{}", head_increment.output());
+
+    let head_double = MultiList::Cons(Rc::new(RefCell::new(4)), Rc::clone(&tail_rc));
+    println!("{}", head_double.output());
+
+    // NOTE: sneaky edit
+    *last_value.borrow_mut() *= 10;
+    println!("{}", head_increment.output());
+    println!("{}", head_double.output());
+}
+
 fn main() {
     boxes();
     deref_drop();
     reference_counter();
+    interior_mutability();
+    multiple_mutable_owners();
 }
