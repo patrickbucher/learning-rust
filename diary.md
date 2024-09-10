@@ -1,3 +1,8 @@
+# Day 170 (2024-05-10)
+
+I re-read the next part of chapter 15 about `Rc` and `RefCell` and made some
+examples.
+
 # Day 169 (2024-05-09)
 
 I started re-reading chapter 15 of the Rust Book on smart pointers. I just read
