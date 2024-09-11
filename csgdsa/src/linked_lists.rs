@@ -13,16 +13,19 @@ impl<T> LinkedList<T> {
     }
 
     fn append(&mut self, value: T) {
-        let node = Node { value, next: None };
-        let mut tail = &self.head;
-        loop {
-            if let Some(node) = tail.next {
-                tail = &node.next;
-            } else {
-                tail.next = Some(Box::new(node));
+        let new = Node { value, next: None };
+        let head = match &self.head {
+            Some(node) => node,
+            None => {
+                self.head = Some(Box::new(new));
                 return;
             }
+        };
+        let mut temp: &mut Box<Node<T>> = head;
+        while let Some(ref mut next) = &temp.next {
+            temp = &mut next;
         }
+        temp.next = Some(Box::new(new));
     }
 }
 
