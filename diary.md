@@ -1,3 +1,8 @@
+# Day 171 (2024-05-11)
+
+Having read the first part of chapter 14 about linked lists, I started to
+implement a linked list.
+
 # Day 170 (2024-05-10)
 
 I re-read the next part of chapter 15 about `Rc` and `RefCell` and made some

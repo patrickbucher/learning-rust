@@ -1,5 +1,6 @@
 pub mod bubble_sort;
 pub mod insertion_sort;
+pub mod linked_lists;
 pub mod misc;
 pub mod ordered_array;
 pub mod queue;
