@@ -1,7 +1,9 @@
 # Day 171 (2024-05-11)
 
 Having read the first part of chapter 14 about linked lists, I started to
-implement a linked list.
+implement a linked list. I only managed to write a proper `append` method in the
+evening, also thanks to the [Rust
+Forum](https://users.rust-lang.org/t/append-to-linked-list/117419/3).
 
 # Day 170 (2024-05-10)
 
