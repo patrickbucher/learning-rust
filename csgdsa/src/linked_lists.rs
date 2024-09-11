@@ -29,10 +29,10 @@ where
             if node.next.is_some() {
                 temp = &mut node.next;
             } else {
-                break;
+                node.next = next;
+                return;
             }
         }
-        // TODO: at this point, temp is the tail
     }
 
     pub fn get_values(&self) -> Vec<T> {
