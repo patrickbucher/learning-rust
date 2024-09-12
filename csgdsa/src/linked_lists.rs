@@ -44,6 +44,22 @@ where
         }
         values
     }
+
+    pub fn nth(&self, n: usize) -> Option<T> {
+        if n == 0 {
+            return Some(self.value.clone());
+        }
+        let mut temp = &self.next;
+        let mut i = 1;
+        while let Some(node) = temp {
+            if i == n {
+                return Some(node.value.clone());
+            }
+            temp = &node.next;
+            i += 1;
+        }
+        None
+    }
 }
 
 #[cfg(test)]
@@ -61,10 +77,25 @@ mod tests {
 
     #[test]
     fn test_append() {
-        let mut head: Node<usize> = Node::new(1);
-        head.append(2);
-        head.append(3);
-        head.append(4);
-        assert_eq!(head.get_values(), vec![1, 2, 3, 4]);
+        let mut list: Node<usize> = Node::new(1);
+        list.append(2);
+        list.append(3);
+        list.append(4);
+        assert_eq!(list.get_values(), vec![1, 2, 3, 4]);
+    }
+
+    #[test]
+    fn test_nth() {
+        let mut list: Node<&str> = Node::new("one");
+        list.append("two");
+        list.append("three");
+        list.append("four");
+        list.append("five");
+        assert_eq!(list.nth(0), Some("one"));
+        assert_eq!(list.nth(1), Some("two"));
+        assert_eq!(list.nth(2), Some("three"));
+        assert_eq!(list.nth(3), Some("four"));
+        assert_eq!(list.nth(4), Some("five"));
+        assert_eq!(list.nth(5), None);
     }
 }
