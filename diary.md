@@ -1,3 +1,12 @@
+# Day 172 (2024-05-12)
+
+I implemented the remaining operations for the linked list (access at a given
+index, search index by a value, insert an element after a given index, delete an
+element at a given index).
+
+Next up: doubly linked list, which probably will require the interior mutability
+pattern.
+
 # Day 171 (2024-05-11)
 
 Having read the first part of chapter 14 about linked lists, I started to
