@@ -104,6 +104,33 @@ where
             i += 1;
         }
     }
+
+    pub fn delete_at(&mut self, index: usize) {
+        if index == 0 {
+            panic!("cannot delete at head; set head to next instead");
+        }
+        if index == 1 {
+            if let Some(ref mut next) = self.next {
+                self.next = next.next.clone();
+                return;
+            }
+        }
+        let mut temp = &mut self.next;
+        let mut i = 1;
+        while let Some(ref mut node) = temp {
+            if i + 1 == index {
+                if let Some(ref mut next) = node.next {
+                    node.next = next.next.clone();
+                }
+                return;
+            }
+            if i > index {
+                panic!("index exceeds length");
+            }
+            temp = &mut node.next;
+            i += 1;
+        }
+    }
 }
 
 #[cfg(test)]
@@ -159,14 +186,32 @@ mod tests {
     }
 
     #[test]
-    fn insert_at_index() {
+    fn test_insert_after_index() {
         let mut list: Node<usize> = Node::new(0);
         list.append(10);
         list.append(20);
         list.append(30);
-        list.insert_after(5, 0); // 0, 5, 10, 20, 30
-        list.insert_after(15, 2); // 0, 5, 10, 15, 20, 30
-        list.insert_after(25, 4); // 0, 5, 10, 15, 20, 25, 30
+        list.insert_after(5, 0);
+        assert_eq!(list.get_values(), vec![0, 5, 10, 20, 30]);
+        list.insert_after(15, 2);
+        assert_eq!(list.get_values(), vec![0, 5, 10, 15, 20, 30]);
+        list.insert_after(25, 4);
         assert_eq!(list.get_values(), vec![0, 5, 10, 15, 20, 25, 30]);
+    }
+
+    #[test]
+    fn test_delete_at_index() {
+        let mut list: Node<usize> = Node::new(0);
+        list.append(1);
+        list.append(2);
+        list.append(3);
+        list.append(4);
+        list.append(5);
+        list.delete_at(5);
+        assert_eq!(list.get_values(), vec![0, 1, 2, 3, 4]);
+        list.delete_at(1);
+        assert_eq!(list.get_values(), vec![0, 2, 3, 4]);
+        list.delete_at(2);
+        assert_eq!(list.get_values(), vec![0, 2, 4]);
     }
 }
