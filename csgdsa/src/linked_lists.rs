@@ -1,11 +1,11 @@
-pub struct Node<T: Clone> {
+pub struct Node<T: Clone + Eq> {
     value: T,
     next: Option<Box<Node<T>>>,
 }
 
 impl<T> Node<T>
 where
-    T: Clone,
+    T: Clone + Eq,
 {
     pub fn new(value: T) -> Self {
         Node { value, next: None }
@@ -60,6 +60,22 @@ where
         }
         None
     }
+
+    pub fn search(&self, value: T) -> Option<usize> {
+        if self.value == value {
+            return Some(0);
+        }
+        let mut temp = &self.next;
+        let mut i = 1;
+        while let Some(node) = temp {
+            if node.value == value {
+                return Some(i);
+            }
+            temp = &node.next;
+            i += 1;
+        }
+        None
+    }
 }
 
 #[cfg(test)]
@@ -97,5 +113,20 @@ mod tests {
         assert_eq!(list.nth(3), Some("four"));
         assert_eq!(list.nth(4), Some("five"));
         assert_eq!(list.nth(5), None);
+    }
+
+    #[test]
+    fn test_search() {
+        let mut list: Node<&str> = Node::new("one");
+        list.append("two");
+        list.append("three");
+        list.append("four");
+        list.append("five");
+        assert_eq!(list.search("one"), Some(0));
+        assert_eq!(list.search("two"), Some(1));
+        assert_eq!(list.search("three"), Some(2));
+        assert_eq!(list.search("four"), Some(3));
+        assert_eq!(list.search("five"), Some(4));
+        assert_eq!(list.search("six"), None);
     }
 }
