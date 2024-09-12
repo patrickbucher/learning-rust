@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub struct Node<T: Clone + Eq> {
     value: T,
     next: Option<Box<Node<T>>>,
@@ -76,6 +77,33 @@ where
         }
         None
     }
+
+    pub fn insert_after(&mut self, value: T, index: usize) {
+        if index == 0 {
+            let new = Node {
+                value: value.clone(),
+                next: self.next.clone(),
+            };
+            self.next = Some(Box::new(new));
+            return;
+        }
+        let mut temp = &mut self.next;
+        let mut i = 0;
+        while let Some(ref mut node) = temp {
+            if i + 1 == index {
+                let new = Node {
+                    value: value.clone(),
+                    next: node.next.clone(),
+                };
+                node.next = Some(Box::new(new));
+                return;
+            } else if i > index {
+                panic!("index exceeds length");
+            }
+            temp = &mut node.next;
+            i += 1;
+        }
+    }
 }
 
 #[cfg(test)]
@@ -128,5 +156,17 @@ mod tests {
         assert_eq!(list.search("four"), Some(3));
         assert_eq!(list.search("five"), Some(4));
         assert_eq!(list.search("six"), None);
+    }
+
+    #[test]
+    fn insert_at_index() {
+        let mut list: Node<usize> = Node::new(0);
+        list.append(10);
+        list.append(20);
+        list.append(30);
+        list.insert_after(5, 0); // 0, 5, 10, 20, 30
+        list.insert_after(15, 2); // 0, 5, 10, 15, 20, 30
+        list.insert_after(25, 4); // 0, 5, 10, 15, 20, 25, 30
+        assert_eq!(list.get_values(), vec![0, 5, 10, 15, 20, 25, 30]);
     }
 }
