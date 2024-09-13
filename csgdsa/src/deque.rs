@@ -27,15 +27,56 @@ where
         self.head.is_none()
     }
 
-    pub fn enqueue(&mut self, value: T) {}
+    pub fn enqueue(&mut self, value: T) {
+        let mut node = Node {
+            value,
+            next: None,
+            prev: None,
+        };
+        if self.head.is_none() {
+            let rc = Rc::new(RefCell::new(node));
+            self.head = Some(Rc::clone(&rc));
+            self.tail = Some(Rc::clone(&rc));
+        } else {
+            // TODO
+        }
+    }
 
     pub fn dequeue(&mut self) -> Option<T> {
-        None
+        let mut new_tail;
+        let mut value: Option<T>;
+        match &self.tail {
+            Some(cell) => {
+                let node = cell.borrow_mut();
+                value = Some(node.value.clone());
+                match &node.prev {
+                    Some(prev) => {
+                        let mut c = prev.borrow_mut();
+                        c.next = None;
+                        new_tail = Some(prev.clone());
+                    }
+                    None => {
+                        new_tail = None;
+                        // TODO: head = None?
+                        self.head = None;
+                    }
+                }
+            }
+            None => {
+                value = None;
+                new_tail = None;
+            }
+        }
+        self.tail = new_tail.clone();
+        return value;
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
+    #[test]
     fn test_enqueue_dequeue() {
         let mut deque: Deque<usize> = Deque::new();
         assert!(deque.is_empty());
@@ -43,9 +84,9 @@ mod tests {
         deque.enqueue(3);
         assert!(!deque.is_empty());
 
-        assert_eq!(dequeue.dequeue(), Some(3));
+        assert_eq!(deque.dequeue(), Some(3));
         assert!(deque.is_empty());
-        assert_eq!(dequeue.dequeue(), None);
+        assert_eq!(deque.dequeue(), None);
 
         deque.enqueue(7);
         deque.enqueue(2);
