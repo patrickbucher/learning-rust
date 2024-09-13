@@ -28,17 +28,24 @@ where
     }
 
     pub fn enqueue(&mut self, value: T) {
-        let mut node = Node {
-            value,
-            next: None,
-            prev: None,
-        };
         if self.head.is_none() {
+            let mut node = Node {
+                value,
+                next: None,
+                prev: None,
+            };
             let rc = Rc::new(RefCell::new(node));
             self.head = Some(Rc::clone(&rc));
             self.tail = Some(Rc::clone(&rc));
-        } else {
-            // TODO
+        } else if self.head.is_some() {
+            let mut head = self.head.take().unwrap();
+            let mut node = Node {
+                value,
+                next: None,
+                prev: Some(Rc::clone(&head)),
+            };
+            node.next = Some(Rc::clone(&head));
+            self.head = Some(Rc::new(RefCell::new(node)));
         }
     }
 
@@ -57,7 +64,6 @@ where
                     }
                     None => {
                         new_tail = None;
-                        // TODO: head = None?
                         self.head = None;
                     }
                 }
