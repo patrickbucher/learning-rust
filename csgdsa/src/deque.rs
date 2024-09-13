@@ -1,15 +1,15 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-pub struct Deque<T: Clone> {
-    head: Option<Rc<RefCell<Node<T>>>>,
-    tail: Option<Rc<RefCell<Node<T>>>>,
-}
-
 pub struct Node<T: Clone> {
     value: T,
     next: Option<Rc<RefCell<Node<T>>>>,
     prev: Option<Rc<RefCell<Node<T>>>>,
+}
+
+pub struct Deque<T: Clone> {
+    head: Option<Rc<RefCell<Node<T>>>>,
+    tail: Option<Rc<RefCell<Node<T>>>>,
 }
 
 impl<T> Deque<T>
@@ -76,6 +76,17 @@ where
         self.tail = new_tail.clone();
         return value;
     }
+
+    pub fn get_values(&self) -> Vec<T> {
+        let mut values = Vec::new();
+        let mut temp = &self.head;
+        while let Some(node) = temp {
+            values.push(node.borrow().value.clone());
+            //temp = &node.borrow().next.clone();
+            break;
+        }
+        values
+    }
 }
 
 #[cfg(test)]
@@ -86,24 +97,29 @@ mod tests {
     fn test_enqueue_dequeue() {
         let mut deque: Deque<usize> = Deque::new();
         assert!(deque.is_empty());
+        assert_eq!(deque.get_values(), Vec::new());
 
         deque.enqueue(3);
+        assert_eq!(deque.get_values(), vec![3]);
         assert!(!deque.is_empty());
 
         assert_eq!(deque.dequeue(), Some(3));
         assert!(deque.is_empty());
+        assert_eq!(deque.get_values(), Vec::new());
         assert_eq!(deque.dequeue(), None);
 
         deque.enqueue(7);
         deque.enqueue(2);
         deque.enqueue(5);
         assert!(!deque.is_empty());
+        assert_eq!(deque.get_values(), vec![7, 2, 5]);
 
         assert_eq!(deque.dequeue(), Some(7));
         assert_eq!(deque.dequeue(), Some(2));
         assert!(!deque.is_empty());
         assert_eq!(deque.dequeue(), Some(5));
         assert!(deque.is_empty());
+        assert_eq!(deque.get_values(), Vec::new());
         assert_eq!(deque.dequeue(), None);
     }
 }
