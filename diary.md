@@ -1,3 +1,8 @@
+# Day 173 (2024-05-13)
+
+I started implementing a deque as a doubly linked list. The implementation
+relies on a lot of clones, but I just want to make it work somehow.
+
 # Day 172 (2024-05-12)
 
 I implemented the remaining operations for the linked list (access at a given
