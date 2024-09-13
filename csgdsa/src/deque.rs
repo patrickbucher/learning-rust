@@ -79,11 +79,11 @@ where
 
     pub fn get_values(&self) -> Vec<T> {
         let mut values = Vec::new();
-        let mut temp = &self.head;
+        let mut temp = self.head.clone();
         while let Some(node) = temp {
-            values.push(node.borrow().value.clone());
-            //temp = &node.borrow().next.clone();
-            break;
+            let borrowed = node.borrow();
+            values.push(borrowed.value.clone());
+            temp = borrowed.next.clone();
         }
         values
     }
