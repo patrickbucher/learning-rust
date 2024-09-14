@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::fmt::{self, Display, Formatter};
 use std::rc::Rc;
 
 pub struct Node<T: Clone> {
@@ -96,6 +97,22 @@ where
     }
 }
 
+impl<T> Display for Deque<T>
+where
+    T: Clone + Display,
+{
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        let values = self
+            .get_values()
+            .iter()
+            .rev()
+            .map(|v| format!("{v}"))
+            .collect::<Vec<String>>()
+            .join(", ");
+        write!(f, "{values}")
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -130,5 +147,14 @@ mod tests {
         assert!(deque.is_empty());
         assert_eq!(deque.get_values(), Vec::new());
         assert_eq!(deque.dequeue(), None);
+    }
+
+    #[test]
+    fn test_display_reverse() {
+        let mut deque: Deque<usize> = Deque::new();
+        for i in 0..5 {
+            deque.enqueue(i);
+        }
+        assert_eq!(format!("{}", deque), "0, 1, 2, 3, 4");
     }
 }

@@ -1,5 +1,4 @@
 use std::fmt::{self, Display, Formatter};
-use std::iter;
 
 #[derive(Clone)]
 pub struct Node<T: Clone + Eq + Display> {

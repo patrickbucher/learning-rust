@@ -301,6 +301,8 @@ see `src/linked_lists.rs` (implementation of the `Display` trait)
 
 ## 2)
 
+see `src/deque.rs` (implementation of the `Display` trait)
+
 ## 3)
 
 ## 4)
