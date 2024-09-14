@@ -309,4 +309,6 @@ see `src/linked_list.rs` (method `get_last_value`)
 
 ## 4)
 
+see `src/linked_list.rs` (method `reverse`)
+
 ## 5)

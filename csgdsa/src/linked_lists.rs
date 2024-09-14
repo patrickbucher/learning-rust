@@ -146,6 +146,14 @@ where
         }
         value.clone()
     }
+
+    pub fn reverse(&self) -> Self {
+        let mut reversed: Node<T> = Self::new(self.value.clone());
+        for v in self.get_values().iter().skip(1) {
+            reversed = reversed.prepend(v.clone());
+        }
+        reversed
+    }
 }
 
 impl<T> Display for Node<T>
@@ -265,5 +273,15 @@ mod tests {
             list.append(i);
         }
         assert_eq!(list.get_last_value(), 10);
+    }
+
+    #[test]
+    fn test_reverse() {
+        let mut list: Node<usize> = Node::new(0);
+        for i in 1..10 {
+            list.append(i);
+        }
+        let reversed = list.reverse();
+        assert_eq!(reversed.get_values(), (0..10).rev().collect::<Vec<_>>());
     }
 }
