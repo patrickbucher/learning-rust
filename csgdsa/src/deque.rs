@@ -12,6 +12,15 @@ pub struct Deque<T: Clone> {
     tail: Option<Rc<RefCell<Node<T>>>>,
 }
 
+impl<T> Default for Deque<T>
+where
+    T: Clone,
+{
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<T> Deque<T>
 where
     T: Clone,
@@ -28,31 +37,33 @@ where
     }
 
     pub fn enqueue(&mut self, value: T) {
-        if self.head.is_none() {
-            let mut node = Node {
-                value,
-                next: None,
-                prev: None,
-            };
-            let rc = Rc::new(RefCell::new(node));
-            self.head = Some(Rc::clone(&rc));
-            self.tail = Some(Rc::clone(&rc));
-        } else if self.head.is_some() {
-            let mut head = self.head.take().unwrap();
-            let mut node = Node {
-                value,
-                next: None,
-                prev: Some(Rc::clone(&head)),
-            };
-            node.next = Some(Rc::clone(&head));
-            self.head = Some(Rc::new(RefCell::new(node)));
+        match &self.head {
+            Some(head) => {
+                let node = Node {
+                    value,
+                    next: Some(Rc::clone(head)),
+                    prev: None,
+                };
+                let node_ref = Rc::new(RefCell::new(node));
+                head.borrow_mut().prev = Some(Rc::clone(&node_ref));
+                self.head = Some(Rc::clone(&node_ref));
+            }
+            None => {
+                let node = Node {
+                    value,
+                    next: None,
+                    prev: None,
+                };
+                let rc = Rc::new(RefCell::new(node));
+                self.head = Some(Rc::clone(&rc));
+                self.tail = Some(Rc::clone(&rc));
+            }
         }
     }
 
     pub fn dequeue(&mut self) -> Option<T> {
-        let mut new_tail;
-        let mut value: Option<T>;
-        match &self.tail {
+        let mut value;
+        (self.tail, value) = match &self.tail {
             Some(cell) => {
                 let node = cell.borrow_mut();
                 value = Some(node.value.clone());
@@ -60,21 +71,17 @@ where
                     Some(prev) => {
                         let mut c = prev.borrow_mut();
                         c.next = None;
-                        new_tail = Some(prev.clone());
+                        (Some(prev.clone()), value)
                     }
                     None => {
-                        new_tail = None;
                         self.head = None;
+                        (None, value)
                     }
                 }
             }
-            None => {
-                value = None;
-                new_tail = None;
-            }
-        }
-        self.tail = new_tail.clone();
-        return value;
+            None => (None, None),
+        };
+        value
     }
 
     pub fn get_values(&self) -> Vec<T> {
@@ -112,11 +119,13 @@ mod tests {
         deque.enqueue(2);
         deque.enqueue(5);
         assert!(!deque.is_empty());
-        assert_eq!(deque.get_values(), vec![7, 2, 5]);
+        assert_eq!(deque.get_values(), vec![5, 2, 7]);
 
         assert_eq!(deque.dequeue(), Some(7));
+        assert_eq!(deque.get_values(), vec![5, 2]);
         assert_eq!(deque.dequeue(), Some(2));
         assert!(!deque.is_empty());
+        assert_eq!(deque.get_values(), vec![5]);
         assert_eq!(deque.dequeue(), Some(5));
         assert!(deque.is_empty());
         assert_eq!(deque.get_values(), Vec::new());
