@@ -305,6 +305,8 @@ see `src/deque.rs` (implementation of the `Display` trait)
 
 ## 3)
 
+see `src/linked_list.rs` (method `get_last_value`)
+
 ## 4)
 
 ## 5)

@@ -133,6 +133,19 @@ where
             i += 1;
         }
     }
+
+    pub fn get_last_value(&self) -> T {
+        let mut value = &self.value;
+        let mut temp = Some(self);
+        while let Some(node) = temp {
+            if node.next.is_none() {
+                value = &node.value;
+                break;
+            }
+            temp = node.next.as_deref();
+        }
+        value.clone()
+    }
 }
 
 impl<T> Display for Node<T>
@@ -243,5 +256,14 @@ mod tests {
         list.append(4);
         list.append(5);
         assert_eq!(format!("{}", list), "0, 1, 2, 3, 4, 5");
+    }
+
+    #[test]
+    fn test_get_last_value() {
+        let mut list: Node<usize> = Node::new(0);
+        for i in 1..=10 {
+            list.append(i);
+        }
+        assert_eq!(list.get_last_value(), 10);
     }
 }
