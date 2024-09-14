@@ -312,3 +312,12 @@ see `src/linked_list.rs` (method `get_last_value`)
 see `src/linked_list.rs` (method `reverse`)
 
 ## 5)
+
+This operation could be implemented with `src/linked_list.rs`, but it cannot be
+effectively demonstrated due to the ownership rules of Rust. Here's the
+approach:
+
+Instead of removing the actual node, the node's value is replaced with its
+successor's value. This is repeated until the second last element is reached.
+There, not only the value is replaced, but also the `next` pointer is set to
+`None`. The values are shifted to the left by one node.
