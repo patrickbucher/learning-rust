@@ -1,3 +1,9 @@
+# Day 174 (2024-05-14)
+
+I managed to finish my Deque implementation. I did the mistake to attach new
+nodes in `enqueue` rather than to prepend them. I'm feeling more comfortable
+using `Rc` and `RefCell` now, but I hope not to use them a lot in the future.
+
 # Day 173 (2024-05-13)
 
 I started implementing a deque as a doubly linked list. The implementation
