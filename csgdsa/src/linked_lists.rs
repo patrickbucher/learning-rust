@@ -1,12 +1,15 @@
+use std::fmt::{self, Display, Formatter};
+use std::iter;
+
 #[derive(Clone)]
-pub struct Node<T: Clone + Eq> {
+pub struct Node<T: Clone + Eq + Display> {
     value: T,
     next: Option<Box<Node<T>>>,
 }
 
 impl<T> Node<T>
 where
-    T: Clone + Eq,
+    T: Clone + Eq + Display,
 {
     pub fn new(value: T) -> Self {
         Node { value, next: None }
@@ -133,6 +136,23 @@ where
     }
 }
 
+impl<T> Display for Node<T>
+where
+    T: Clone + Eq + Display,
+{
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(
+            f,
+            "{}",
+            self.get_values()
+                .iter()
+                .map(|v| format!("{}", v))
+                .collect::<Vec<String>>()
+                .join(", ")
+        )
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -213,5 +233,16 @@ mod tests {
         assert_eq!(list.get_values(), vec![0, 2, 3, 4]);
         list.delete_at(2);
         assert_eq!(list.get_values(), vec![0, 2, 4]);
+    }
+
+    #[test]
+    fn test_display_values() {
+        let mut list: Node<usize> = Node::new(0);
+        list.append(1);
+        list.append(2);
+        list.append(3);
+        list.append(4);
+        list.append(5);
+        assert_eq!(format!("{}", list), "0, 1, 2, 3, 4, 5");
     }
 }

@@ -292,3 +292,17 @@ see `src/misc.s` (functions `find_missing_number` and `find_missing_number_optim
 ## 3)
 
 see `src/misc.s` (functions `find_greatest_on2`, `find_greatest_on_logn`, and `find_greatest_on`)
+
+# Chapter 14
+
+## 1)
+
+see `src/linked_lists.rs` (implementation of the `Display` trait)
+
+## 2)
+
+## 3)
+
+## 4)
+
+## 5)
