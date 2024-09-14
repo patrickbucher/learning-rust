@@ -4,6 +4,10 @@ I managed to finish my Deque implementation. I did the mistake to attach new
 nodes in `enqueue` rather than to prepend them. I'm feeling more comfortable
 using `Rc` and `RefCell` now, but I hope not to use them a lot in the future.
 
+I also worked through the rest of chapter 14 of CSGDSA, but I had to skip the
+implementation of last exercise, because it'd be highly impractical in Rust.
+However, I worked through it as a mental exercise.
+
 # Day 173 (2024-05-13)
 
 I started implementing a deque as a doubly linked list. The implementation
