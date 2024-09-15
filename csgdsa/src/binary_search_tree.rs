@@ -1,3 +1,4 @@
+use crate::misc::middle_out;
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -66,11 +67,25 @@ where
             Order::InOrder => [left, middle, right].concat(),
         }
     }
+
+    pub fn delete(&self, value: &T) -> Option<Self> {
+        let values = self.get_values(&Order::InOrder);
+        let values: Vec<T> = values.into_iter().filter(|v| v != value).collect();
+        let values = middle_out(values);
+        if values.is_empty() {
+            None
+        } else {
+            let mut root = Self::new(values[0].clone());
+            for v in &values[1..] {
+                root.insert(v.clone());
+            }
+            Some(root)
+        }
+    }
 }
 
 // TODO
 // - get_values (post-/pre-order)
-// - delete
 
 #[cfg(test)]
 pub mod tests {
@@ -133,8 +148,33 @@ pub mod tests {
 
     #[test]
     fn test_delete_leaf() {
-        let mut tree = create_demo_tree();
-        // TODO
+        let tree = create_demo_tree();
+        let tree = tree.delete(&4).unwrap();
+        assert_eq!(
+            tree.get_values(&Order::InOrder),
+            vec![10, 11, 25, 30, 33, 40, 50, 52, 56, 61, 75, 82, 89, 95]
+        );
+    }
+
+    #[test]
+    fn test_delete_middle_node() {
+        let tree = create_demo_tree();
+        let tree = tree.delete(&25).unwrap();
+        assert_eq!(
+            tree.get_values(&Order::InOrder),
+            vec![4, 10, 11, 30, 33, 40, 50, 52, 56, 61, 75, 82, 89, 95]
+        );
+    }
+
+    #[test]
+    fn test_delete_root() {
+        let tree = create_demo_tree();
+        assert_eq!(tree.value, 50);
+        let tree = tree.delete(&50).unwrap();
+        assert_eq!(
+            tree.get_values(&Order::InOrder),
+            vec![4, 10, 11, 25, 30, 33, 40, 52, 56, 61, 75, 82, 89, 95]
+        );
     }
 
     fn create_demo_tree() -> Node<usize> {
