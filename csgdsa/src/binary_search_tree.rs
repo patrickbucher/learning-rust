@@ -9,8 +9,9 @@ pub struct Node<T: Clone + Debug + Ord> {
     right: Option<Box<Node<T>>>,
 }
 
-pub enum Order {
+pub enum Traversal {
     InOrder,
+    PreOrder,
 }
 
 impl<T> Node<T>
@@ -53,7 +54,7 @@ where
         }
     }
 
-    pub fn get_values(&self, order: &Order) -> Vec<T> {
+    pub fn get_values(&self, order: &Traversal) -> Vec<T> {
         let left = match &self.left {
             Some(node) => node.get_values(order),
             None => Vec::new(),
@@ -64,12 +65,13 @@ where
             None => Vec::new(),
         };
         match order {
-            Order::InOrder => [left, middle, right].concat(),
+            Traversal::InOrder => [left, middle, right].concat(),
+            Traversal::PreOrder => [middle, left, right].concat(),
         }
     }
 
     pub fn delete(&self, value: &T) -> Option<Self> {
-        let values = self.get_values(&Order::InOrder);
+        let values = self.get_values(&Traversal::InOrder);
         let values: Vec<T> = values.into_iter().filter(|v| v != value).collect();
         let values = middle_out(values);
         if values.is_empty() {
@@ -149,7 +151,7 @@ pub mod tests {
         root.insert(7);
 
         let expected: Vec<usize> = (1..=7).collect();
-        let actual = root.get_values(&Order::InOrder);
+        let actual = root.get_values(&Traversal::InOrder);
         assert_eq!(actual, expected);
     }
 
@@ -158,7 +160,7 @@ pub mod tests {
         let tree = create_demo_tree();
         let tree = tree.delete(&4).unwrap();
         assert_eq!(
-            tree.get_values(&Order::InOrder),
+            tree.get_values(&Traversal::InOrder),
             vec![10, 11, 25, 30, 33, 40, 50, 52, 56, 61, 75, 82, 89, 95]
         );
     }
@@ -168,7 +170,7 @@ pub mod tests {
         let tree = create_demo_tree();
         let tree = tree.delete(&25).unwrap();
         assert_eq!(
-            tree.get_values(&Order::InOrder),
+            tree.get_values(&Traversal::InOrder),
             vec![4, 10, 11, 30, 33, 40, 50, 52, 56, 61, 75, 82, 89, 95]
         );
     }
@@ -179,7 +181,7 @@ pub mod tests {
         assert_eq!(tree.value, 50);
         let tree = tree.delete(&50).unwrap();
         assert_eq!(
-            tree.get_values(&Order::InOrder),
+            tree.get_values(&Traversal::InOrder),
             vec![4, 10, 11, 25, 30, 33, 40, 52, 56, 61, 75, 82, 89, 95]
         );
     }
@@ -188,6 +190,38 @@ pub mod tests {
     fn test_find_max() {
         let tree = create_demo_tree();
         assert_eq!(tree.find_max(), 95);
+    }
+
+    #[test]
+    fn test_get_values_in_order() {
+        let tree = create_book_tree();
+        let expected = vec![
+            "Alice in Wonderland",
+            "Great Expectations",
+            "Lord of the Flies",
+            "Moby Dick",
+            "Pride and Prejudice",
+            "Robinson Crusoe",
+            "The Odyssey",
+        ];
+        let actual = tree.get_values(&Traversal::InOrder);
+        assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn test_get_values_pre_order() {
+        let tree = create_book_tree();
+        let expected = vec![
+            "Moby Dick",
+            "Great Expectations",
+            "Alice in Wonderland",
+            "Lord of the Flies",
+            "Robinson Crusoe",
+            "Pride and Prejudice",
+            "The Odyssey",
+        ];
+        let actual = tree.get_values(&Traversal::PreOrder);
+        assert_eq!(actual, expected);
     }
 
     fn create_demo_tree() -> Node<usize> {
@@ -207,9 +241,20 @@ pub mod tests {
         root.insert(82);
         root.insert(95);
         assert_eq!(
-            root.get_values(&Order::InOrder),
+            root.get_values(&Traversal::InOrder),
             vec![4, 10, 11, 25, 30, 33, 40, 50, 52, 56, 61, 75, 82, 89, 95]
         );
+        root
+    }
+
+    fn create_book_tree() -> Node<&'static str> {
+        let mut root: Node<&str> = Node::new("Moby Dick");
+        root.insert("Great Expectations");
+        root.insert("Robinson Crusoe");
+        root.insert("Alice in Wonderland");
+        root.insert("Lord of the Flies");
+        root.insert("Pride and Prejudice");
+        root.insert("The Odyssey");
         root
     }
 }

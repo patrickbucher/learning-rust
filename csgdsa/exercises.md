@@ -338,3 +338,7 @@ done in `log2(1000)=9.96` steps, i.e. in 10 steps.
 ## 3)
 
 see `src/binary_search_tree.rs` (method `find_max`)
+
+## 4)
+
+see `src/binary_search_tree.rs` (method `get_values` and test case `test_get_values_pre_order`)
