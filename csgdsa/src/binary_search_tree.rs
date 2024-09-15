@@ -8,6 +8,10 @@ pub struct Node<T: Clone + Debug + Ord> {
     right: Option<Box<Node<T>>>,
 }
 
+pub enum Order {
+    InOrder,
+}
+
 impl<T> Node<T>
 where
     T: Clone + Debug + Ord,
@@ -47,11 +51,25 @@ where
             Ordering::Equal => true,
         }
     }
+
+    pub fn get_values(&self, order: &Order) -> Vec<T> {
+        let left = match &self.left {
+            Some(node) => node.get_values(order),
+            None => Vec::new(),
+        };
+        let middle = vec![self.value.clone()];
+        let right = match &self.right {
+            Some(node) => node.get_values(order),
+            None => Vec::new(),
+        };
+        match order {
+            Order::InOrder => [left, middle, right].concat(),
+        }
+    }
 }
 
 // TODO
-// - contains
-// - get_values (in-/post-/pre-order)
+// - get_values (post-/pre-order)
 // - delete
 
 #[cfg(test)]
@@ -96,5 +114,20 @@ pub mod tests {
         }
         assert!(!root.contains(&0));
         assert!(!root.contains(&8));
+    }
+
+    #[test]
+    fn test_get_values() {
+        let mut root: Node<usize> = Node::new(4);
+        root.insert(2);
+        root.insert(1);
+        root.insert(3);
+        root.insert(6);
+        root.insert(5);
+        root.insert(7);
+
+        let expected: Vec<usize> = (1..=7).collect();
+        let actual = root.get_values(&Order::InOrder);
+        assert_eq!(actual, expected);
     }
 }
