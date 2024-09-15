@@ -33,6 +33,20 @@ where
             Ordering::Equal => (),
         }
     }
+
+    pub fn contains(&self, value: &T) -> bool {
+        match value.cmp(&self.value) {
+            Ordering::Less => match &self.left {
+                Some(node) => node.contains(value),
+                None => false,
+            },
+            Ordering::Greater => match &self.right {
+                Some(node) => node.contains(value),
+                None => false,
+            },
+            Ordering::Equal => true,
+        }
+    }
 }
 
 // TODO
@@ -65,5 +79,22 @@ pub mod tests {
         assert_eq!(left.right.unwrap().value, 3);
         assert_eq!(right.left.unwrap().value, 5);
         assert_eq!(right.right.unwrap().value, 7);
+    }
+
+    #[test]
+    fn test_contains() {
+        let mut root: Node<usize> = Node::new(4);
+        root.insert(2);
+        root.insert(1);
+        root.insert(3);
+        root.insert(6);
+        root.insert(5);
+        root.insert(7);
+
+        for i in 1..=7 {
+            assert!(root.contains(&i));
+        }
+        assert!(!root.contains(&0));
+        assert!(!root.contains(&8));
     }
 }
