@@ -1,3 +1,13 @@
+# Day 175 (2024-05-15)
+
+I worked through chapter 15 in CSGDSA. However, I wasn't in the mood to wrestle
+with the borrow checker today, so I simplified the delete operation. I just get
+all the values from the tree, filter out the one to delete, and then build up a
+fresh tree. In order to make the resulting tree balanced, I invented an
+operation called _middle out_, in which the vector is re-ordered in a way that
+it progresses from medium to extreme values, e.g. `[1, 2, 3, 4, 5]` becomes `[3,
+2, 4, 1, 5]`.
+
 # Day 174 (2024-05-14)
 
 I managed to finish my Deque implementation. I did the mistake to attach new
