@@ -321,3 +321,9 @@ Instead of removing the actual node, the node's value is replaced with its
 successor's value. This is repeated until the second last element is reached.
 There, not only the value is replaced, but also the `next` pointer is set to
 `None`. The values are shifted to the left by one node.
+
+# Chapter 15
+
+## 1)
+
+![Binary Tree](misc/ex-15-1.png)
