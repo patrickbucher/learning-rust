@@ -1,4 +1,4 @@
-use crate::misc::middle_out;
+use crate::middle_out::middle_out;
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -75,7 +75,7 @@ where
     pub fn delete(&self, value: &T) -> Option<Self> {
         let values = self.get_values(&Traversal::InOrder);
         let values: Vec<T> = values.into_iter().filter(|v| v != value).collect();
-        let values = middle_out(values);
+        let values = middle_out(&values);
         if values.is_empty() {
             None
         } else {

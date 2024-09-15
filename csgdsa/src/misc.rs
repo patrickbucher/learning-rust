@@ -191,29 +191,6 @@ pub fn find_greatest_on(values: &[usize]) -> Option<usize> {
     Some(max)
 }
 
-pub fn middle_out<T: Ord + Clone>(values: Vec<T>) -> Vec<T> {
-    let mut result = Vec::new();
-    if values.is_empty() {
-        return result;
-    }
-    let mut values: Vec<T> = values.clone();
-    values.sort();
-    let n = values.len();
-    let m = n / 2;
-    let mid_left: &Vec<&T> = &values[0..m].iter().rev().collect();
-    let mid_right = if n % 2 == 0 {
-        &values[m..n]
-    } else {
-        result.push(values[m].clone());
-        &values[(m + 1)..n]
-    };
-    for i in 0..m {
-        result.push(mid_left[i].clone());
-        result.push(mid_right[i].clone());
-    }
-    result
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -442,23 +419,5 @@ mod tests {
             assert_eq!(find_greatest_on_logn(&test), expected);
             assert_eq!(find_greatest_on(&test), expected);
         }
-    }
-
-    #[test]
-    fn test_middle_out() {
-        assert_eq!(middle_out(Vec::<usize>::new()), Vec::new());
-        assert_eq!(middle_out(vec![3]), vec![3]);
-        assert_eq!(middle_out(vec![3, 1]), vec![1, 3]);
-        assert_eq!(middle_out(vec![3, 1, 2]), vec![2, 1, 3]);
-        assert_eq!(middle_out(vec![3, 1, 2, 4]), vec![2, 3, 1, 4]);
-        assert_eq!(middle_out(vec![3, 1, 5, 2, 4]), vec![3, 2, 4, 1, 5]);
-        assert_eq!(
-            middle_out((1..10).collect::<Vec<usize>>()),
-            vec![5, 4, 6, 3, 7, 2, 8, 1, 9]
-        );
-        assert_eq!(
-            middle_out((0..10).collect::<Vec<usize>>()),
-            vec![4, 5, 3, 6, 2, 7, 1, 8, 0, 9]
-        );
     }
 }
