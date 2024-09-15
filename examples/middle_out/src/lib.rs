@@ -2,15 +2,14 @@ pub fn middle_out<T: Ord + Clone>(values: &[T]) -> Vec<T> {
     if values.is_empty() {
         Vec::<T>::new()
     } else {
-        do_middle_out(&vec![values.to_vec()], Vec::new())
+        do_middle_out(&vec![values.to_vec()], &mut Vec::new())
     }
 }
 
-fn do_middle_out<T: Ord + Clone>(splits: &Vec<Vec<T>>, acc: Vec<T>) -> Vec<T> {
+fn do_middle_out<T: Ord + Clone>(splits: &Vec<Vec<T>>, acc: &mut Vec<T>) -> Vec<T> {
     if splits.iter().all(|s| s.is_empty()) {
-        return acc;
+        return acc.clone();
     }
-    let mut acc = acc.clone();
     let mut remainder = Vec::new();
     for split in splits {
         let (median, splits) = split_median(split);
@@ -36,7 +35,7 @@ fn split_median<T: Ord + Clone>(values: &[T]) -> (Option<T>, Vec<Vec<T>>) {
         let mut values = values.to_owned();
         values.sort();
         let m = if n % 2 == 0 { n / 2 - 1 } else { n / 2 };
-        let median = &values[m].clone();
+        let median = &values[m];
         let left = values[0..m].to_owned();
         let right = values[m + 1..n].to_owned();
         (Some(median.clone()), vec![left, right])
