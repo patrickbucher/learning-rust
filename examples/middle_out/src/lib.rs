@@ -1,24 +1,32 @@
-// TODO:
-// - separate values in left, median, right
-// - add the median to the list
-// - continue recursively with left
-// - continue recursively with right
-
-pub fn middle_out<T: Ord + Clone>(values: &Vec<T>) -> Vec<T> {
+pub fn middle_out<T: Ord + Clone>(values: &[T]) -> Vec<T> {
     if values.is_empty() {
         Vec::<T>::new()
     } else {
-        let mut result = Vec::<T>::new();
-        let mut values = values.to_owned();
-        while let (Some(median), rest) = split_median(&values) {
-            values = rest;
-            result.push(median);
-        }
-        result
+        do_middle_out(&vec![values.to_vec()], Vec::new())
     }
 }
 
-fn split_median<T: Ord + Clone>(values: &[T]) -> (Option<T>, Vec<T>) {
+fn do_middle_out<T: Ord + Clone>(splits: &Vec<Vec<T>>, acc: Vec<T>) -> Vec<T> {
+    if splits.iter().all(|s| s.is_empty()) {
+        return acc;
+    }
+    let mut acc = acc.clone();
+    let mut remainder = Vec::new();
+    for split in splits {
+        let (median, splits) = split_median(split);
+        if let Some(median) = median {
+            acc.push(median.clone());
+        }
+        for split in splits {
+            if !split.is_empty() {
+                remainder.push(split);
+            }
+        }
+    }
+    do_middle_out(&remainder, acc)
+}
+
+fn split_median<T: Ord + Clone>(values: &[T]) -> (Option<T>, Vec<Vec<T>>) {
     let n = values.len();
     if n == 0 {
         (None, Vec::new())
@@ -28,9 +36,10 @@ fn split_median<T: Ord + Clone>(values: &[T]) -> (Option<T>, Vec<T>) {
         let mut values = values.to_owned();
         values.sort();
         let m = if n % 2 == 0 { n / 2 - 1 } else { n / 2 };
-        let left = &values[0..m];
-        let right = &values[m + 1..n];
-        (Some(values[m].clone()), [left, right].concat())
+        let median = &values[m].clone();
+        let left = values[0..m].to_owned();
+        let right = values[m + 1..n].to_owned();
+        (Some(median.clone()), vec![left, right])
     }
 }
 
@@ -41,20 +50,13 @@ mod tests {
     #[test]
     fn test_middle_out() {
         assert_eq!(middle_out(&Vec::<usize>::new()), Vec::new());
-        assert_eq!(middle_out(&vec![3]), vec![3]);
-        assert_eq!(middle_out(&vec![3, 2]), vec![2, 3]);
-        assert_eq!(middle_out(&vec![1, 3, 2]), vec![2, 1, 3]);
-        assert_eq!(middle_out(&vec![4, 1, 3, 2]), vec![2, 3, 1, 4]);
-        assert_eq!(middle_out(&vec![4, 1, 3, 2, 5]), vec![3, 2, 4, 1, 5]);
-        // TODO: this is bogus, too
-    }
-
-    #[test]
-    fn test_split_median() {
-        assert_eq!(split_median(&Vec::<usize>::new()), (None, Vec::new()));
-        assert_eq!(split_median(&vec![3]), (Some(3), Vec::new()));
-        assert_eq!(split_median(&vec![4, 3]), (Some(3), vec![4]));
-        assert_eq!(split_median(&vec![2, 4, 3]), (Some(3), vec![2, 4]));
-        assert_eq!(split_median(&vec![2, 4, 3, 1]), (Some(2), vec![1, 3, 4]));
+        assert_eq!(
+            middle_out(&(1..=8).collect::<Vec<usize>>()),
+            vec![4, 2, 6, 1, 3, 5, 7, 8]
+        );
+        assert_eq!(
+            middle_out(&(0..=14).collect::<Vec<usize>>()),
+            vec![7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14]
+        );
     }
 }
