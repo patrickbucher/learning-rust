@@ -6,7 +6,28 @@
         - [x] static content rendering
         - [ ] API access
 - Reading _A Common-Sense Guide to Data Structures and Algorithms_ ("CSGDSA")
-    - state: chapter 13/20
+    - state: chapter 15/20
+    - Chapter 16
+        - Mo, 2024-09-16
+        - Tu, 2024-09-17
+        - We, 2024-09-18
+    - Chapter 17
+        - Th, 2024-09-19
+        - Fr, 2024-09-20
+        - Sa, 2024-09-21
+    - Chapter 18
+        - Su, 2024-09-22
+        - Mo, 2024-09-23
+    - Chapter 19
+        - Tu, 2024-09-24
+        - We, 2024-09-25
+    - Chapter 20
+        - Th, 2024-09-26
+        - Fr, 2024-09-27
+        - Sa, 2024-09-28
+    - Reserve
+        - Su, 2024-09-29
+        - Mo, 2024-09-30
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
     - state: first useful features done, requires tests, documentation, and
       error handling
