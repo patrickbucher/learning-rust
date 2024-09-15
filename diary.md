@@ -8,6 +8,11 @@ operation called _middle out_, in which the vector is re-ordered in a way that
 it progresses from medium to extreme values, e.g. `[1, 2, 3, 4, 5]` becomes `[3,
 2, 4, 1, 5]`.
 
+Later on, as I already wanted to write an article about my little _middle out_
+invention, I realized that this order just builds up a triangle, i.e. with only
+left childs on the left side and only right nodes on the right side. So I have
+to re-work my algorithm.
+
 # Day 174 (2024-05-14)
 
 I managed to finish my Deque implementation. I did the mistake to attach new
