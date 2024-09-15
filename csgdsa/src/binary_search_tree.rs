@@ -130,4 +130,33 @@ pub mod tests {
         let actual = root.get_values(&Order::InOrder);
         assert_eq!(actual, expected);
     }
+
+    #[test]
+    fn test_delete_leaf() {
+        let mut tree = create_demo_tree();
+        // TODO
+    }
+
+    fn create_demo_tree() -> Node<usize> {
+        let mut root: Node<usize> = Node::new(50);
+        root.insert(25);
+        root.insert(75);
+        root.insert(10);
+        root.insert(33);
+        root.insert(56);
+        root.insert(89);
+        root.insert(4);
+        root.insert(11);
+        root.insert(30);
+        root.insert(40);
+        root.insert(52);
+        root.insert(61);
+        root.insert(82);
+        root.insert(95);
+        assert_eq!(
+            root.get_values(&Order::InOrder),
+            vec![4, 10, 11, 25, 30, 33, 40, 50, 52, 56, 61, 75, 82, 89, 95]
+        );
+        root
+    }
 }
