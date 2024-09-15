@@ -327,3 +327,10 @@ There, not only the value is replaced, but also the `next` pointer is set to
 ## 1)
 
 ![Binary Tree](misc/ex-15-1.png)
+
+## 2)
+
+It depends on how the tree was built. In the worst case, it takes 1000 steps,
+when the elements have been inserted in ascending or descending order. In the
+ideal case, when the values have been inserted from the middle out, it can be
+done in `log2(1000)=9.96` steps, i.e. in 10 steps.
