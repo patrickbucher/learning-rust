@@ -82,6 +82,13 @@ where
             Some(root)
         }
     }
+
+    pub fn find_max(&self) -> T {
+        match &self.right {
+            Some(node) => node.find_max(),
+            None => self.value.clone(),
+        }
+    }
 }
 
 // TODO
@@ -175,6 +182,12 @@ pub mod tests {
             tree.get_values(&Order::InOrder),
             vec![4, 10, 11, 25, 30, 33, 40, 52, 56, 61, 75, 82, 89, 95]
         );
+    }
+
+    #[test]
+    fn test_find_max() {
+        let tree = create_demo_tree();
+        assert_eq!(tree.find_max(), 95);
     }
 
     fn create_demo_tree() -> Node<usize> {
