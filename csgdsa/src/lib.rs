@@ -1,3 +1,4 @@
+pub mod binary_search_tree;
 pub mod bubble_sort;
 pub mod deque;
 pub mod insertion_sort;
