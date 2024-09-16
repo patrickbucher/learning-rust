@@ -53,8 +53,23 @@ impl<T: Ord + Clone + Debug> Heap<T> {
         self.tree.is_empty()
     }
 
-    pub fn holds_heap_condition(&self) -> bool {
-        false
+    fn holds_heap_condition(&self) -> bool {
+        for (i, element) in self.tree.iter().enumerate() {
+            let i_left_child = i * 2 + 1;
+            let i_right_child = i * 2 + 2;
+            for child_index in [i * 2 + 1, i * 2 + 2] {
+                if child_index < self.tree.len() {
+                    let before = match self.order {
+                        Order::Min => element.priority < self.tree[child_index].priority,
+                        Order::Max => element.priority > self.tree[child_index].priority,
+                    };
+                    if !before {
+                        return false;
+                    }
+                }
+            }
+        }
+        true
     }
 
     fn last(&self) -> Option<T> {
