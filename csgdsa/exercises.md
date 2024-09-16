@@ -346,3 +346,19 @@ see `src/binary_search_tree.rs` (method `get_values` and test case `test_get_val
 ## 5)
 
 see `src/binary_search_tree.rs` (method `get_values` and test case `test_get_values_post_order`)
+
+# Chapter 16
+
+## 1)
+
+![Heap After Inseartion of 11](misc/ex-16-1.png)
+
+## 2)
+
+![Heap After Deletion of 10](misc/ex-16-2.png)
+
+## 3)
+
+The numbers would appear in a descending order if a max heap is used:
+
+    [99, 68, 55, 34, 22, 10, 2]
