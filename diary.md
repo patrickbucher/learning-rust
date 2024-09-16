@@ -2,6 +2,32 @@
 
 I started reading chapter 16 on heaps in the morning.
 
+TODO:
+
+- invariants
+    - heap condition: the value of each node must be greater than each of its
+      descendant nodes
+    - the tree must be complete
+- terms
+    - last node: rightmost node of the bottom level
+- insertion
+    - insert new node as the last node
+    - compare it with its parent node
+    - swap if new node > parent node
+    - repeat until parent > node
+- deletion
+    - delete the root node
+    - move last node to root node position
+    - trickle the new root node down in its proper place
+        - check both children, which is larger?
+        - if the trickle node is smaller than the larger of the two, swap
+          trickle node with larger child
+        - repeat until both children are smaller (or there are no children)
+- array implementation
+    - left child: `index*2+1`
+    - right child: `index*2+2`
+    - parent: `(index-1)/2` (integer division)
+
 # Day 175 (2024-05-15)
 
 I worked through chapter 15 in CSGDSA. However, I wasn't in the mood to wrestle
