@@ -17,6 +17,15 @@ struct Element<T: Ord + Clone + Debug> {
     priority: isize,
 }
 
+impl<T: Ord + Clone + Debug> Element<T> {
+    fn before(&self, other: &Self, order: &Order) -> bool {
+        match order {
+            Order::Min => self.priority < other.priority,
+            Order::Max => self.priority > other.priority,
+        }
+    }
+}
+
 impl<T: Ord + Clone + Debug> Heap<T> {
     pub fn new(order: Order) -> Self {
         Heap {
@@ -32,6 +41,7 @@ impl<T: Ord + Clone + Debug> Heap<T> {
             while new_index > 0 {
                 let parent_index = (new_index - 1) / 2;
                 let parent_priority = self.tree[parent_index].priority;
+                // TODO: refactor in terms of Element.before(Element)
                 let before = match self.order {
                     Order::Min => priority < parent_priority,
                     Order::Max => priority > parent_priority,
@@ -53,8 +63,45 @@ impl<T: Ord + Clone + Debug> Heap<T> {
         if self.tree.is_empty() {
             return None;
         }
+        let n = self.tree.len();
         let root = self.tree[0].clone();
-        self.tree[0] = self.tree[self.tree.len() - 1].clone();
+        self.tree[0] = self.tree[n - 1].clone();
+        let mut index = 0;
+        loop {
+            let trickle = self.tree[index].clone();
+            let left_child_index = index * 2 + 1;
+            let right_child_index = index * 2 + 2;
+            if left_child_index < n && right_child_index < n {
+                let left = self.tree[left_child_index].clone();
+                let right = self.tree[right_child_index].clone();
+                let (higher, higher_index) = if left.before(&right, &self.order) {
+                    (left, left_child_index)
+                } else {
+                    (right, right_child_index)
+                };
+                if !trickle.before(&higher, &self.order) {
+                    self.tree[higher_index] = trickle.clone();
+                    self.tree[index] = higher.clone();
+                    index = higher_index;
+                };
+            } else if left_child_index < n {
+                let left = self.tree[left_child_index].clone();
+                if trickle.before(&left, &self.order) {
+                    self.tree[left_child_index] = trickle.clone();
+                    self.tree[index] = left.clone();
+                    index = left_child_index;
+                }
+            } else if right_child_index < n {
+                let right = self.tree[right_child_index].clone();
+                if trickle.before(&right, &self.order) {
+                    self.tree[right_child_index] = trickle.clone();
+                    self.tree[index] = right.clone();
+                    index = right_child_index;
+                }
+            } else {
+                break;
+            }
+        }
         Some(root.value)
     }
 
@@ -64,8 +111,6 @@ impl<T: Ord + Clone + Debug> Heap<T> {
 
     fn holds_heap_condition(&self) -> bool {
         for (i, element) in self.tree.iter().enumerate() {
-            let i_left_child = i * 2 + 1;
-            let i_right_child = i * 2 + 2;
             for child_index in [i * 2 + 1, i * 2 + 2] {
                 if child_index < self.tree.len() {
                     let before = match self.order {
@@ -79,13 +124,6 @@ impl<T: Ord + Clone + Debug> Heap<T> {
             }
         }
         true
-    }
-
-    fn last(&self) -> Option<T> {
-        match self.is_empty() {
-            true => None,
-            false => Some(self.tree[self.tree.len() - 1].value.clone()),
-        }
     }
 }
 
@@ -105,7 +143,18 @@ mod tests {
         heap.insert("Surfing", -3);
         assert!(heap.holds_heap_condition());
 
-        assert_eq!(heap.delete(), Some("Rowing"));
-        assert_eq!(heap.delete(), Some("Cleaning")); // TODO
+        for expected in [
+            Some("Rowing"),
+            Some("Cleaning"),
+            Some("Working"),
+            Some("Dishes"),
+            Some("Reading"),
+            Some("Sleeping"),
+            Some("Surfing"),
+            None,
+        ] {
+            assert_eq!(heap.delete(), expected);
+            // assert!(heap.holds_heap_condition());
+        }
     }
 }
