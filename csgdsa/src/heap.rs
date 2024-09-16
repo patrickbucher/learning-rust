@@ -36,24 +36,20 @@ impl<T: Ord + Clone + Debug> Heap<T> {
 
     pub fn insert(&mut self, value: T, priority: isize) {
         self.tree.push(Element { value, priority });
-        if self.tree.len() > 1 {
-            let mut new_index = self.tree.len() - 1;
-            while new_index > 0 {
-                let parent_index = (new_index - 1) / 2;
-                let parent_priority = self.tree[parent_index].priority;
-                let before = match self.order {
-                    Order::Min => priority < parent_priority,
-                    Order::Max => priority > parent_priority,
-                };
-                if before {
-                    let parent = self.tree[parent_index].clone();
-                    let element = self.tree[new_index].clone();
-                    self.tree[parent_index] = element;
-                    self.tree[new_index] = parent;
-                    new_index = parent_index;
-                } else {
-                    break;
-                }
+        if self.tree.len() == 1 {
+            return;
+        }
+        let mut new_index = self.tree.len() - 1;
+        while new_index > 0 {
+            let parent_index = (new_index - 1) / 2;
+            let parent = self.tree[parent_index].clone();
+            let element = self.tree[new_index].clone();
+            if element.before(&parent, &self.order) {
+                self.tree[parent_index] = element;
+                self.tree[new_index] = parent;
+                new_index = parent_index;
+            } else {
+                break;
             }
         }
     }
