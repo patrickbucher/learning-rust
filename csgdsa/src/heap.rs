@@ -49,6 +49,15 @@ impl<T: Ord + Clone + Debug> Heap<T> {
         }
     }
 
+    pub fn delete(&mut self) -> Option<T> {
+        if self.tree.is_empty() {
+            return None;
+        }
+        let root = self.tree[0].clone();
+        self.tree[0] = self.tree[self.tree.len() - 1].clone();
+        Some(root.value)
+    }
+
     pub fn is_empty(&self) -> bool {
         self.tree.is_empty()
     }
@@ -95,5 +104,8 @@ mod tests {
         heap.insert("Cleaning", 7);
         heap.insert("Surfing", -3);
         assert!(heap.holds_heap_condition());
+
+        assert_eq!(heap.delete(), Some("Rowing"));
+        assert_eq!(heap.delete(), Some("Cleaning")); // TODO
     }
 }
