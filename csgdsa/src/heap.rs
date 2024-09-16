@@ -41,7 +41,6 @@ impl<T: Ord + Clone + Debug> Heap<T> {
             while new_index > 0 {
                 let parent_index = (new_index - 1) / 2;
                 let parent_priority = self.tree[parent_index].priority;
-                // TODO: refactor in terms of Element.before(Element)
                 let before = match self.order {
                     Order::Min => priority < parent_priority,
                     Order::Max => priority > parent_priority,
@@ -71,37 +70,32 @@ impl<T: Ord + Clone + Debug> Heap<T> {
             let trickle = self.tree[index].clone();
             let left_child_index = index * 2 + 1;
             let right_child_index = index * 2 + 2;
-            if left_child_index < n && right_child_index < n {
+            let (candidate, candidate_index) = if left_child_index < n && right_child_index < n {
                 let left = self.tree[left_child_index].clone();
                 let right = self.tree[right_child_index].clone();
-                let (higher, higher_index) = if left.before(&right, &self.order) {
+                if left.before(&right, &self.order) {
                     (left, left_child_index)
                 } else {
                     (right, right_child_index)
-                };
-                if !trickle.before(&higher, &self.order) {
-                    self.tree[higher_index] = trickle.clone();
-                    self.tree[index] = higher.clone();
-                    index = higher_index;
-                };
+                }
             } else if left_child_index < n {
                 let left = self.tree[left_child_index].clone();
-                if trickle.before(&left, &self.order) {
-                    self.tree[left_child_index] = trickle.clone();
-                    self.tree[index] = left.clone();
-                    index = left_child_index;
-                }
+                (left, left_child_index)
             } else if right_child_index < n {
                 let right = self.tree[right_child_index].clone();
-                if trickle.before(&right, &self.order) {
-                    self.tree[right_child_index] = trickle.clone();
-                    self.tree[index] = right.clone();
-                    index = right_child_index;
-                }
+                (right, right_child_index)
+            } else {
+                break;
+            };
+            if !trickle.before(&candidate, &self.order) {
+                self.tree[candidate_index] = trickle.clone();
+                self.tree[index] = candidate.clone();
+                index = candidate_index;
             } else {
                 break;
             }
         }
+        self.tree.pop();
         Some(root.value)
     }
 
@@ -109,7 +103,7 @@ impl<T: Ord + Clone + Debug> Heap<T> {
         self.tree.is_empty()
     }
 
-    fn holds_heap_condition(&self) -> bool {
+    pub fn holds_heap_condition(&self) -> bool {
         for (i, element) in self.tree.iter().enumerate() {
             for child_index in [i * 2 + 1, i * 2 + 2] {
                 if child_index < self.tree.len() {
@@ -154,7 +148,34 @@ mod tests {
             None,
         ] {
             assert_eq!(heap.delete(), expected);
-            // assert!(heap.holds_heap_condition());
+            assert!(heap.holds_heap_condition());
+        }
+    }
+
+    #[test]
+    fn test_min_heap() {
+        let mut heap: Heap<&str> = Heap::new(Order::Min);
+        heap.insert("Alice", 3);
+        heap.insert("Bob", 5);
+        heap.insert("Charlene", 2);
+        heap.insert("Daniel", 1);
+        heap.insert("Esmeralda", 4);
+        heap.insert("Fred", 6);
+        heap.insert("Gina", 0);
+        assert!(heap.holds_heap_condition());
+
+        for expected in [
+            Some("Gina"),
+            Some("Daniel"),
+            Some("Charlene"),
+            Some("Alice"),
+            Some("Esmeralda"),
+            Some("Bob"),
+            Some("Fred"),
+            None,
+        ] {
+            assert_eq!(heap.delete(), expected);
+            assert!(heap.holds_heap_condition());
         }
     }
 }
