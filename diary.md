@@ -1,3 +1,7 @@
+# Day 176 (2024-05-16)
+
+I started reading chapter 16 on heaps in the morning.
+
 # Day 175 (2024-05-15)
 
 I worked through chapter 15 in CSGDSA. However, I wasn't in the mood to wrestle
