@@ -1,6 +1,7 @@
 pub mod binary_search_tree;
 pub mod bubble_sort;
 pub mod deque;
+pub mod heap;
 pub mod insertion_sort;
 pub mod linked_lists;
 pub mod middle_out;
