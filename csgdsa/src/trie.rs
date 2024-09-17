@@ -75,11 +75,8 @@ impl Node {
         let mut chars = prefix.chars();
         match chars.next() {
             Some(c) => match self.children.get(&c) {
-                Some(child) => match child {
-                    Some(node) => node.find_by_prefix(&String::from_iter(chars)),
-                    None => None,
-                },
-                None => None,
+                Some(Some(node)) => node.find_by_prefix(&String::from_iter(chars)),
+                _ => None,
             },
             None => Some(self.clone()),
         }
