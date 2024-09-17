@@ -13,3 +13,4 @@ pub mod recursion;
 pub mod selection_sort;
 pub mod set_array;
 pub mod stack;
+pub mod trie;
