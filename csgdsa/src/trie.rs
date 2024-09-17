@@ -7,11 +7,6 @@ pub struct Trie {
     root: Node,
 }
 
-#[derive(Debug)]
-struct Node {
-    children: HashMap<char, Node>,
-}
-
 impl Trie {
     pub fn new() -> Self {
         Trie {
@@ -26,6 +21,11 @@ impl Trie {
     }
 }
 
+#[derive(Debug)]
+struct Node {
+    children: HashMap<char, Option<Node>>,
+}
+
 impl Node {
     fn empty() -> Self {
         Node {
@@ -35,7 +35,7 @@ impl Node {
 
     fn new(c: char) -> Self {
         Node {
-            children: HashMap::from([(c, Self::empty())]),
+            children: HashMap::from([(c, None)]),
         }
     }
 
@@ -44,20 +44,26 @@ impl Node {
         let head: char = match chars.next() {
             Some(c) => c,
             None => {
-                self.children.insert(EOW, Node::empty());
+                self.children.insert(EOW, None);
                 return;
-            } // TODO: add '*' leaf
+            }
         };
         let tail = String::from_iter(chars);
         self.children
             .entry(head)
             .and_modify(|e| {
-                e.insert(&tail);
+                if let Some(node) = e {
+                    node.insert(&tail);
+                } else {
+                    let mut n = Node::empty();
+                    n.insert(&tail);
+                    *e = Some(n);
+                }
             })
             .or_insert_with(|| {
                 let mut e = Node::empty();
                 e.insert(&tail);
-                e
+                Some(e)
             });
     }
 }
@@ -70,7 +76,10 @@ mod tests {
     fn test_insert() {
         let mut words = Trie::new();
         words.insert("cat");
+        words.insert("car");
+        words.insert("bat");
         assert!(words.root.children.contains_key(&'c'));
+        assert!(words.root.children.contains_key(&'b'));
         println!("{:?}", words.root.children);
     }
 }
