@@ -1,3 +1,10 @@
+# Day 177 (2024-05-17)
+
+I started reading chapter 17 on tries in the morning and started to work on the
+implementation. Thereby I discovered the `or_insert_with()` method of `Entry`,
+which, unlike `or_insert()`, accepts a closure to build up the new entry, and
+not just a value. This makes it easier to build up the nodes recursively.
+
 # Day 176 (2024-05-16)
 
 I started reading chapter 16 on heaps in the morning. I worked on the
