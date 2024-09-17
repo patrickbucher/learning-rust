@@ -5,6 +5,11 @@ implementation. Thereby I discovered the `or_insert_with()` method of `Entry`,
 which, unlike `or_insert()`, accepts a closure to build up the new entry, and
 not just a value. This makes it easier to build up the nodes recursively.
 
+Those have been the first lines of code I wrote with my new Unicomp keyboard,
+which are basically IBM Model M keyboards (created with the same tools, using
+the same buckling spring mechanism). So this has been an exercise both for my
+mind and for my fingers.
+
 # Day 176 (2024-05-16)
 
 I started reading chapter 16 on heaps in the morning. I worked on the
