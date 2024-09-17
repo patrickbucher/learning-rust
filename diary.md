@@ -10,6 +10,11 @@ which are basically IBM Model M keyboards (created with the same tools, using
 the same buckling spring mechanism). So this has been an exercise both for my
 mind and for my fingers.
 
+In the evening, I continued with finding a trie node by its prefix. This given
+prefix combined with all the suffixes from its hash and children will be the
+autocompleted words. I'm looking forward to use `/usr/share/dict/words` for some
+experiments.
+
 # Day 176 (2024-05-16)
 
 I started reading chapter 16 on heaps in the morning. I worked on the
