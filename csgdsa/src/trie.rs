@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::fmt::Debug;
 
 const EOW: char = '*';
 
@@ -6,6 +7,7 @@ pub struct Trie {
     root: Node,
 }
 
+#[derive(Debug)]
 struct Node {
     children: HashMap<char, Node>,
 }
@@ -41,7 +43,10 @@ impl Node {
         let mut chars = word.chars();
         let head: char = match chars.next() {
             Some(c) => c,
-            None => return,
+            None => {
+                self.children.insert(EOW, Node::empty());
+                return;
+            } // TODO: add '*' leaf
         };
         let tail = String::from_iter(chars);
         self.children
@@ -50,7 +55,7 @@ impl Node {
                 e.insert(&tail);
             })
             .or_insert_with(|| {
-                let mut e = Node::new(head);
+                let mut e = Node::empty();
                 e.insert(&tail);
                 e
             });
@@ -61,9 +66,11 @@ impl Node {
 mod tests {
     use super::*;
 
+    #[test]
     fn test_insert() {
         let mut words = Trie::new();
         words.insert("cat");
         assert!(words.root.children.contains_key(&'c'));
+        println!("{:?}", words.root.children);
     }
 }
