@@ -21,21 +21,21 @@ impl Trie {
     }
 }
 
-#[derive(Debug)]
+impl Default for Trie {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+#[derive(Debug, Clone)]
 struct Node {
     children: HashMap<char, Option<Node>>,
 }
 
 impl Node {
-    fn empty() -> Self {
+    fn new() -> Self {
         Node {
             children: HashMap::new(),
-        }
-    }
-
-    fn new(c: char) -> Self {
-        Node {
-            children: HashMap::from([(c, None)]),
         }
     }
 
@@ -55,13 +55,13 @@ impl Node {
                 if let Some(node) = e {
                     node.insert(&tail);
                 } else {
-                    let mut n = Node::empty();
+                    let mut n = Node::new();
                     n.insert(&tail);
                     *e = Some(n);
                 }
             })
             .or_insert_with(|| {
-                let mut e = Node::empty();
+                let mut e = Node::new();
                 e.insert(&tail);
                 Some(e)
             });
@@ -78,8 +78,31 @@ mod tests {
         words.insert("cat");
         words.insert("car");
         words.insert("bat");
-        assert!(words.root.children.contains_key(&'c'));
-        assert!(words.root.children.contains_key(&'b'));
-        println!("{:?}", words.root.children);
+
+        let children = words.root.children.clone();
+        assert!(children.contains_key(&'c'));
+        assert!(children.contains_key(&'b'));
+
+        let c_children = children.get(&'c').unwrap().clone().unwrap().children;
+        assert!(c_children.contains_key(&'a'));
+
+        let b_children = children.get(&'b').unwrap().clone().unwrap().children;
+        assert!(b_children.contains_key(&'a'));
+
+        let ca_children = c_children.get(&'a').unwrap().clone().unwrap().children;
+        assert!(ca_children.contains_key(&'t'));
+        assert!(ca_children.contains_key(&'r'));
+
+        let ba_children = b_children.get(&'a').unwrap().clone().unwrap().children;
+        assert!(ba_children.contains_key(&'t'));
+
+        let cat_children = ca_children.get(&'t').unwrap().clone().unwrap().children;
+        assert!(cat_children.contains_key(&EOW));
+
+        let car_children = ca_children.get(&'r').unwrap().clone().unwrap().children;
+        assert!(car_children.contains_key(&EOW));
+
+        let bat_children = ba_children.get(&'t').unwrap().clone().unwrap().children;
+        assert!(bat_children.contains_key(&EOW));
     }
 }
