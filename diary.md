@@ -1,6 +1,8 @@
 # Day 178 (2024-05-18)
 
-I finished the trie implementation by implementing the autocomplete method.
+I finished the trie implementation by implementing the autocomplete method. In
+the evening, I worked through the first two exercises and wrote the test case
+for the third one.
 
 # Day 177 (2024-05-17)
 
