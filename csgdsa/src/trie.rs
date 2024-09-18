@@ -71,6 +71,27 @@ impl Node {
             });
     }
 
+    fn find_words(&self) -> Vec<String> {
+        self.find_words_by_prefix("")
+    }
+
+    fn find_words_by_prefix(&self, prefix: &str) -> Vec<String> {
+        let mut words = Vec::new();
+        for (c, child) in self.children.clone() {
+            match child {
+                Some(node) => {
+                    let prefix = &format!("{prefix}{c}");
+                    let parts = &node.find_words_by_prefix(prefix);
+                    for part in parts {
+                        words.push(part.clone());
+                    }
+                }
+                None => words.push(String::from(prefix)),
+            }
+        }
+        words
+    }
+
     fn find_by_prefix(&self, prefix: &str) -> Option<Node> {
         let mut chars = prefix.chars();
         match chars.next() {
@@ -155,5 +176,18 @@ mod tests {
         assert!(children.contains_key(&'t'));
     }
 
-    // TODO: completions: prefix + collected suffixes from sub-nodes
+    #[test]
+    fn test_find_words() {
+        let mut words = Trie::new();
+        let mut dict = vec!["ant", "ale", "ace", "bat", "bar", "boy"];
+        for word in &dict {
+            words.insert(word);
+        }
+
+        let root_node = words.root;
+        let mut actual = root_node.find_words();
+        dict.sort();
+        actual.sort();
+        assert_eq!(actual, dict);
+    }
 }
