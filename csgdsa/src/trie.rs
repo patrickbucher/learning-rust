@@ -218,23 +218,33 @@ mod tests {
     }
 
     #[test]
+    fn test_display_keys() {
+        let mut words = Trie::new();
+        for word in [
+            "get", "go", "got", "gotten", "hall", "ham", "hammer", "hill", "zebra",
+        ] {
+            words.insert(word);
+        }
+        let expected = "
+            {g,h,z}
+            {e,o},{a,i},{e}
+            {t},{*,t},{l,m},{l},{b}
+            {*},{*,t},{l},{*,m},{l},{r}
+            {e},{*},{e},{*},{a}
+            {n},{r},{*}
+            {*},{*}"
+            .trim();
+        let actual = format!("{}", words.root); // FIXME: implement Display trait for Node
+        assert_eq!(actual, expected);
+    }
+
+    #[test]
     #[ignore]
     fn test_autocomplete() {
-        let dict_path = "/usr/share/dict/words";
-        let data = match read(dict_path) {
-            Ok(data) => data,
-            Err(err) => panic!("reading file: {err}"),
-        };
-        let text = match String::from_utf8(data) {
-            Ok(text) => text,
-            Err(err) => panic!("decoding utf8: {err}"),
-        };
-
         let mut words = Trie::new();
-        for line in text.split('\n') {
-            words.insert(line);
+        for line in get_dict() {
+            words.insert(&line);
         }
-
         let completions = words.autocomplete("aban");
         let expected = vec!["don", "doned", "doning", "donment", "donment's", "dons"];
         let expected: Vec<(String, String)> = expected
@@ -244,5 +254,20 @@ mod tests {
         for result in expected {
             assert!(completions.contains(&result));
         }
+    }
+
+    fn get_dict() -> Vec<String> {
+        let dict_path = "/usr/share/dict/words";
+        let data = match read(dict_path) {
+            Ok(data) => data,
+            Err(err) => panic!("reading file: {err}"),
+        };
+        let text = match String::from_utf8(data) {
+            Ok(text) => text,
+            Err(err) => panic!("decoding utf8: {err}"),
+        };
+        text.split('\n')
+            .map(|s| String::from(s))
+            .collect::<Vec<String>>()
     }
 }
