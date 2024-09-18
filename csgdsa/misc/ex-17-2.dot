@@ -1,0 +1,64 @@
+digraph Tree {
+    node [shape="rect"];
+    root [label="{g,h,z}"];
+
+    n1_0 [label="{e,o}"];
+    n1_1 [label="{a,i}"];
+    n1_2 [label="{e}"];
+
+    root -> n1_0 [label=" g "];
+    root -> n1_1 [label=" h "];
+    root -> n1_2 [label=" z "];
+
+    n2_0 [label="{t}"];
+    n2_1 [label="{*,t}"];
+    n2_2 [label="{l,m}"];
+    n2_3 [label="{l}"];
+    n2_4 [label="{b}"];
+
+    n1_0 -> n2_0 [label=" e "];
+    n1_0 -> n2_1 [label=" o "];
+    n1_1 -> n2_2 [label=" a "];
+    n1_1 -> n2_3 [label=" i "];
+    n1_2 -> n2_4 [label=" e "];
+
+    n3_0 [label="*"];
+    n3_1 [label="{*,t}"];
+    n3_2 [label="{l}"];
+    n3_3 [label="{*,m}"];
+    n3_4 [label="{l}"];
+    n3_5 [label="{r}"];
+
+    n2_0 -> n3_0 [label=" t "];
+    n2_1 -> n3_1 [label=" t "];
+    n2_2 -> n3_2 [label=" l "];
+    n2_2 -> n3_3 [label=" m "];
+    n2_3 -> n3_4 [label=" l "];
+    n2_4 -> n3_5 [label=" b "];
+
+    n4_0 [label="{e}"];
+    n4_1 [label="*"];
+    n4_2 [label="{e}"];
+    n4_3 [label="*"];
+    n4_4 [label="{a}"];
+
+    n3_1 -> n4_0 [label=" t "];
+    n3_2 -> n4_1 [label=" l "];
+    n3_3 -> n4_2 [label=" m "];
+    n3_4 -> n4_3 [label=" l "];
+    n3_5 -> n4_4 [label=" r "];
+
+    n5_0 [label="{n}"];
+    n5_1 [label="{r}"];
+    n5_2 [label="*"];
+
+    n4_0 -> n5_0 [label=" e "];
+    n4_2 -> n5_1 [label=" e "];
+    n4_4 -> n5_2 [label=" a "];
+
+    n6_0 [label="*"];
+    n6_1 [label="*"];
+
+    n5_0 -> n6_0 [label=" n "];
+    n5_1 -> n6_1 [label=" r "];
+}

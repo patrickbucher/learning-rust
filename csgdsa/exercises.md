@@ -397,3 +397,7 @@ Words:
 - total
 - well
 - went
+
+## 2)
+
+![Trie](misc/ex-17-2.png)
