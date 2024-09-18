@@ -5,20 +5,20 @@
     - Chapter 17
         - Tu, 2024-09-17
         - We, 2024-09-18
-    - Chapter 18
         - Th, 2024-09-19
+    - Chapter 18
         - Fr, 2024-09-20
         - Sa, 2024-09-21
-    - Chapter 19
         - Su, 2024-09-22
-    - Chapter 20
+    - Chapter 19
         - Mo, 2024-09-23
         - Tu, 2024-09-24
         - We, 2024-09-25
-    - Reserve
+    - Chapter 20
         - Th, 2024-09-26
         - Fr, 2024-09-27
         - Sa, 2024-09-28
+    - Reserve
         - Su, 2024-09-29
         - Mo, 2024-09-30
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
