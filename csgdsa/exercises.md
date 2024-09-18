@@ -362,3 +362,38 @@ see `src/binary_search_tree.rs` (method `get_values` and test case `test_get_val
 The numbers would appear in a descending order if a max heap is used:
 
     [99, 68, 55, 34, 22, 10, 2]
+
+# Chapter 17
+
+## 1)
+
+    t
+        a
+            g
+            n
+                k
+            p
+        o
+            d
+                a
+                    y
+            t
+                a
+                    l
+    w
+        e
+            l
+                l
+            n
+                t
+
+Words:
+
+- tag
+- tan
+- tank
+- tap
+- today
+- total
+- well
+- went
