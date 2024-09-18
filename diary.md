@@ -1,3 +1,7 @@
+# Day 178 (2024-05-18)
+
+I finished the trie implementation by implementing the autocomplete method.
+
 # Day 177 (2024-05-17)
 
 I started reading chapter 17 on tries in the morning and started to work on the
