@@ -20,6 +20,17 @@ impl Trie {
         self.root.insert(word);
     }
 
+    pub fn autocomplete(&self, prefix: &str) -> Vec<(String, String)> {
+        let mut result = Vec::new();
+        let node = self.find_by_prefix(prefix);
+        if let Some(node) = node {
+            for suffix in node.find_words() {
+                result.push((String::from(prefix), suffix));
+            }
+        }
+        result
+    }
+
     fn find_by_prefix(&self, prefix: &str) -> Option<Node> {
         self.root.find_by_prefix(prefix)
     }
@@ -107,6 +118,7 @@ impl Node {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::fs::read;
 
     #[test]
     fn test_insert() {
@@ -184,10 +196,53 @@ mod tests {
             words.insert(word);
         }
 
-        let root_node = words.root;
+        let root_node = words.root.clone();
         let mut actual = root_node.find_words();
         dict.sort();
         actual.sort();
         assert_eq!(actual, dict);
+
+        let a_node = words.find_by_prefix("a").unwrap();
+        let mut expected = vec!["nt", "le", "ce"];
+        let mut actual = a_node.find_words();
+        expected.sort();
+        actual.sort();
+        assert_eq!(actual, expected);
+
+        let b_node = words.find_by_prefix("b").unwrap();
+        let mut expected = vec!["at", "ar", "oy"];
+        let mut actual = b_node.find_words();
+        expected.sort();
+        actual.sort();
+        assert_eq!(actual, expected);
+    }
+
+    #[test]
+    #[ignore]
+    fn test_autocomplete() {
+        let dict_path = "/usr/share/dict/words";
+        let data = match read(dict_path) {
+            Ok(data) => data,
+            Err(err) => panic!("reading file: {err}"),
+        };
+        let text = match String::from_utf8(data) {
+            Ok(text) => text,
+            Err(err) => panic!("decoding utf8: {err}"),
+        };
+
+        let mut words = Trie::new();
+        for line in text.split('\n') {
+            words.insert(line);
+        }
+
+        let completions = words.autocomplete("aban");
+        let expected = vec!["don", "doned", "doning", "donment", "donment's", "dons"];
+        let expected: Vec<(String, String)> = expected
+            .iter()
+            .map(|s| (String::from("aban"), String::from(*s)))
+            .collect();
+        for result in expected {
+            assert!(completions.contains(&result));
+        }
     }
 }
