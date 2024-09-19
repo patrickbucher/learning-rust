@@ -1,11 +1,7 @@
 # Activities
 
 - Reading _A Common-Sense Guide to Data Structures and Algorithms_ ("CSGDSA")
-    - state: chapter 16/20
-    - Chapter 17
-        - Tu, 2024-09-17
-        - We, 2024-09-18
-        - Th, 2024-09-19
+    - state: chapter 17/20
     - Chapter 18
         - Fr, 2024-09-20
         - Sa, 2024-09-21
@@ -13,12 +9,12 @@
     - Chapter 19
         - Mo, 2024-09-23
         - Tu, 2024-09-24
-        - We, 2024-09-25
     - Chapter 20
+        - We, 2024-09-25
         - Th, 2024-09-26
         - Fr, 2024-09-27
-        - Sa, 2024-09-28
     - Reserve
+        - Sa, 2024-09-28
         - Su, 2024-09-29
         - Mo, 2024-09-30
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
