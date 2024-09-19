@@ -1,3 +1,21 @@
+# Day 179 (2024-05-19)
+
+I finished chapter 17 by implementing both the `autocomplete` and the
+`autocorrect` method. I'd like to use them in small utilities for demonstration
+purposes, like this:
+
+    $ autocomplete /usr/share/dict/words
+    > mement
+    Did you mean…
+    memento
+    ?
+
+    $ autocorrect /usr/share/dict/words
+    > mementx
+    Did you mean…
+    memento
+    ?
+
 # Day 178 (2024-05-18)
 
 I finished the trie implementation by implementing the autocomplete method. In
