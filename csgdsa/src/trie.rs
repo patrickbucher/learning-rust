@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use std::fmt::Debug;
+use std::fmt::{self, Debug, Display, Formatter};
 
 const EOW: char = '*';
 
@@ -112,6 +112,42 @@ impl Node {
             },
             None => Some(self.clone()),
         }
+    }
+
+    fn collect_keys(&self, level: usize, acc: &mut HashMap<usize, Vec<String>>) {
+        let mut keys: Vec<String> = Vec::new();
+        for (key, _) in self.children.clone() {
+            keys.push(String::from(key));
+        }
+        keys.sort();
+        let mut output = String::new();
+        output.push('{');
+        output.push_str(&keys.join(",").to_string());
+        output.push('}');
+        acc.entry(level)
+            .and_modify(|e| e.push(output.clone()))
+            .or_insert(vec![output]);
+        for node in self.children.values().flatten() {
+            node.collect_keys(level + 1, acc);
+        }
+    }
+}
+
+impl Display for Node {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        let mut keys = HashMap::new();
+        self.collect_keys(0, &mut keys);
+        let mut lines: Vec<String> = Vec::new();
+        let mut levels: Vec<&usize> = keys.keys().collect();
+        levels.sort();
+        for level in levels {
+            if let Some(outputs) = keys.get(level) {
+                let mut outputs = outputs.clone();
+                outputs.sort();
+                lines.push(outputs.join(","));
+            }
+        }
+        write!(f, "{}", lines.join("\n"))
     }
 }
 
@@ -226,15 +262,15 @@ mod tests {
             words.insert(word);
         }
         let expected = "
-            {g,h,z}
-            {e,o},{a,i},{e}
-            {t},{*,t},{l,m},{l},{b}
-            {*},{*,t},{l},{*,m},{l},{r}
-            {e},{*},{e},{*},{a}
-            {n},{r},{*}
-            {*},{*}"
+{g,h,z}
+{a,i},{e,o},{e}
+{*,t},{b},{l,m},{l},{t}
+{*,m},{*,t},{*},{l},{l},{r}
+{*},{*},{a},{e},{e}
+{*},{n},{r}
+{*},{*}"
             .trim();
-        let actual = format!("{}", words.root); // FIXME: implement Display trait for Node
+        let actual = format!("{}", words.root);
         assert_eq!(actual, expected);
     }
 
