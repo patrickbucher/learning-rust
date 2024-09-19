@@ -31,6 +31,26 @@ impl Trie {
         result
     }
 
+    pub fn autocorrect(&self, word: &str) -> Option<Vec<String>> {
+        if let Some(node) = self.find_by_prefix(word) {
+            if node.children.contains_key(&EOW) {
+                return None; // correct word
+            }
+        }
+        let mut prefix: Vec<char> = word.chars().collect();
+        let mut suggestions: Vec<String> = Vec::new();
+        while !prefix.is_empty() && suggestions.is_empty() {
+            prefix = prefix[0..prefix.len() - 1].to_vec();
+            suggestions = self
+                .autocomplete(&String::from_iter(prefix.clone()))
+                .iter()
+                .map(|(p, s)| format!("{p}{s}"))
+                .collect();
+        }
+        suggestions.sort();
+        Some(suggestions)
+    }
+
     fn find_by_prefix(&self, prefix: &str) -> Option<Node> {
         self.root.find_by_prefix(prefix)
     }
@@ -290,6 +310,33 @@ mod tests {
         for result in expected {
             assert!(completions.contains(&result));
         }
+    }
+
+    #[test]
+    #[ignore]
+    fn test_autocorrect() {
+        let mut words = Trie::new();
+        for line in get_dict() {
+            words.insert(&line);
+        }
+
+        let actual = words.autocorrect("catnar");
+        let expected: Vec<String> =
+            vec!["catnap", "catnap's", "catnapped", "catnapping", "catnaps"]
+                .iter()
+                .map(|s| String::from(*s))
+                .collect();
+        assert_eq!(actual, Some(expected));
+
+        let actual = words.autocorrect("membrax");
+        let expected: Vec<String> = vec!["membrane", "membrane's", "membranes", "membranous"]
+            .iter()
+            .map(|s| String::from(*s))
+            .collect();
+        assert_eq!(actual, Some(expected));
+
+        let actual = words.autocorrect("memento");
+        assert_eq!(actual, None); // correct word
     }
 
     fn get_dict() -> Vec<String> {
