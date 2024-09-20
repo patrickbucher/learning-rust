@@ -17,6 +17,8 @@
         - Sa, 2024-09-28
         - Su, 2024-09-29
         - Mo, 2024-09-30
+    - TODO
+        - implement `autocomplete` and `autocorrect` utilities
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
     - state: first useful features done, requires tests, documentation, and
       error handling
