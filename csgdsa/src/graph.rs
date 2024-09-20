@@ -1,3 +1,8 @@
+// TODO
+// - delete vertex (with all its edges)
+// - delete edge
+// - ???
+
 use std::collections::HashMap;
 use std::collections::HashSet;
 use std::hash::Hash;
