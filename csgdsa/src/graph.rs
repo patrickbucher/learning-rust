@@ -23,6 +23,8 @@ pub struct Graph<K: Eq + Clone + Hash, V: Clone> {
 #[derive(PartialEq, Debug)]
 pub enum GraphError {
     VertexAlreadyExists,
+    VertexInexistant,
+    EdgeAlreadyExists,
 }
 
 impl<K, V> Graph<K, V>
@@ -57,6 +59,47 @@ where
             None => None,
         }
     }
+
+    pub fn add_edge(&mut self, from: K, to: K) -> Result<(), GraphError> {
+        let _ = self
+            .get_vertex(from.clone())
+            .ok_or(GraphError::VertexInexistant)?;
+        let _ = self
+            .get_vertex(to.clone())
+            .ok_or(GraphError::VertexInexistant)?;
+        match self.kind {
+            Kind::Directed => {
+                self.edges
+                    .entry(from.clone())
+                    .and_modify(|e| {
+                        e.insert(to.clone());
+                    })
+                    .or_insert(HashSet::from([to.clone()]));
+            }
+            Kind::Undirected => {
+                self.edges
+                    .entry(from.clone())
+                    .and_modify(|e| {
+                        e.insert(to.clone());
+                    })
+                    .or_insert(HashSet::from([to.clone()]));
+                self.edges
+                    .entry(to.clone())
+                    .and_modify(|e| {
+                        e.insert(from.clone());
+                    })
+                    .or_insert(HashSet::from([from.clone()]));
+            }
+        }
+        Ok(())
+    }
+
+    pub fn get_edges_to(&self, from: K) -> Result<HashSet<K>, GraphError> {
+        self.edges
+            .get(&from)
+            .ok_or(GraphError::VertexInexistant)
+            .cloned()
+    }
 }
 
 #[cfg(test)]
@@ -88,5 +131,24 @@ mod tests {
             })
         );
         assert_eq!(graph.get_vertex("c"), None);
+    }
+
+    #[test]
+    fn test_add_get_edge_directed() {
+        let mut graph = Graph::new(Kind::Directed);
+        graph.add_vertex("a", "Anderson");
+        graph.add_vertex("b", "Beavis");
+        graph.add_vertex("c", "Carla");
+        graph.add_vertex("d", "Daria");
+        graph.add_edge("a", "b");
+        graph.add_edge("a", "d");
+        graph.add_edge("b", "d");
+        graph.add_edge("d", "a");
+
+        assert_eq!(graph.get_edges_to("a"), Ok(HashSet::from(["b", "d"])));
+        assert_eq!(graph.get_edges_to("b"), Ok(HashSet::from(["d"])));
+        assert_eq!(graph.get_edges_to("c"), Ok(HashSet::new()));
+        assert_eq!(graph.get_edges_to("d"), Ok(HashSet::from(["a"])));
+        assert_eq!(graph.get_edges_to("e"), Err(GraphError::VertexInexistant));
     }
 }
