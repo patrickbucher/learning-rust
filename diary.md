@@ -1,8 +1,9 @@
 # Day 180 (2024-05-20)
 
-I started reading chapter 18 and started implementing a graph module. I won't
-bother with vertices connected to one another, but rather use hash maps, which
-will make the implementation in Rust much simpler.
+I started reading chapter 18 and implementing a graph module. I won't bother
+with vertices connected to one another, but rather use hash maps, which will
+make the implementation in Rust much simpler. In the evening, I implemented the
+basic operations to add vertices and edges (directed and undirected).
 
 # Day 179 (2024-05-19)
 
