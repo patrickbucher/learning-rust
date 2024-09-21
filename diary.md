@@ -1,3 +1,13 @@
+# Day 181 (2024-05-21)
+
+I continued with my graph implementation by differentiating between weighted and
+unweighted edges. I solved this issue with an enum, which is nice. Not so nice
+is that the initialization of the graph needs the same enum. This is an issue,
+because the `Weighted` variant requires a weight, which makes sense in an edge
+context, but not in the context of the entire graph. But I've hidden this
+implementation detail behind two associated `new_weighted`/`new_unweighted`
+functions. I can live with that for the moment.
+
 # Day 180 (2024-05-20)
 
 I started reading chapter 18 and implementing a graph module. I won't bother
