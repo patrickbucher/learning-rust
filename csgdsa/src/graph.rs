@@ -2,7 +2,6 @@
 // - delete vertex (with all its edges)
 // - delete edge
 // - ???
-// weighted/unweighted edges
 
 use std::collections::HashMap;
 use std::hash::Hash;
@@ -45,10 +44,19 @@ where
     K: Eq + Clone + Hash,
     V: Clone,
 {
-    pub fn new(kind: Kind, edge_type: EdgeType) -> Self {
+    pub fn new_weighted(kind: Kind) -> Self {
         Graph {
             kind,
-            edge_type,
+            edge_type: EdgeType::Weighted(0),
+            vertices: HashMap::new(),
+            edges: HashMap::new(),
+        }
+    }
+
+    pub fn new_unweighted(kind: Kind) -> Self {
+        Graph {
+            kind,
+            edge_type: EdgeType::Unweighted,
             vertices: HashMap::new(),
             edges: HashMap::new(),
         }
@@ -119,7 +127,7 @@ where
         Ok(())
     }
 
-    pub fn get_edges_to(&self, from: K) -> Result<HashMap<K, EdgeType>, GraphError> {
+    pub fn get_edges(&self, from: K) -> Result<HashMap<K, EdgeType>, GraphError> {
         self.edges
             .get(&from)
             .ok_or(GraphError::VertexInexistant)
@@ -133,7 +141,7 @@ mod tests {
 
     #[test]
     fn test_add_get_vertex() {
-        let mut graph = Graph::new(Kind::Directed, EdgeType::Unweighted);
+        let mut graph = Graph::new_unweighted(Kind::Directed);
         assert_eq!(graph.add_vertex("a", "Alice"), Ok(()));
         assert_eq!(graph.add_vertex("b", "Bob"), Ok(()));
         assert_eq!(
@@ -159,8 +167,84 @@ mod tests {
     }
 
     #[test]
+    fn test_add_get_edge_directed_weighted() -> Result<(), GraphError> {
+        let mut graph = Graph::new_weighted(Kind::Directed);
+        graph.add_vertex("h", "Homer")?;
+        graph.add_vertex("m", "Marge")?;
+        graph.add_vertex("b", "Bart")?;
+        graph.add_vertex("l", "Lisa")?;
+        graph.add_edge_weighted("h", "m", 1)?;
+        graph.add_edge_weighted("b", "l", 3)?;
+        graph.add_edge_weighted("m", "l", 2)?;
+        graph.add_edge_weighted("h", "b", 4)?;
+
+        assert_eq!(
+            graph.get_edges("h"),
+            Ok(HashMap::from([
+                ("b", EdgeType::Weighted(4)),
+                ("m", EdgeType::Weighted(1)),
+            ]))
+        );
+        assert_eq!(
+            graph.get_edges("m"),
+            Ok(HashMap::from([("l", EdgeType::Weighted(2))]))
+        );
+        assert_eq!(graph.get_edges("l"), Ok(HashMap::new()));
+        assert_eq!(
+            graph.get_edges("b"),
+            Ok(HashMap::from([("l", EdgeType::Weighted(3))]))
+        );
+        assert_eq!(graph.get_edges("z"), Err(GraphError::VertexInexistant));
+        Ok(())
+    }
+
+    #[test]
+    fn test_add_get_edge_undirected_weighted() -> Result<(), GraphError> {
+        let mut graph = Graph::new_weighted(Kind::Undirected);
+        graph.add_vertex("h", "Homer")?;
+        graph.add_vertex("m", "Marge")?;
+        graph.add_vertex("b", "Bart")?;
+        graph.add_vertex("l", "Lisa")?;
+        graph.add_edge_weighted("h", "m", 13)?;
+        graph.add_edge_weighted("b", "l", 25)?;
+        graph.add_edge_weighted("m", "l", 18)?;
+        graph.add_edge_weighted("h", "b", 78)?;
+
+        assert_eq!(
+            graph.get_edges("h"),
+            Ok(HashMap::from([
+                ("b", EdgeType::Weighted(78)),
+                ("m", EdgeType::Weighted(13)),
+            ]))
+        );
+        assert_eq!(
+            graph.get_edges("m"),
+            Ok(HashMap::from([
+                ("l", EdgeType::Weighted(18)),
+                ("h", EdgeType::Weighted(13))
+            ]))
+        );
+        assert_eq!(
+            graph.get_edges("l"),
+            Ok(HashMap::from([
+                ("b", EdgeType::Weighted(25)),
+                ("m", EdgeType::Weighted(18)),
+            ]))
+        );
+        assert_eq!(
+            graph.get_edges("b"),
+            Ok(HashMap::from([
+                ("l", EdgeType::Weighted(25)),
+                ("h", EdgeType::Weighted(78)),
+            ]))
+        );
+        assert_eq!(graph.get_edges("z"), Err(GraphError::VertexInexistant));
+        Ok(())
+    }
+
+    #[test]
     fn test_add_get_edge_directed_unweighted() -> Result<(), GraphError> {
-        let mut graph = Graph::new(Kind::Directed, EdgeType::Unweighted);
+        let mut graph = Graph::new_unweighted(Kind::Directed);
         graph.add_vertex("a", "Anderson")?;
         graph.add_vertex("b", "Beavis")?;
         graph.add_vertex("c", "Carla")?;
@@ -171,28 +255,28 @@ mod tests {
         graph.add_edge_unweighted("d", "a")?;
 
         assert_eq!(
-            graph.get_edges_to("a"),
+            graph.get_edges("a"),
             Ok(HashMap::from([
                 ("b", EdgeType::Unweighted),
                 ("d", EdgeType::Unweighted)
             ]))
         );
         assert_eq!(
-            graph.get_edges_to("b"),
+            graph.get_edges("b"),
             Ok(HashMap::from([("d", EdgeType::Unweighted)]))
         );
-        assert_eq!(graph.get_edges_to("c"), Ok(HashMap::new()));
+        assert_eq!(graph.get_edges("c"), Ok(HashMap::new()));
         assert_eq!(
-            graph.get_edges_to("d"),
+            graph.get_edges("d"),
             Ok(HashMap::from([("a", EdgeType::Unweighted)]))
         );
-        assert_eq!(graph.get_edges_to("e"), Err(GraphError::VertexInexistant));
+        assert_eq!(graph.get_edges("e"), Err(GraphError::VertexInexistant));
         Ok(())
     }
 
     #[test]
     fn test_add_get_edge_undirected_unweighted() -> Result<(), GraphError> {
-        let mut graph = Graph::new(Kind::Undirected, EdgeType::Unweighted);
+        let mut graph = Graph::new_unweighted(Kind::Undirected);
         graph.add_vertex("a", "Anderson")?;
         graph.add_vertex("b", "Beavis")?;
         graph.add_vertex("c", "Carla")?;
@@ -203,28 +287,28 @@ mod tests {
         graph.add_edge_unweighted("d", "a")?;
 
         assert_eq!(
-            graph.get_edges_to("a"),
+            graph.get_edges("a"),
             Ok(HashMap::from([
                 ("b", EdgeType::Unweighted),
                 ("d", EdgeType::Unweighted)
             ]))
         );
         assert_eq!(
-            graph.get_edges_to("b"),
+            graph.get_edges("b"),
             Ok(HashMap::from([
                 ("a", EdgeType::Unweighted),
                 ("d", EdgeType::Unweighted)
             ]))
         );
-        assert_eq!(graph.get_edges_to("c"), Ok(HashMap::new()));
+        assert_eq!(graph.get_edges("c"), Ok(HashMap::new()));
         assert_eq!(
-            graph.get_edges_to("d"),
+            graph.get_edges("d"),
             Ok(HashMap::from([
                 ("a", EdgeType::Unweighted),
                 ("b", EdgeType::Unweighted)
             ]))
         );
-        assert_eq!(graph.get_edges_to("e"), Err(GraphError::VertexInexistant));
+        assert_eq!(graph.get_edges("e"), Err(GraphError::VertexInexistant));
         Ok(())
     }
 }
