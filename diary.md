@@ -1,3 +1,14 @@
+# Day 182 (2024-05-22)
+
+I continued reading chapter 18, which is quite large. I implemented both
+breadth- and depth-first searches to figure out whether or not two vertices in a
+graph are connected. For breadth-first search, I used `VecDeque` instead of my
+own implementation. (I tend to be a coward on Sunday mornings.)
+
+I'll have to finish the chapter next week; the plan is getting a bit tighter
+now, as there is a lot of prepartion work required for the next week's course in
+school. (I'm looking forward to two weeks of school holiday afterwards.)
+
 # Day 181 (2024-05-21)
 
 I continued with my graph implementation by differentiating between weighted and
