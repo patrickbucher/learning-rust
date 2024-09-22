@@ -119,8 +119,35 @@ where
     }
 
     pub fn is_connected_depth_first(&self, from: K, to: K) -> Result<bool, GraphError> {
-        self.get_vertex(from).ok_or(GraphError::VertexInexistant)?;
-        self.get_vertex(to).ok_or(GraphError::VertexInexistant)?;
+        self.get_vertex(from.clone())
+            .ok_or(GraphError::VertexInexistant)?;
+        self.get_vertex(to.clone())
+            .ok_or(GraphError::VertexInexistant)?;
+        self.do_is_connected_depth_first(
+            from.clone(),
+            to.clone(),
+            &mut HashSet::from([from.clone()]),
+        )
+    }
+
+    fn do_is_connected_depth_first(
+        &self,
+        from: K,
+        to: K,
+        visited: &mut HashSet<K>,
+    ) -> Result<bool, GraphError> {
+        for adjacent in self.get_edges(from)?.keys() {
+            if *adjacent == to {
+                return Ok(true);
+            } else if visited.contains(adjacent) {
+                continue;
+            } else {
+                visited.insert(adjacent.clone());
+                if self.do_is_connected_depth_first(adjacent.clone(), to.clone(), visited)? {
+                    return Ok(true);
+                }
+            }
+        }
         Ok(false)
     }
 
