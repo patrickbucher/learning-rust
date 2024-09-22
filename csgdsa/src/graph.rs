@@ -95,7 +95,13 @@ where
             .cloned()
     }
 
-    pub fn is_connected(&self, from: K, to: K) -> Result<bool, GraphError> {
+    pub fn is_connected_depth_first(&self, from: K, to: K) -> Result<bool, GraphError> {
+        self.get_vertex(from).ok_or(GraphError::VertexInexistant)?;
+        self.get_vertex(to).ok_or(GraphError::VertexInexistant)?;
+        Ok(false)
+    }
+
+    pub fn is_connected_breadth_first(&self, from: K, to: K) -> Result<bool, GraphError> {
         self.get_vertex(from).ok_or(GraphError::VertexInexistant)?;
         self.get_vertex(to).ok_or(GraphError::VertexInexistant)?;
         Ok(false)
@@ -365,6 +371,20 @@ mod tests {
         graph.add_edge_unweighted("w", "x")?;
         graph.add_edge_unweighted("x", "y")?;
         graph.add_edge_unweighted("y", "z")?;
+
+        assert_eq!(graph.is_connected_depth_first("b", "g"), Ok(true));
+        assert_eq!(graph.is_connected_depth_first("o", "n"), Ok(true));
+        assert_eq!(graph.is_connected_depth_first("z", "p"), Ok(true));
+        assert_eq!(graph.is_connected_depth_first("a", "i"), Ok(false));
+        assert_eq!(graph.is_connected_depth_first("l", "y"), Ok(false));
+        assert_eq!(graph.is_connected_depth_first("t", "e"), Ok(false));
+
+        assert_eq!(graph.is_connected_breadth_first("b", "g"), Ok(true));
+        assert_eq!(graph.is_connected_breadth_first("o", "n"), Ok(true));
+        assert_eq!(graph.is_connected_breadth_first("z", "p"), Ok(true));
+        assert_eq!(graph.is_connected_breadth_first("a", "i"), Ok(false));
+        assert_eq!(graph.is_connected_breadth_first("l", "y"), Ok(false));
+        assert_eq!(graph.is_connected_breadth_first("t", "e"), Ok(false));
 
         Ok(())
     }
