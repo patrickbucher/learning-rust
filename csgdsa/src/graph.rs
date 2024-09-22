@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet, VecDeque};
 use std::hash::Hash;
 
 #[derive(Clone, Debug)]
@@ -95,13 +95,30 @@ where
             .cloned()
     }
 
-    pub fn is_connected_depth_first(&self, from: K, to: K) -> Result<bool, GraphError> {
-        self.get_vertex(from).ok_or(GraphError::VertexInexistant)?;
-        self.get_vertex(to).ok_or(GraphError::VertexInexistant)?;
+    pub fn is_connected_breadth_first(&self, from: K, to: K) -> Result<bool, GraphError> {
+        self.get_vertex(from.clone())
+            .ok_or(GraphError::VertexInexistant)?;
+        self.get_vertex(to.clone())
+            .ok_or(GraphError::VertexInexistant)?;
+        let mut visited = HashSet::new();
+        let mut worklist = VecDeque::from([from.clone()]);
+        while let Some(vertex) = worklist.pop_front() {
+            let adjacents = self.get_edges(vertex.clone())?;
+            for adjacent in adjacents.keys() {
+                if *adjacent == to {
+                    return Ok(true);
+                } else if visited.contains(adjacent) {
+                    continue;
+                } else {
+                    worklist.push_back(adjacent.clone());
+                    visited.insert(adjacent.clone());
+                }
+            }
+        }
         Ok(false)
     }
 
-    pub fn is_connected_breadth_first(&self, from: K, to: K) -> Result<bool, GraphError> {
+    pub fn is_connected_depth_first(&self, from: K, to: K) -> Result<bool, GraphError> {
         self.get_vertex(from).ok_or(GraphError::VertexInexistant)?;
         self.get_vertex(to).ok_or(GraphError::VertexInexistant)?;
         Ok(false)
@@ -372,19 +389,19 @@ mod tests {
         graph.add_edge_unweighted("x", "y")?;
         graph.add_edge_unweighted("y", "z")?;
 
-        assert_eq!(graph.is_connected_depth_first("b", "g"), Ok(true));
-        assert_eq!(graph.is_connected_depth_first("o", "n"), Ok(true));
-        assert_eq!(graph.is_connected_depth_first("z", "p"), Ok(true));
-        assert_eq!(graph.is_connected_depth_first("a", "i"), Ok(false));
-        assert_eq!(graph.is_connected_depth_first("l", "y"), Ok(false));
-        assert_eq!(graph.is_connected_depth_first("t", "e"), Ok(false));
-
         assert_eq!(graph.is_connected_breadth_first("b", "g"), Ok(true));
         assert_eq!(graph.is_connected_breadth_first("o", "n"), Ok(true));
         assert_eq!(graph.is_connected_breadth_first("z", "p"), Ok(true));
         assert_eq!(graph.is_connected_breadth_first("a", "i"), Ok(false));
         assert_eq!(graph.is_connected_breadth_first("l", "y"), Ok(false));
         assert_eq!(graph.is_connected_breadth_first("t", "e"), Ok(false));
+
+        assert_eq!(graph.is_connected_depth_first("b", "g"), Ok(true));
+        assert_eq!(graph.is_connected_depth_first("o", "n"), Ok(true));
+        assert_eq!(graph.is_connected_depth_first("z", "p"), Ok(true));
+        assert_eq!(graph.is_connected_depth_first("a", "i"), Ok(false));
+        assert_eq!(graph.is_connected_depth_first("l", "y"), Ok(false));
+        assert_eq!(graph.is_connected_depth_first("t", "e"), Ok(false));
 
         Ok(())
     }
