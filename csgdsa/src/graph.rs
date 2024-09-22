@@ -1,8 +1,3 @@
-// TODO
-// - delete vertex (with all its edges)
-// - delete edge
-// - ???
-
 use std::collections::HashMap;
 use std::hash::Hash;
 
@@ -93,6 +88,19 @@ where
         self.add_edge(from, to, EdgeType::Unweighted)
     }
 
+    pub fn get_edges(&self, from: K) -> Result<HashMap<K, EdgeType>, GraphError> {
+        self.edges
+            .get(&from)
+            .ok_or(GraphError::VertexInexistant)
+            .cloned()
+    }
+
+    pub fn is_connected(&self, from: K, to: K) -> Result<bool, GraphError> {
+        self.get_vertex(from).ok_or(GraphError::VertexInexistant)?;
+        self.get_vertex(to).ok_or(GraphError::VertexInexistant)?;
+        Ok(false)
+    }
+
     fn add_edge(&mut self, from: K, to: K, edge_type: EdgeType) -> Result<(), GraphError> {
         let _ = self
             .get_vertex(from.clone())
@@ -125,13 +133,6 @@ where
             }
         }
         Ok(())
-    }
-
-    pub fn get_edges(&self, from: K) -> Result<HashMap<K, EdgeType>, GraphError> {
-        self.edges
-            .get(&from)
-            .ok_or(GraphError::VertexInexistant)
-            .cloned()
     }
 }
 
@@ -309,6 +310,62 @@ mod tests {
             ]))
         );
         assert_eq!(graph.get_edges("e"), Err(GraphError::VertexInexistant));
+        Ok(())
+    }
+
+    #[test]
+    fn test_are_vertices_connected() -> Result<(), GraphError> {
+        let mut graph = Graph::new_unweighted(Kind::Undirected);
+        graph.add_vertex("a", "Alice")?;
+        graph.add_vertex("b", "Bob")?;
+        graph.add_vertex("c", "Charlene")?;
+        graph.add_vertex("d", "Dan")?;
+        graph.add_vertex("e", "Elvira")?;
+        graph.add_vertex("f", "Frank")?;
+        graph.add_vertex("g", "Gina")?;
+        graph.add_vertex("h", "Hank")?;
+        graph.add_vertex("i", "Isabella")?;
+        graph.add_vertex("j", "Jules")?;
+        graph.add_vertex("k", "Kira")?;
+        graph.add_vertex("l", "Larry")?;
+        graph.add_vertex("m", "Mary")?;
+        graph.add_vertex("n", "Nate")?;
+        graph.add_vertex("o", "Olivia")?;
+        graph.add_vertex("p", "Paul")?;
+        graph.add_vertex("q", "Quinn")?;
+        graph.add_vertex("r", "Ron")?;
+        graph.add_vertex("s", "Sally")?;
+        graph.add_vertex("t", "Tom")?;
+        graph.add_vertex("u", "Uma")?;
+        graph.add_vertex("v", "Vince")?;
+        graph.add_vertex("w", "Winona")?;
+        graph.add_vertex("x", "Xaver")?;
+        graph.add_vertex("y", "Yumi")?;
+        graph.add_vertex("z", "Zed")?;
+
+        graph.add_edge_unweighted("a", "b")?;
+        graph.add_edge_unweighted("a", "c")?;
+        graph.add_edge_unweighted("c", "d")?;
+        graph.add_edge_unweighted("c", "e")?;
+        graph.add_edge_unweighted("e", "f")?;
+        graph.add_edge_unweighted("f", "g")?;
+        graph.add_edge_unweighted("h", "i")?;
+        graph.add_edge_unweighted("i", "j")?;
+        graph.add_edge_unweighted("i", "k")?;
+        graph.add_edge_unweighted("j", "n")?;
+        graph.add_edge_unweighted("k", "l")?;
+        graph.add_edge_unweighted("k", "o")?;
+        graph.add_edge_unweighted("l", "m")?;
+        graph.add_edge_unweighted("p", "q")?;
+        graph.add_edge_unweighted("q", "s")?;
+        graph.add_edge_unweighted("q", "t")?;
+        graph.add_edge_unweighted("t", "r")?;
+        graph.add_edge_unweighted("t", "w")?;
+        graph.add_edge_unweighted("u", "v")?;
+        graph.add_edge_unweighted("w", "x")?;
+        graph.add_edge_unweighted("x", "y")?;
+        graph.add_edge_unweighted("y", "z")?;
+
         Ok(())
     }
 }
