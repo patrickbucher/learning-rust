@@ -1,4 +1,5 @@
 use std::collections::{HashMap, HashSet, VecDeque};
+use std::fmt::Debug;
 use std::hash::Hash;
 
 #[derive(Clone, Debug)]
@@ -14,12 +15,12 @@ pub enum EdgeType {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub struct Vertex<K: Eq + Clone + Hash, V: Clone> {
+pub struct Vertex<K: Eq + Clone + Hash + Debug, V: Clone> {
     id: K,
     value: V,
 }
 
-pub struct Graph<K: Eq + Clone + Hash, V: Clone> {
+pub struct Graph<K: Eq + Clone + Hash + Debug, V: Clone> {
     kind: Kind,
     edge_type: EdgeType,
     vertices: HashMap<K, Vertex<K, V>>,
@@ -36,7 +37,7 @@ pub enum GraphError {
 
 impl<K, V> Graph<K, V>
 where
-    K: Eq + Clone + Hash,
+    K: Eq + Clone + Hash + Debug,
     V: Clone,
 {
     pub fn new_weighted(kind: Kind) -> Self {
@@ -133,31 +134,48 @@ where
     pub fn find_shortest_paths(&self, from: K) -> Result<HashMap<K, isize>, GraphError> {
         self.get_vertex(from.clone())
             .ok_or(GraphError::VertexInexistant)?;
-        let mut result: HashMap<K, isize> = HashMap::new();
-        let mut predecessors: HashMap<K, K> = HashMap::new();
-        let mut current = from.clone();
-        let adjacents = self.get_edges(from.clone())?;
-        let mut adjacents = adjacents.iter();
+        let mut predecessors: Vec<(K, K)> = Vec::new();
         let mut visited = HashSet::from([from.clone()]);
-        while let Some((adjacent, EdgeType::Weighted(weight))) = adjacents.next() {
-            match result.get(adjacent) {
-                Some(old_weight) => {
-                    if weight < old_weight {
-                        result.insert(adjacent.clone(), *weight);
-                        predecessors.insert(from.clone(), adjacent.clone());
+        let mut vertices = self.vertices.keys().cloned().collect::<HashSet<K>>();
+        let mut current = from.clone();
+        let mut shortest: HashMap<(K, K), isize> =
+            HashMap::from([((from.clone(), from.clone()), 0_isize)]);
+        loop {
+            visited.insert(current.clone());
+            let adjacents = self.get_edges(current.clone())?;
+            let mut adjacents = adjacents.iter();
+            while let Some((adjacent, EdgeType::Weighted(weight))) = adjacents.next() {
+                match shortest.get(&(current.clone(), adjacent.clone())) {
+                    Some(old_weight) => {
+                        if weight < old_weight {
+                            shortest.insert((current.clone(), adjacent.clone()), *weight);
+                            predecessors.push((current.clone(), adjacent.clone()));
+                        }
+                    }
+                    None => {
+                        shortest.insert((current.clone(), adjacent.clone()), *weight);
                     }
                 }
-                None => {
-                    result.insert(adjacent.clone(), *weight);
-                }
             }
+            if visited == vertices {
+                break;
+            }
+            let unvisited = vertices.difference(&visited);
+            let mut candidates: Vec<(K, isize)> = unvisited
+                .map(|u| (u, shortest.get(&(from.clone(), u.clone()))))
+                .filter(|(u, w)| w.is_some())
+                .map(|(u, w)| (u.clone(), w.unwrap().clone()))
+                .collect();
+            current = match candidates.pop() {
+                Some((v, _)) => v,
+                None => break,
+            };
         }
-        let closest = result
-            .clone()
+        // TODO: this is bogus, for it doesn't represent the full path
+        let result: HashMap<K, isize> = shortest
             .into_iter()
-            .collect::<Vec<(K, isize)>>()
-            .sort_by_key(|(_, v)| *v);
-        // TODO: continue with closest (add another loop around it: while not all nodes processed)
+            .map(|((f, t), w)| (t.clone(), w.clone()))
+            .collect();
         Ok(result)
     }
 
