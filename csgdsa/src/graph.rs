@@ -130,6 +130,37 @@ where
         )
     }
 
+    pub fn find_shortest_paths(&self, from: K) -> Result<HashMap<K, isize>, GraphError> {
+        self.get_vertex(from.clone())
+            .ok_or(GraphError::VertexInexistant)?;
+        let mut result: HashMap<K, isize> = HashMap::new();
+        let mut predecessors: HashMap<K, K> = HashMap::new();
+        let mut current = from.clone();
+        let adjacents = self.get_edges(from.clone())?;
+        let mut adjacents = adjacents.iter();
+        let mut visited = HashSet::from([from.clone()]);
+        while let Some((adjacent, EdgeType::Weighted(weight))) = adjacents.next() {
+            match result.get(adjacent) {
+                Some(old_weight) => {
+                    if weight < old_weight {
+                        result.insert(adjacent.clone(), *weight);
+                        predecessors.insert(from.clone(), adjacent.clone());
+                    }
+                }
+                None => {
+                    result.insert(adjacent.clone(), *weight);
+                }
+            }
+        }
+        let closest = result
+            .clone()
+            .into_iter()
+            .collect::<Vec<(K, isize)>>()
+            .sort_by_key(|(_, v)| *v);
+        // TODO: continue with closest (add another loop around it: while not all nodes processed)
+        Ok(result)
+    }
+
     fn do_is_connected_depth_first(
         &self,
         from: K,
@@ -429,6 +460,31 @@ mod tests {
         assert_eq!(graph.is_connected_depth_first("a", "i"), Ok(false));
         assert_eq!(graph.is_connected_depth_first("l", "y"), Ok(false));
         assert_eq!(graph.is_connected_depth_first("t", "e"), Ok(false));
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_shortest_paths() -> Result<(), GraphError> {
+        let mut graph = Graph::new_weighted(Kind::Directed);
+        graph.add_vertex("a", "Atlanta")?;
+        graph.add_vertex("b", "Boston")?;
+        graph.add_vertex("c", "Chicago")?;
+        graph.add_vertex("d", "Denver")?;
+        graph.add_vertex("e", "El Paso")?;
+
+        graph.add_edge_weighted("a", "b", 100)?;
+        graph.add_edge_weighted("a", "d", 160)?;
+        graph.add_edge_weighted("b", "c", 120)?;
+        graph.add_edge_weighted("b", "d", 180)?;
+        graph.add_edge_weighted("c", "e", 80)?;
+        graph.add_edge_weighted("d", "c", 40)?;
+        graph.add_edge_weighted("d", "e", 140)?;
+        graph.add_edge_weighted("e", "b", 100)?;
+
+        let expected = HashMap::from([("a", 0), ("b", 100), ("c", 200), ("d", 160), ("e", 280)]);
+        let actual = graph.find_shortest_paths("a")?;
+        assert_eq!(actual, expected);
 
         Ok(())
     }

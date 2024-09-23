@@ -1,3 +1,8 @@
+# Day 183 (2024-05-22)
+
+In continued reading chapter 18 in the morning and started writing Dijkstra's
+shortest path algorithm.
+
 # Day 182 (2024-05-22)
 
 I continued reading chapter 18, which is quite large. I implemented both
