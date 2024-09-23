@@ -172,11 +172,28 @@ where
             };
         }
         // TODO: this is bogus, for it doesn't represent the full path
+        // need to backtrack every (f, t) pair
         let result: HashMap<K, isize> = shortest
             .into_iter()
             .map(|((f, t), w)| (t.clone(), w.clone()))
             .collect();
+        // TODO: backtrack all vertices to source and add up weights
         Ok(result)
+    }
+
+    fn backtrack(start: &K, finish: &K, successors: &Vec<(K, K)>) -> Vec<K> {
+        let mut path = vec![finish.clone()];
+        for ((from, to)) in successors {
+            if to == finish {
+                path.push(from.clone());
+                if from == start {
+                    return path;
+                }
+                let way_back = Self::backtrack(start, from, successors);
+                path = [way_back.clone(), path.clone()].concat();
+            }
+        }
+        path
     }
 
     fn do_is_connected_depth_first(
