@@ -182,7 +182,7 @@ where
             } else {
                 println!("path={start_finish:?}");
                 let left = start_finish[0..start_finish.len() - 1].iter();
-                println!("left: {:?}", left.clone().collect::<ec<&K>>());
+                println!("left: {:?}", left.clone().collect::<Vec<&K>>());
                 let right = start_finish[1..start_finish.len()].iter();
                 println!("right: {:?}", right.clone().collect::<Vec<&K>>());
                 let hops = zip(left, right);
