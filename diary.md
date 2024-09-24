@@ -8,6 +8,9 @@ In the train: _Eureka!_ I figured out the issue in the backtracking algorithm,
 and everything worked all of a sudden! I forgot to return the found path if the
 backtracking returned with the searched starting node in its front.
 
+Later in the train: _False Alert!_, I typed `cart test` instead of `cargo test`;
+so onwards with debugging.
+
 # Day 183 (2024-05-22)
 
 In continued reading chapter 18 in the morning and started writing Dijkstra's

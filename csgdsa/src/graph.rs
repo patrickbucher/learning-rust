@@ -135,9 +135,9 @@ where
     pub fn find_shortest_paths(&self, from: K) -> Result<HashMap<K, isize>, GraphError> {
         self.get_vertex(from.clone())
             .ok_or(GraphError::VertexInexistant)?;
+        let vertices = self.vertices.keys().cloned().collect::<HashSet<K>>();
         let mut successors: Vec<(K, K)> = Vec::new();
         let mut visited = HashSet::from([from.clone()]);
-        let mut vertices = self.vertices.keys().cloned().collect::<HashSet<K>>();
         let mut current = from.clone();
         let mut shortest: HashMap<(K, K), isize> =
             HashMap::from([((from.clone(), from.clone()), 0_isize)]);
@@ -165,32 +165,33 @@ where
             let unvisited = vertices.difference(&visited);
             let mut candidates: Vec<(K, isize)> = unvisited
                 .map(|u| (u, shortest.get(&(from.clone(), u.clone()))))
-                .filter(|(u, w)| w.is_some())
-                .map(|(u, w)| (u.clone(), w.unwrap().clone()))
+                .filter(|(_, w)| w.is_some())
+                .map(|(u, w)| (u.clone(), w.unwrap().clone())) // TODO: consider filter_map
                 .collect();
             current = match candidates.pop() {
                 Some((v, _)) => v,
                 None => break,
             };
         }
-        let mut foobar: HashMap<K, isize> = HashMap::new();
+        let mut result: HashMap<K, isize> = HashMap::new();
         for vertex in vertices {
             let start_finish = Self::backtrack(&from, &vertex, &successors);
-            // TODO: 0, 1, 2, 2+
+            println!("backtracking from {from:?} to {vertex:?}: {start_finish:?}");
             if start_finish.len() < 2 {
-                foobar.insert(vertex.clone(), 0);
+                result.insert(vertex.clone(), 0);
             } else {
-                let left = start_finish[0..start_finish.len() - 2].iter();
-                let right = start_finish[1..start_finish.len() - 1].iter();
+                println!("path={start_finish:?}");
+                let left = start_finish[0..start_finish.len() - 1].iter();
+                println!("left: {:?}", left.clone().collect::<ec<&K>>());
+                let right = start_finish[1..start_finish.len()].iter();
+                println!("right: {:?}", right.clone().collect::<Vec<&K>>());
                 let hops = zip(left, right);
-                println!("hops={:?}", hops.clone().collect::<Vec<(&K, &K)>>());
+                println!("hops: {:?}", hops.clone().collect::<Vec<(&K, &K)>>());
                 let total = hops.fold(0, |acc, (l, r)| acc + self.hop_weight(&l, &r).unwrap_or(0));
-                println!("total={total}");
-                foobar.insert(vertex.clone(), total);
+                result.insert(vertex.clone(), total);
             }
         }
-        // TODO: backtrack all vertices to source and add up weights
-        Ok(foobar)
+        Ok(result)
     }
 
     fn hop_weight(&self, from: &K, to: &K) -> Option<isize> {
@@ -202,22 +203,23 @@ where
     }
 
     fn backtrack(start: &K, finish: &K, successors: &Vec<(K, K)>) -> Vec<K> {
-        println!("succ={successors:?}");
+        if start == finish {
+            return Vec::new();
+        }
         let mut path = vec![finish.clone()];
         for (from, to) in successors {
             if to == finish {
-                path.push(from.clone());
                 if from == start {
+                    path = [vec![from.clone()], path.clone()].concat();
                     return path;
                 }
                 let way_back = Self::backtrack(start, from, successors);
                 path = [way_back.clone(), path.clone()].concat();
-                if !way_back.is_empty() && way_back[0] == *start {
+                if way_back[0] == *start {
                     return path;
                 }
             }
         }
-        println!("path={path:?}");
         path
     }
 
