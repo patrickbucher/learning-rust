@@ -4,6 +4,10 @@ I continued working on the shortest path algorithm in the morning. There must be
 an issue with my backtracking algorithm. I also figured out that my successor
 vector was empty, which couldn't possibly work.
 
+In the train: _Eureka!_ I figured out the issue in the backtracking algorithm,
+and everything worked all of a sudden! I forgot to return the found path if the
+backtracking returned with the searched starting node in its front.
+
 # Day 183 (2024-05-22)
 
 In continued reading chapter 18 in the morning and started writing Dijkstra's

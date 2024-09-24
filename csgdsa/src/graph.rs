@@ -212,6 +212,9 @@ where
                 }
                 let way_back = Self::backtrack(start, from, successors);
                 path = [way_back.clone(), path.clone()].concat();
+                if !way_back.is_empty() && way_back[0] == *start {
+                    return path;
+                }
             }
         }
         println!("path={path:?}");
