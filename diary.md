@@ -1,3 +1,9 @@
+# Day 184 (2024-05-23)
+
+I continued working on the shortest path algorithm in the morning. There must be
+an issue with my backtracking algorithm. I also figured out that my successor
+vector was empty, which couldn't possibly work.
+
 # Day 183 (2024-05-22)
 
 In continued reading chapter 18 in the morning and started writing Dijkstra's
