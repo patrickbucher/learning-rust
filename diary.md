@@ -1,4 +1,11 @@
-# Day 184 (2024-05-23)
+# Day 185 (2024-09-24)
+
+I started re-implementing Dijkstra's Shortest Path algorithm. The experience is
+so frustratng, that I actually looked up my old code from _Grokking Algorithms_.
+I wrote down a textual description of the algorithm, which I printed. I'll
+re-implement the algorithm based on that description.
+
+# Day 184 (2024-09-23)
 
 I continued working on the shortest path algorithm in the morning. There must be
 an issue with my backtracking algorithm. I also figured out that my successor
@@ -11,7 +18,7 @@ backtracking returned with the searched starting node in its front.
 Later in the train: _False Alert!_, I typed `cart test` instead of `cargo test`;
 so onwards with debugging.
 
-# Day 183 (2024-05-22)
+# Day 183 (2024-09-22)
 
 In continued reading chapter 18 in the morning and started writing Dijkstra's
 shortest path algorithm.
@@ -19,7 +26,7 @@ shortest path algorithm.
 I continued implementing the algorithm in the evening, but my mind was a bit
 foggy, so I postpone it to tomorrow.
 
-# Day 182 (2024-05-22)
+# Day 182 (2024-09-22)
 
 I continued reading chapter 18, which is quite large. I implemented both
 breadth- and depth-first searches to figure out whether or not two vertices in a
@@ -30,7 +37,7 @@ I'll have to finish the chapter next week; the plan is getting a bit tighter
 now, as there is a lot of prepartion work required for the next week's course in
 school. (I'm looking forward to two weeks of school holiday afterwards.)
 
-# Day 181 (2024-05-21)
+# Day 181 (2024-09-21)
 
 I continued with my graph implementation by differentiating between weighted and
 unweighted edges. I solved this issue with an enum, which is nice. Not so nice
@@ -40,14 +47,14 @@ context, but not in the context of the entire graph. But I've hidden this
 implementation detail behind two associated `new_weighted`/`new_unweighted`
 functions. I can live with that for the moment.
 
-# Day 180 (2024-05-20)
+# Day 180 (2024-09-20)
 
 I started reading chapter 18 and implementing a graph module. I won't bother
 with vertices connected to one another, but rather use hash maps, which will
 make the implementation in Rust much simpler. In the evening, I implemented the
 basic operations to add vertices and edges (directed and undirected).
 
-# Day 179 (2024-05-19)
+# Day 179 (2024-09-19)
 
 I finished chapter 17 by implementing both the `autocomplete` and the
 `autocorrect` method. I'd like to use them in small utilities for demonstration
@@ -65,13 +72,13 @@ purposes, like this:
     memento
     ?
 
-# Day 178 (2024-05-18)
+# Day 178 (2024-09-18)
 
 I finished the trie implementation by implementing the autocomplete method. In
 the evening, I worked through the first two exercises and wrote the test case
 for the third one.
 
-# Day 177 (2024-05-17)
+# Day 177 (2024-09-17)
 
 I started reading chapter 17 on tries in the morning and started to work on the
 implementation. Thereby I discovered the `or_insert_with()` method of `Entry`,
@@ -88,7 +95,7 @@ prefix combined with all the suffixes from its hash and children will be the
 autocompleted words. I'm looking forward to use `/usr/share/dict/words` for some
 experiments.
 
-# Day 176 (2024-05-16)
+# Day 176 (2024-09-16)
 
 I started reading chapter 16 on heaps in the morning. I worked on the
 implementation on my way to the hospital and while I had to wait there. I was
@@ -97,7 +104,7 @@ the exercises. This was the most interesting chapter so far. The best part of it
 was the revelation that the tree can actually be implemented using an array,
 which saved a lot of hassle with the borrow checker.
 
-# Day 175 (2024-05-15)
+# Day 175 (2024-09-15)
 
 I worked through chapter 15 in CSGDSA. However, I wasn't in the mood to wrestle
 with the borrow checker today, so I simplified the delete operation. I just get
@@ -112,7 +119,7 @@ invention, I realized that this order just builds up a triangle, i.e. with only
 left childs on the left side and only right nodes on the right side. So I have
 to re-work my algorithm.
 
-# Day 174 (2024-05-14)
+# Day 174 (2024-09-14)
 
 I managed to finish my Deque implementation. I did the mistake to attach new
 nodes in `enqueue` rather than to prepend them. I'm feeling more comfortable
@@ -122,12 +129,12 @@ I also worked through the rest of chapter 14 of CSGDSA, but I had to skip the
 implementation of last exercise, because it'd be highly impractical in Rust.
 However, I worked through it as a mental exercise.
 
-# Day 173 (2024-05-13)
+# Day 173 (2024-09-13)
 
 I started implementing a deque as a doubly linked list. The implementation
 relies on a lot of clones, but I just want to make it work somehow.
 
-# Day 172 (2024-05-12)
+# Day 172 (2024-09-12)
 
 I implemented the remaining operations for the linked list (access at a given
 index, search index by a value, insert an element after a given index, delete an
@@ -136,14 +143,14 @@ element at a given index).
 Next up: doubly linked list, which probably will require the interior mutability
 pattern.
 
-# Day 171 (2024-05-11)
+# Day 171 (2024-09-11)
 
 Having read the first part of chapter 14 about linked lists, I started to
 implement a linked list. I only managed to write a proper `append` method in the
 evening, also thanks to the [Rust
 Forum](https://users.rust-lang.org/t/append-to-linked-list/117419/3).
 
-# Day 170 (2024-05-10)
+# Day 170 (2024-09-10)
 
 I re-read the next part of chapter 15 about `Rc` and `RefCell` and made some
 examples.
@@ -156,12 +163,12 @@ I'll pick up Rust as a daily routine again in January, or maybe something else.
 But I'd like to use Rust for my own programs from now on where it comes in
 handy.
 
-# Day 169 (2024-05-09)
+# Day 169 (2024-09-09)
 
 I started re-reading chapter 15 of the Rust Book on smart pointers. I just read
 the easy first part about `Box`, the `Deref`, and the `Drop` trait.
 
-# Day 168 (2024-05-08)
+# Day 168 (2024-09-08)
 
 I had a few more things to tweak an `rowcalc`, but I also discovered a few
 flaws. The next chapter in CSGDSA will be about node-based data structures, e.g.
@@ -171,13 +178,13 @@ tackling this.
 I fixed the one big remaining bug in `rowcalc` later in the afternoon and was
 able to simplify the code. For my purposes, `rowcalc` is now feature complete.
 
-# Day 167 (2024-05-07)
+# Day 167 (2024-09-07)
 
 I refactored `rowcalc`, so that most code is now in `lib.rs` instead of
 `main.rs`. I managed to release a new version in the evening. Now back to
 CSGDSA.
 
-# Day 166 (2024-05-06)
+# Day 166 (2024-09-06)
 
 I once again programmed in the morning and managed to get the phase
 computations right for the `rowcalc` program. It needs refactoring, and hasn't
