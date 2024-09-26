@@ -3,4 +3,10 @@ name = "csgdsa"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "autocorrect"
+
+[[bin]]
+name = "autocomplete"
+
 [dependencies]
