@@ -142,44 +142,7 @@ where
     }
 
     fn find_shortest_path(&self, from: &K, to: &K) -> (Vec<K>, isize) {
-        let mut visited: HashSet<K> = HashSet::from([from.clone()]);
-        let mut unvisited: HashSet<K> = self
-            .vertices
-            .iter()
-            .map(|(v, _)| v.clone())
-            .filter(|v| v != from)
-            .collect::<HashSet<K>>();
-        let mut costs: HashMap<K, isize> = HashMap::new();
-        let mut succession: HashMap<K, K> = HashMap::new();
-        let mut current = from.clone();
-        while !unvisited.is_empty() {
-            let mut cheapest = costs.clone().into_iter().collect::<Vec<(K, isize)>>();
-            cheapest.sort_by_key(|(_, w)| *w);
-            println!("cheapest: {cheapest:?}");
-            let candidate = cheapest.iter().filter(|(v, _)| !visited.contains(v)).next();
-            let (next, weight) = match candidate {
-                Some((v, w)) => (v.clone(), *w),
-                None => break,
-            };
-            current = next.clone();
-
-            println!("find {from:?} -> {to:?}: current: {current:?}");
-            for (v, e) in self.get_edges(current.clone()).unwrap_or(HashMap::new()) {
-                let weight = match e {
-                    EdgeType::Weighted(w) => w,
-                    _ => continue,
-                };
-                costs.insert(v.clone(), weight);
-            }
-            visited.insert(current.clone());
-
-            if next == *to {}
-            succession.insert(current.clone(), next.clone());
-            println!("succession: {succession:?}");
-        }
-
-        let path = Self::backtrack(&from, &to, &succession.into_iter().collect::<Vec<(K, K)>>());
-        (path, -1)
+        (Vec::new(), 0_isize)
     }
 
     fn backtrack(start: &K, finish: &K, successors: &Vec<(K, K)>) -> Vec<K> {
@@ -530,5 +493,28 @@ mod tests {
         //assert_eq!(actual, expected);
 
         Ok(())
+    }
+
+    #[test]
+    fn test_backtrack() {
+        let successors = vec![
+            ("d", "e"),
+            ("f", "g"),
+            ("b", "c"),
+            ("c", "d"),
+            ("h", "i"),
+            ("e", "f"),
+            ("b", "c"),
+            ("a", "b"),
+            ("g", "h"),
+        ];
+
+        let expected = vec!["a", "b", "c", "d", "e", "f", "g", "h", "i"];
+        let actual = Graph::<&str, usize>::backtrack(&"a", &"i", &successors);
+        assert_eq!(actual, expected);
+
+        let expected = vec!["c", "d", "e", "f", "g"];
+        let actual = Graph::<&str, usize>::backtrack(&"c", &"g", &successors);
+        assert_eq!(actual, expected);
     }
 }
