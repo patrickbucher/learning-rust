@@ -1,7 +1,6 @@
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::fmt::Debug;
 use std::hash::Hash;
-use std::iter::zip;
 
 #[derive(Clone, Debug)]
 pub enum Kind {
@@ -34,6 +33,15 @@ pub enum GraphError {
     VertexInexistant,
     EdgeAlreadyExists,
     EdgeTypeMismatch,
+    NoSuchRoute,
+}
+
+#[derive(Eq, Hash, PartialEq, Debug)]
+pub struct Path<K: Eq + Clone + Hash + Debug> {
+    from: K,
+    to: K,
+    path: Vec<K>,
+    distance: isize,
 }
 
 impl<K, V> Graph<K, V>
@@ -132,24 +140,62 @@ where
         )
     }
 
-    pub fn find_shortest_paths(
-        &self,
-        from: K,
-    ) -> Result<HashSet<(K, K, Vec<K>, isize)>, GraphError> {
-        let mut shortest_paths: HashSet<(K, K, Vec<K>, isize)> = HashSet::new();
+    pub fn find_shortest_paths(&self, from: K) -> Result<HashSet<Path<K>>, GraphError> {
+        let mut shortest_paths: HashSet<Path<K>> = HashSet::new();
         for to in self.vertices.keys() {
-            let (path, cost) = self.find_shortest_path(&from, &to);
-            shortest_paths.insert((from.clone(), to.clone(), path, cost));
+            let (path, cost) = self.find_shortest_path(&from, to)?;
+            shortest_paths.insert(Path {
+                from: from.clone(),
+                to: to.clone(),
+                path,
+                distance: cost,
+            });
         }
         Ok(shortest_paths)
     }
 
-    fn find_shortest_path(&self, from: &K, to: &K) -> (Vec<K>, isize) {
-        let mut weights: HashMap<K, isize> = HashMap::new();
+    fn find_shortest_path(&self, from: &K, to: &K) -> Result<(Vec<K>, isize), GraphError> {
+        let mut weights: HashMap<K, isize> = HashMap::from([(from.clone(), 0)]);
         let mut parents: HashMap<K, K> = HashMap::new();
         let mut visited: HashSet<K> = HashSet::new();
         let vertices: HashSet<K> = self.vertices.keys().cloned().collect();
-        (Vec::new(), 0_isize)
+        while visited.len() < vertices.len() {
+            let mut candidates = weights.clone().into_iter().collect::<Vec<(K, isize)>>();
+            candidates.sort_by_key(|(_, w)| *w);
+            let (current, start_weight) =
+                match candidates.into_iter().find(|(v, _)| !visited.contains(v)) {
+                    Some((v, w)) => (v, w),
+                    None => break,
+                };
+            let adjacents = self.get_edges(current.clone())?;
+            for (adjacent, et) in adjacents {
+                let edge_weight = match et {
+                    EdgeType::Weighted(w) => w,
+                    _ => return Err(GraphError::EdgeTypeMismatch),
+                };
+                let new_weight = start_weight + edge_weight;
+                let insert = if let Some(weight) = weights.get(&adjacent) {
+                    new_weight < *weight
+                } else {
+                    true
+                };
+                if insert {
+                    weights.insert(adjacent.clone(), new_weight);
+                    parents.insert(adjacent.clone(), current.clone());
+                }
+            }
+            visited.insert(current.clone());
+        }
+        let path = Self::backtrack(
+            from,
+            to,
+            &parents
+                .into_iter()
+                .map(|(a, b)| (b, a))
+                .collect::<Vec<(K, K)>>(),
+        );
+        let weight = weights.get(to).ok_or(GraphError::NoSuchRoute)?;
+        Ok((path, *weight))
     }
 
     fn backtrack(start: &K, finish: &K, successors: &Vec<(K, K)>) -> Vec<K> {
@@ -492,11 +538,36 @@ mod tests {
         graph.add_edge_weighted("e", "b", 100)?;
 
         let expected = HashSet::from([
-            ("a", "a", vec!["a"], 0),
-            ("a", "b", vec!["a", "b"], 100),
-            ("a", "c", vec!["a", "c"], 200),
-            ("a", "d", vec!["a", "d"], 160),
-            ("a", "e", vec!["a", "d", "c", "e"], 280),
+            Path {
+                from: "a",
+                to: "a",
+                path: vec!["a"],
+                distance: 0,
+            },
+            Path {
+                from: "a",
+                to: "b",
+                path: vec!["a", "b"],
+                distance: 100,
+            },
+            Path {
+                from: "a",
+                to: "c",
+                path: vec!["a", "d", "c"],
+                distance: 200,
+            },
+            Path {
+                from: "a",
+                to: "d",
+                path: vec!["a", "d"],
+                distance: 160,
+            },
+            Path {
+                from: "a",
+                to: "e",
+                path: vec!["a", "d", "c", "e"],
+                distance: 280,
+            },
         ]);
         let actual = graph.find_shortest_paths("a")?;
         assert_eq!(actual, expected);
