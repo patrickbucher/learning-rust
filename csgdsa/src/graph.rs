@@ -146,9 +146,6 @@ where
     }
 
     fn backtrack(start: &K, finish: &K, successors: &Vec<(K, K)>) -> Vec<K> {
-        if start == finish {
-            return Vec::new();
-        }
         let mut path = vec![finish.clone()];
         for (from, to) in successors {
             if to == finish {
@@ -515,6 +512,10 @@ mod tests {
 
         let expected = vec!["c", "d", "e", "f", "g"];
         let actual = Graph::<&str, usize>::backtrack(&"c", &"g", &successors);
+        assert_eq!(actual, expected);
+
+        let expected = vec!["a"];
+        let actual = Graph::<&str, usize>::backtrack(&"a", &"a", &successors);
         assert_eq!(actual, expected);
     }
 }
