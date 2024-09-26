@@ -132,16 +132,23 @@ where
         )
     }
 
-    pub fn find_shortest_paths(&self, from: K) -> Result<Vec<(K, K, Vec<K>, isize)>, GraphError> {
-        let mut shortest_paths: Vec<(K, K, Vec<K>, isize)> = Vec::new();
+    pub fn find_shortest_paths(
+        &self,
+        from: K,
+    ) -> Result<HashSet<(K, K, Vec<K>, isize)>, GraphError> {
+        let mut shortest_paths: HashSet<(K, K, Vec<K>, isize)> = HashSet::new();
         for to in self.vertices.keys() {
             let (path, cost) = self.find_shortest_path(&from, &to);
-            shortest_paths.push((from.clone(), to.clone(), path, cost));
+            shortest_paths.insert((from.clone(), to.clone(), path, cost));
         }
         Ok(shortest_paths)
     }
 
     fn find_shortest_path(&self, from: &K, to: &K) -> (Vec<K>, isize) {
+        let mut weights: HashMap<K, isize> = HashMap::new();
+        let mut parents: HashMap<K, K> = HashMap::new();
+        let mut visited: HashSet<K> = HashSet::new();
+        let vertices: HashSet<K> = self.vertices.keys().cloned().collect();
         (Vec::new(), 0_isize)
     }
 
@@ -484,10 +491,15 @@ mod tests {
         graph.add_edge_weighted("d", "e", 140)?;
         graph.add_edge_weighted("e", "b", 100)?;
 
-        let expected = HashMap::from([("a", 0), ("b", 100), ("c", 200), ("d", 160), ("e", 280)]);
+        let expected = HashSet::from([
+            ("a", "a", vec!["a"], 0),
+            ("a", "b", vec!["a", "b"], 100),
+            ("a", "c", vec!["a", "c"], 200),
+            ("a", "d", vec!["a", "d"], 160),
+            ("a", "e", vec!["a", "d", "c", "e"], 280),
+        ]);
         let actual = graph.find_shortest_paths("a")?;
-        println!("{actual:?}");
-        //assert_eq!(actual, expected);
+        assert_eq!(actual, expected);
 
         Ok(())
     }
