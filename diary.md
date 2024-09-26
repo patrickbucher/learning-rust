@@ -1,11 +1,16 @@
-# Day 185 (2024-09-24)
+# Day 186 (2024-09-26)
+
+I finally managed to implement Dijkstra's Shortest Path algorithm properly; all
+tests succeeded, and the code looks acceptable.
+
+# Day 185 (2024-09-25)
 
 I started re-implementing Dijkstra's Shortest Path algorithm. The experience is
 so frustratng, that I actually looked up my old code from _Grokking Algorithms_.
 I wrote down a textual description of the algorithm, which I printed. I'll
 re-implement the algorithm based on that description.
 
-# Day 184 (2024-09-23)
+# Day 184 (2024-09-24)
 
 I continued working on the shortest path algorithm in the morning. There must be
 an issue with my backtracking algorithm. I also figured out that my successor
@@ -18,7 +23,7 @@ backtracking returned with the searched starting node in its front.
 Later in the train: _False Alert!_, I typed `cart test` instead of `cargo test`;
 so onwards with debugging.
 
-# Day 183 (2024-09-22)
+# Day 183 (2024-09-23)
 
 In continued reading chapter 18 in the morning and started writing Dijkstra's
 shortest path algorithm.
