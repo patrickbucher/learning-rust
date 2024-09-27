@@ -171,6 +171,7 @@ where
             for (adjacent, et) in adjacents {
                 let edge_weight = match et {
                     EdgeType::Weighted(w) => w,
+                    // TODO: for unweighted graphs, just use 1 as the weight!
                     _ => return Err(GraphError::EdgeTypeMismatch),
                 };
                 let new_weight = start_weight + edge_weight;

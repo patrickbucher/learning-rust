@@ -401,3 +401,62 @@ Words:
 ## 2)
 
 ![Trie](misc/ex-17-2.png)
+
+# Chapter 18
+
+## 1)
+
+- hammer
+- pins
+- needles
+- nail polish
+
+## 2)
+
+1. A
+1. B
+1. E
+1. J
+1. F
+1. O
+1. C
+1. G
+1. K
+1. D
+1. H
+1. **L**
+1. M
+1. I
+1. N
+1. P
+
+## 3)
+
+1. A
+1. B
+1. C
+1. D
+1. E
+1. F
+1. G
+1. H
+1. I
+1. J
+1. K
+1. L
+1. M
+1. N
+1. O
+1. P
+
+## 4)
+
+Since the current implementation uses a lookup tables for all the weights, this
+exercise is rather pointless. Breadth-first search was implemented in
+`src/graph.rs` in the method `Graph::is_connected_breadth_first`.
+
+## 5)
+
+Every node is simply viewed as one step of weight 1.
+
+TODO: implement `shortest_path(a, b)` for an _unweighted_ graph!
