@@ -198,21 +198,22 @@ where
         Ok((path, *weight))
     }
 
-    fn backtrack(start: &K, finish: &K, successors: &Vec<(K, K)>) -> Vec<K> {
-        let mut path = vec![finish.clone()];
-        for (from, to) in successors {
-            if to == finish {
-                if from == start {
-                    path = [vec![from.clone()], path.clone()].concat();
-                    return path;
+    fn backtrack(start: &K, finish: &K, successors: &[(K, K)]) -> Vec<K> {
+        let mut path: Vec<K> = Vec::new();
+        let mut current = finish.clone();
+        loop {
+            path.push(current.clone());
+            if let Some((next, _)) = successors.iter().find(|(_, c)| *c == current) {
+                if next == start {
+                    path.push(next.clone());
+                    break;
                 }
-                let way_back = Self::backtrack(start, from, successors);
-                path = [way_back.clone(), path.clone()].concat();
-                if way_back[0] == *start {
-                    return path;
-                }
+                current = next.clone();
+            } else {
+                break;
             }
         }
+        path.reverse();
         path
     }
 
