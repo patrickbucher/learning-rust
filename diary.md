@@ -1,3 +1,10 @@
+# Day 187 (2024-09-27)
+
+I finished reading chapter 18 in the morning, but had one exercise left:
+Implementing Dijkstra's Shortest Path algorithm for _unweighted_ graphs. In the
+evening, I implemented this by simply using the weight of 1 for unweighted
+graphs, which worked beautifully.
+
 # Day 186 (2024-09-26)
 
 I finally managed to implement Dijkstra's Shortest Path algorithm properly; all

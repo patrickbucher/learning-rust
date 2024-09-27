@@ -171,8 +171,7 @@ where
             for (adjacent, et) in adjacents {
                 let edge_weight = match et {
                     EdgeType::Weighted(w) => w,
-                    // TODO: for unweighted graphs, just use 1 as the weight!
-                    _ => return Err(GraphError::EdgeTypeMismatch),
+                    EdgeType::Unweighted => 1,
                 };
                 let new_weight = start_weight + edge_weight;
                 let insert = if let Some(weight) = weights.get(&adjacent) {
@@ -572,6 +571,32 @@ mod tests {
             },
         ]);
         let actual = graph.find_shortest_paths("a")?;
+        assert_eq!(actual, expected);
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_shortest_path_unweighted() -> Result<(), GraphError> {
+        let mut graph = Graph::new_unweighted(Kind::Directed);
+        graph.add_vertex("i", "Idris")?;
+        graph.add_vertex("ka", "Kamil")?;
+        graph.add_vertex("t", "Talia")?;
+        graph.add_vertex("l", "Lina")?;
+        graph.add_vertex("ke", "Ken")?;
+        graph.add_vertex("m", "Marco")?;
+        graph.add_vertex("s", "Sasha")?;
+
+        graph.add_edge_unweighted("i", "ka")?;
+        graph.add_edge_unweighted("i", "t")?;
+        graph.add_edge_unweighted("ka", "l")?;
+        graph.add_edge_unweighted("t", "ke")?;
+        graph.add_edge_unweighted("l", "s")?;
+        graph.add_edge_unweighted("ke", "m")?;
+        graph.add_edge_unweighted("m", "s")?;
+
+        let expected = Ok((Vec::from(["i", "ka", "l"]), 2_isize));
+        let actual = graph.find_shortest_path(&"i", &"l");
         assert_eq!(actual, expected);
 
         Ok(())
