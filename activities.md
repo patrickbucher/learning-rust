@@ -1,10 +1,7 @@
 # Activities
 
 - Reading _A Common-Sense Guide to Data Structures and Algorithms_ ("CSGDSA")
-    - state: chapter 17/20
-    - Chapter 18
-        - Th, 2024-09-26
-        - Fr, 2024-09-27
+    - state: chapter 18/20
     - Chapter 19
         - Sa, 2024-09-28
     - Chapter 20
