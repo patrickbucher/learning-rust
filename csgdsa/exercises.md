@@ -495,3 +495,19 @@ see function `play_in_both_sports` in `src/optimization.rs`
 see function `find_missing_integer` in `src/optimization.rs`
 
 Strictly speaking, the function is O(2N), but is shortened to O(N).
+
+## 3)
+
+TODO: find solution
+
+## 4)
+
+TODO: find solution
+
+## 5)
+
+TODO: finish `sort_bound` in `src/optimization.rs`
+
+## 6)
+
+TODO: find solution
