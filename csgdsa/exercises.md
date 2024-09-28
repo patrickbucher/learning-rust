@@ -489,3 +489,9 @@ See `reverse` in `src/misc.rs`.
 ## 1)
 
 see function `play_in_both_sports` in `src/optimization.rs`
+
+## 2)
+
+see function `find_missing_integer` in `src/optimization.rs`
+
+Strictly speaking, the function is O(2N), but is shortened to O(N).
