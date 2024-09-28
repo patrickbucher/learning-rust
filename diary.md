@@ -1,3 +1,8 @@
+# Day 188 (2024-09-28)
+
+I worked through the (very short) chapter 19 in the morning, which was my goal
+for today.
+
 # Day 187 (2024-09-27)
 
 I finished reading chapter 18 in the morning, but had one exercise left:
