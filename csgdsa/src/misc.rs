@@ -191,7 +191,7 @@ pub fn find_greatest_on(values: &[usize]) -> Option<usize> {
     Some(max)
 }
 
-pub fn reverse<T: Clone>(xs: &mut Vec<T>) {
+pub fn reverse<T: Clone>(xs: &mut [T]) {
     let n = xs.len();
     for i in 0..n {
         let j = n - 1 - i;
@@ -202,6 +202,17 @@ pub fn reverse<T: Clone>(xs: &mut Vec<T>) {
         xs[i] = xs[j].clone();
         xs[j] = tmp;
     }
+}
+
+pub fn two_add_up_to(numbers: &[usize], sum: usize) -> bool {
+    let mut counterparts: HashSet<usize> = HashSet::new();
+    for number in numbers {
+        if counterparts.contains(&(sum - number)) {
+            return true;
+        }
+        counterparts.insert(*number);
+    }
+    false
 }
 
 #[cfg(test)]
@@ -440,5 +451,11 @@ mod tests {
         let expected: Vec<usize> = (0..10).rev().collect();
         reverse(&mut numbers);
         assert_eq!(expected, numbers);
+    }
+
+    #[test]
+    fn do_two_add_up_to() {
+        assert!(two_add_up_to(&[3, 0, 4, 1, 7], 10));
+        assert!(!two_add_up_to(&[2, 0, 4, 1, 7], 10));
     }
 }
