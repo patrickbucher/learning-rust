@@ -457,6 +457,5 @@ exercise is rather pointless. Breadth-first search was implemented in
 
 ## 5)
 
-Every node is simply viewed as one step of weight 1.
-
-TODO: implement `shortest_path(a, b)` for an _unweighted_ graph!
+Every node is simply viewed as one step of weight 1. See `find_shortest_path`
+and `test_shortest_path_unweighted` in `src/graph.rs`.
