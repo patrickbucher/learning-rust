@@ -459,3 +459,27 @@ exercise is rather pointless. Breadth-first search was implemented in
 
 Every node is simply viewed as one step of weight 1. See `find_shortest_path`
 and `test_shortest_path_unweighted` in `src/graph.rs`.
+
+# Chapter 19
+
+## 1)
+
+This algorithm has a space complexity of O(N²): An additional item is stored for
+most combinations of `i` and `j`, except for when `i == j`.
+
+## 2)
+
+This algorithm has a space complexity of O(N): An additional array of length N
+is stored.
+
+## 3)
+
+See `reverse` in `src/misc.rs`.
+
+## 4)
+
+| Version | Time Complexity | Space Complexity |
+|--------:|:---------------:|:----------------:|
+|       1 |       O(N)      |       O(N)       |
+|       2 |       O(N)      |       O(1)       |
+|       3 |       O(N)      |       O(N)       |

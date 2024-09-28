@@ -191,6 +191,19 @@ pub fn find_greatest_on(values: &[usize]) -> Option<usize> {
     Some(max)
 }
 
+pub fn reverse<T: Clone>(xs: &mut Vec<T>) {
+    let n = xs.len();
+    for i in 0..n {
+        let j = n - 1 - i;
+        if i >= j {
+            break;
+        }
+        let tmp = xs[i].clone();
+        xs[i] = xs[j].clone();
+        xs[j] = tmp;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -419,5 +432,13 @@ mod tests {
             assert_eq!(find_greatest_on_logn(&test), expected);
             assert_eq!(find_greatest_on(&test), expected);
         }
+    }
+
+    #[test]
+    fn reverse_vec() {
+        let mut numbers: Vec<usize> = (0..10).collect();
+        let expected: Vec<usize> = (0..10).rev().collect();
+        reverse(&mut numbers);
+        assert_eq!(expected, numbers);
     }
 }
