@@ -1,7 +1,10 @@
 # Day 188 (2024-09-28)
 
 I worked through the (very short) chapter 19 in the morning, which was my goal
-for today.
+for today. In the afternoon and evening, I read through the rather long last
+chapter 20. I started working on the exercises, but I only solved two of them
+completely and one in part. I leave the rest for tomorrow, which will be my Rust
+day #189, i.e. my 190th day, since I started counting from 0.
 
 # Day 187 (2024-09-27)
 
