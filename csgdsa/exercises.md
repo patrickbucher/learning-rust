@@ -483,3 +483,9 @@ See `reverse` in `src/misc.rs`.
 |       1 |       O(N)      |       O(N)       |
 |       2 |       O(N)      |       O(1)       |
 |       3 |       O(N)      |       O(N)       |
+
+# Chapter 20
+
+## 1)
+
+see function `play_in_both_sports` in `src/optimization.rs`
