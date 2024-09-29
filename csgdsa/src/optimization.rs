@@ -1,4 +1,5 @@
 use std::collections::HashSet;
+use std::collections::{hash_map::Entry, HashMap};
 
 pub struct Player {
     pub first_name: String,
@@ -79,14 +80,35 @@ pub fn find_missing_integer(numbers: &[usize]) -> Option<usize> {
 pub fn sort_bound(lower: f32, upper: f32, step: f32, values: &[f32]) -> Vec<f32> {
     let mut sorted: Vec<f32> = Vec::new();
     let factor = 1.0 / step;
-
-    // TODO: implement as a counting HsshMap
-    let actual: Vec<isize> = values.into_iter().map(|f| (f * factor) as isize).collect();
-
-    let range: Vec<isize> = (((lower * factor) as isize)..((upper * factor) as isize)).collect();
-    for x in range {
-        if actual.contains(&x) {
-            sorted.push(x as f32 / factor);
+    let mut counts: HashMap<isize, usize> = HashMap::new();
+    for value in values {
+        counts
+            .entry((value * factor) as isize)
+            .and_modify(|v| *v += 1)
+            .or_insert(1);
+    }
+    let range: Vec<isize> = (((lower * factor) as isize)..=((upper * factor) as isize)).collect();
+    let mut range = range.iter();
+    let mut candidate = match range.next() {
+        Some(number) => number,
+        None => return sorted,
+    };
+    loop {
+        let next = match counts.entry(*candidate) {
+            Entry::Occupied(mut e) => {
+                if *e.get() > 0 {
+                    sorted.push(*candidate as f32 / factor);
+                    *e.get_mut() -= 1;
+                }
+                *e.get() == 0
+            }
+            Entry::Vacant(_) => true,
+        };
+        if next {
+            candidate = match range.next() {
+                Some(number) => number,
+                None => break,
+            };
         }
     }
     sorted
