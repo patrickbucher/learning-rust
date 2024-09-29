@@ -496,7 +496,7 @@ see function `find_missing_integer` in `src/optimization.rs`
 
 ## 3)
 
-TODO: find solution
+see function `find_best_transaction` in `src/optimization.rs`
 
 ## 4)
 

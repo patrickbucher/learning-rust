@@ -77,6 +77,26 @@ pub fn find_missing_integer(numbers: &[usize]) -> Option<usize> {
     }
 }
 
+pub fn find_best_transaction(prices: &[usize]) -> (usize, usize) {
+    let mut best_buy_day: usize = 0;
+    let mut potentially_best_buy_day: usize = 0;
+    let mut potentially_min_buy_price = usize::MAX;
+    let mut best_sell_day: usize = 0;
+    let mut max_sell_price = usize::MIN;
+    for (day, price) in prices.iter().enumerate() {
+        if *price > max_sell_price {
+            max_sell_price = *price;
+            best_sell_day = day;
+            best_buy_day = potentially_best_buy_day;
+        }
+        if *price < potentially_min_buy_price {
+            potentially_min_buy_price = *price;
+            potentially_best_buy_day = day;
+        }
+    }
+    (best_buy_day, best_sell_day)
+}
+
 pub fn sort_bound(lower: f32, upper: f32, step: f32, values: &[f32]) -> Vec<f32> {
     let mut sorted: Vec<f32> = Vec::new();
     let factor = 1.0 / step;
@@ -142,6 +162,12 @@ mod tests {
     fn test_find_missing_integer() {
         assert_eq!(find_missing_integer(&[2, 3, 0, 6, 1, 5]), Some(4));
         assert_eq!(find_missing_integer(&[8, 2, 3, 9, 4, 7, 5, 0, 6]), Some(1));
+    }
+
+    #[test]
+    fn test_find_best_transaction() {
+        let (buy, sell) = find_best_transaction(&[10, 7, 5, 8, 11, 2, 6]);
+        assert_eq!((buy, sell), (2, 4));
     }
 
     #[test]
