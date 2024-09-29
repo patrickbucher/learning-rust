@@ -1,3 +1,15 @@
+# Day 189 (2024-09-29)
+
+I managed to solve the rest of the exercises in chapter 20—and finished the
+book! The exercises were not trivial. But since they are part of this particular
+book, and I got a good idea on the general difficulty level of the entire book,
+I was confident to solve them today. At the end, it took me a bit more than an
+hour to solve the remaining exercises. This really gave me confidence: there's a
+lot of optimization potential if one is willing to think carefully about the
+problem at hand.
+
+This concludes CSGDSA—and my Rust journey, at least for the moment.
+
 # Day 188 (2024-09-28)
 
 I worked through the (very short) chapter 19 in the morning, which was my goal

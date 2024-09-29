@@ -1,15 +1,8 @@
 # Activities
 
 - Reading _A Common-Sense Guide to Data Structures and Algorithms_ ("CSGDSA")
-    - state: chapter 18/20
-    - Chapter 19
-        - Sa, 2024-09-28
-    - Chapter 20
-        - Su, 2024-09-29
-        - Mo, 2024-09-30
-    - TODO (optional)
-        - trie: implement `autocomplete` and `autocorrect` utilities
-        - graph: implement `delete` for vertices and edges
+    - trie: implement `autocomplete` and `autocorrect` utilities
+    - graph: implement `delete` for vertices and edges
 - Working on [csvtool](https://github.com/patrickbucher/csvtool)
     - state: first useful features done, requires tests, documentation, and
       error handling
