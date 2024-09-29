@@ -1,3 +1,52 @@
+# Conclusion
+
+I started with day 0 on 2024-03-24 and today finish with day 189: these are 190
+days of _daily_ Rust learning and programming. I didn't miss a single day, even
+though among those were three days with a heavy cold and one day with quite some
+hangover.
+
+I worked through various books:
+
+1. _The Rust Programming Language_, which is _the_ introductory book
+2. _Exercises for Programmers_, which gave me some challenges for the basics of
+   Rust
+3. _Rust Servers, Services, and Apps_, which gave me an introduction into the
+   HTTP stack and async programming
+4. _Grokking Algorithms_, which gave me some good transfer exercises
+5. _A Common-Sense Guide to Algorithms and Data Structures_, which gave me even
+   more good transfer exercises
+
+Those are five books in roughly six months. I looked into _Effective Rust_ a
+couple of times, but never got far into it.
+
+I also implemented some programs:
+
+1. _rowcalc_, which allows me to plan my rowing sessions
+2. _warmup_, which helps me putting together weight lifting exercises
+3. _connect four_ and _reversi_, which I programmed [on camera while
+   drinking](https://github.com/patrickbucher/drink-first-programming)
+4. _cvstool_, which allows me to sum up time durations in CSV files
+5. _ghbu_, which backs up all my (and my company's) Git repositories
+6. _factor_, which is a re-implementation of `factor(1)`
+
+I never got started with _peasant_, which is a monitoring system consisting of
+two programs: _harvest_ to collect, and _granary_ to store log messages.
+
+I also wrote a library called _akshually_, which I published as a crate. I used
+it for some of my other projects.
+
+There are still topics I didn't touch. The main ones are `async` and Macros. I'd
+like to look into those later on.
+
+For the next three months, I'll dig into JavaScript, TypeScript, and Angular.
+Then I'll decide on my next major learning project. Maybe it's Rust again, maybe
+it's something completely different.
+
+But Rust is now a crucial tool in my programming toolbox. The time spent with it
+was absolutely worth it. It was frustrating, but for the right reason:
+eliminating corner cases and potential bugs takes effort! Rust thaught me a lot.
+And the community is absolutely helpful. Thanks, Rust! And see you soon…
+
 # Day 189 (2024-09-29)
 
 I managed to solve the rest of the exercises in chapter 20—and finished the
