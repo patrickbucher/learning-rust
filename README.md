@@ -1,6 +1,6 @@
 # Learning Rust
 
-every day
+every day (_from 2024-03-24 to 2024-09-29, now on a hiatus_)
 
 ## Artifacts
 
@@ -12,6 +12,9 @@ every day
   [Exercises for Programmers](https://pragprog.com/titles/bhwb/exercises-for-programmers/)
 - [grokking-algorithms](grokking-algorithms/): examples for [Grokking
   Algorithms](https://www.manning.com/books/grokking-algorithms)
+- [csgsda](csgsda/): examples and exercises for [A Common-Sense Guide to Data
+  Structures and
+  Algorithms](https://pragprog.com/titles/jwdsal2/a-common-sense-guide-to-data-structures-and-algorithms-second-edition/)
 - [notes](notes/): notes on various topics
 
 ## Initial Idea
