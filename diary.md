@@ -1,9 +1,11 @@
 # Conclusion
 
-I started with day 0 on 2024-03-24 and today finish with day 189: these are 190
-days of _daily_ Rust learning and programming. I didn't miss a single day, even
-though among those were three days with a heavy cold and one day with quite some
-hangover.
+I started with day 0 on March 24th 2024 and today finish with day 189: these are
+190 days of _daily_ Rust learning and programming. I didn't miss a single day,
+even though among those were three days with a heavy cold and one day with quite
+some hangover. I even once programmed while on an infusion:
+
+![No, this wasn't due to a hangover from _Drink First Programming_](misc/infusion.jpeg)
 
 I worked through various books:
 
