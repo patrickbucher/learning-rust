@@ -508,4 +508,4 @@ see `sort_bound` in `src/optimization.rs`
 
 ## 6)
 
-TODO: find solution
+see `find_longest_consecutive_sequence` in `src/optimization.rs`

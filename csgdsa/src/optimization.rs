@@ -162,6 +162,29 @@ pub fn sort_bound(lower: f32, upper: f32, step: f32, values: &[f32]) -> Vec<f32>
     sorted
 }
 
+pub fn find_longest_consecutive_sequence(numbers: &[usize]) -> Vec<usize> {
+    if numbers.is_empty() {
+        return Vec::new();
+    }
+    let min = *numbers.iter().min().unwrap();
+    let max = *numbers.iter().max().unwrap();
+    let set: HashSet<usize> = numbers.iter().copied().collect();
+    let mut longest: Vec<usize> = Vec::new();
+    let mut current: Vec<usize> = Vec::new();
+    for number in min..=max {
+        if set.contains(&number) {
+            current.push(number);
+        } else if current.len() > longest.len() {
+            longest = current.clone();
+            current = Vec::new();
+        } else {
+            current = Vec::new();
+        }
+    }
+    longest
+}
+
+#[cfg(test)]
 mod tests {
     use super::*;
 
@@ -200,8 +223,8 @@ mod tests {
 
     #[test]
     fn test_find_highest_product() {
-        assert_eq!(60, find_highest_product(&[5, -10, -6, 9, 4]));
-        assert_eq!(90, find_highest_product(&[5, 10, -6, 9, 4]));
+        assert_eq!(find_highest_product(&[5, -10, -6, 9, 4]), 60);
+        assert_eq!(find_highest_product(&[5, 10, -6, 9, 4]), 90);
     }
 
     #[test]
@@ -210,5 +233,17 @@ mod tests {
         let actual: Vec<f32> = sort_bound(97.0, 99.0, 0.1, &readings);
         let expected: Vec<f32> = vec![97.1, 97.1, 97.8, 98.0, 98.0, 98.2, 98.5, 98.6, 98.9, 99.0];
         assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn test_find_longest_consecutive_sequence() {
+        assert_eq!(
+            find_longest_consecutive_sequence(&[10, 5, 12, 3, 55, 30, 4, 11, 2]),
+            vec![2, 3, 4, 5]
+        );
+        assert_eq!(
+            find_longest_consecutive_sequence(&[19, 13, 15, 12, 18, 14, 17, 11]),
+            vec![11, 12, 13, 14, 15]
+        );
     }
 }
