@@ -500,7 +500,7 @@ see function `find_best_transaction` in `src/optimization.rs`
 
 ## 4)
 
-TODO: find solution
+see function `find_highest_product` in `src/optimization.rs`
 
 ## 5)
 

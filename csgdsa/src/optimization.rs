@@ -97,6 +97,34 @@ pub fn find_best_transaction(prices: &[usize]) -> (usize, usize) {
     (best_buy_day, best_sell_day)
 }
 
+pub fn find_highest_product(numbers: &[isize]) -> usize {
+    let mut min1 = isize::MAX;
+    let mut min2 = isize::MAX;
+    let mut max1 = isize::MIN;
+    let mut max2 = isize::MIN;
+    for number in numbers {
+        if *number < min1 {
+            min2 = min1;
+            min1 = *number;
+        } else if *number < min2 {
+            min2 = *number;
+        }
+        if *number > max1 {
+            max2 = max1;
+            max1 = *number;
+        } else if *number > max2 {
+            max2 = *number;
+        }
+    }
+    let p_min = min1 * min2;
+    let p_max = max1 * max2;
+    if p_min > p_max {
+        p_min as usize
+    } else {
+        p_max as usize
+    }
+}
+
 pub fn sort_bound(lower: f32, upper: f32, step: f32, values: &[f32]) -> Vec<f32> {
     let mut sorted: Vec<f32> = Vec::new();
     let factor = 1.0 / step;
@@ -168,6 +196,12 @@ mod tests {
     fn test_find_best_transaction() {
         let (buy, sell) = find_best_transaction(&[10, 7, 5, 8, 11, 2, 6]);
         assert_eq!((buy, sell), (2, 4));
+    }
+
+    #[test]
+    fn test_find_highest_product() {
+        assert_eq!(60, find_highest_product(&[5, -10, -6, 9, 4]));
+        assert_eq!(90, find_highest_product(&[5, 10, -6, 9, 4]));
     }
 
     #[test]
