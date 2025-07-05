@@ -349,9 +349,9 @@ spaces for once.
 
 I continued reading chapter 11 in CSGDSA and realized that the Rust type system
 was very helpful when implementing the _Staircase Problem_: Since I'm using
-`usize`, I don't have to deal with negative numbers; and even the expression `n
-- 3` is safe, because it's used in a pattern matching expression where `n` can
-  only be at least 4.
+`usize`, I don't have to deal with negative numbers; and even the expression
+`n - 3` is safe, because it's used in a pattern matching expression where `n`
+can only be at least 4.
 
 I finished the exercises for chapter 11 during the day; the last one was quite
 challenging. When my test failed, I figured out that my implementation was
